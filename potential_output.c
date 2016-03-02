@@ -107,13 +107,13 @@ void write_pot_table0(apot_table_t *apt, char *filename)
   int   i, j;
   FILE *outfile;
 
-  /* open file */
-  outfile = fopen(filename, "w");
+  /* open file */ // Editied to append file for now - SW 24_02_2016
+  outfile = fopen(filename, "a");
   if (NULL == outfile)
     error(1, "Could not open file %s\n", filename);
 
   /* write header */
-  fprintf(outfile, "#F 0 %d", apt->number);
+  fprintf(outfile, "\n\n#F 0 %d", apt->number);
   fprintf(outfile, "\n#T %s", interaction_name);
 
   if (have_elements) {

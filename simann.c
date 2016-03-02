@@ -356,18 +356,36 @@ void anneal(double *xi)
 	  break;
 	}
       }
+        
+        
 #ifdef RESCALE
 #if !defined APOT && ( defined EAM || defined ADP || defined MEAM )
-      /* Check for rescaling... every tenth step */
-      if (((m + 1) % 10 == 0) && (rescaleMe == 1)) {
-	/* Was rescaling necessary ? */
-	if (rescale(&opt_pot, 1.0, 0) != 0.0) {
-	  /* wake other threads and sync potentials */
-	  printf("F before rescale = %f\n", F);
-	  F = calc_forces(xi, fxi1, 2);
-	  printf("F after rescale = %f\n", F);
-	}
-      }
+//      /* Check for rescaling... every tenth step */
+//      if (((m + 1) % 10 == 0) && (rescaleMe == 1)) {
+//	/* Was rescaling necessary ? */
+//	if (rescale(&opt_pot, 1.0, 0) != 0.0) {
+//	  /* wake other threads and sync potentials */
+//	  printf("F before rescale = %f\n", F);
+//	  F = calc_forces(xi, fxi1, 2);
+//	  printf("F after rescale = %f\n", F);
+//	}
+//      }
+        /* Check for rescaling... every tenth step */
+        if (((m + 1) % 10 == 0) {
+            
+            write_pot_table(&opt_pot, tempfile);
+            
+            if (rescaleMe == 1)) {
+                /* Was rescaling necessary ? */
+                if (rescale(&opt_pot, 1.0, 0) != 0.0) {
+                    /* wake other threads and sync potentials */
+                    printf("F before rescale = %f\n", F);
+                    F = calc_forces(xi, fxi1, 2);
+                    printf("F after rescale = %f\n", F);
+                }
+            }
+        }
+
 #endif /* !APOT && ( EAM || ADP || MEAM ) */
 #endif /* RESCALE */
     }
@@ -404,6 +422,9 @@ void anneal(double *xi)
       /* wake other threads and sync potentials */
       F = calc_forces(xi, fxi1, 2);
 
+      /* ADDED SW 24_02_2016 */      
+      write_pot_table(&opt_pot, tempfile);
+      
       // Turn off rescaling
       rescaleMe = 0;
 #endif /* MEAM && !APOT */
