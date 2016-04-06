@@ -35,25 +35,20 @@
  #include <ctype.h>
  #include <stdlib.h>
 
+char increment_filename(char *, char *);
+
 int main (int argc, char *argv[]) { 
 
-	int i;
+	int j;
 
-	char *filename = "tester";
-	char *samplefile = "tester_1";
+	char filename[100] = "potfit_Si";
+    char output[100];
 
-	printf("Starting sample file is: %s\n",samplefile);
-
-	for (i=0;i<10;i++) {
-		increment_filename(filename, samplefile);
-		printf("Samplefile in main = %s\n",samplefile);
-		printf("i = %d\n",i);
+	for (j=0;j<10;j++) {
+		increment_filename(filename, output);
 	}
 
-	printf("End of program\n");
-
 	return 0;
-
 }
 
 /****************************************************************
@@ -61,47 +56,17 @@ int main (int argc, char *argv[]) {
  * increment sample output filename
  *
  ****************************************************************/
-void increment_filename(char *filename, char *sample_file) {
+char increment_filename(char *filename, char *output) {
 
  	/* Check if tempfile has a number at the end of its name */
- 	char *increment;
- 	int increment_num;
+	static int i = 0;
 
- 	printf("Internal sample file is: %s\n",sample_file);
+ 	char increment[100];
 
- 	increment = strtok (sample_file, filename);
-
- 	printf("increment is: %s\n", increment);
-
- 	/* If strings are the same, return sample_file_0 */ 
- 	if (increment == NULL) {
-
-
- 		printf ("HELLO\n");
- 		//strcat(sample_file, "_0");
-
- 		printf("New sample file is: %s\n",sample_file);
-
- 		return;
- 	}
- 	printf("HI\n");
-	/* Remove underscore from start of increment */ 
-	increment = strtok (increment, "_");
-
-    increment_num = atoi(increment);
-
-    printf("integer value of the string is %d\n", increment_num);
-
-    increment_num += 1;
-    increment = (char) increment_num;
-
-    printf("new value of the string is %s\n", increment);
-
-    /* add new increment to sample_file */
-   // strcat(sample_file, "_");
-    strcat(sample_file, increment);
-
-    printf("New sample file is: %s\n",sample_file);
+    sprintf(increment, "_%d", i);
+    sprintf(output, "%s%s", filename, increment);
+    
+    i++;
 
   	return;
 
