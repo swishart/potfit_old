@@ -416,7 +416,7 @@ void run_simulated_annealing(double* const xi)
       if (((m + 1) % 10 == 0) && (do_rescale == 1)) {
 
         // Added SW 07/04/16 - generate potential ensemble
-        write_pot_table_potfit(g_files.tempfile);
+	//  write_pot_table_potfit(g_files.tempfile);
 
         /* Was rescaling necessary ? */
         if (rescale(&g_pot.opt_pot, 1.0, 0) != 0.0) {

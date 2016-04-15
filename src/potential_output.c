@@ -76,7 +76,7 @@ void write_pot_table0(char const* filename)
   FILE* outfile = NULL;
 
   /* open file */
-  outfile = fopen(filename, "w");
+  outfile = fopen(filename, "a");
   if (NULL == outfile)
     error(1, "Could not open file %s\n", filename);
 
