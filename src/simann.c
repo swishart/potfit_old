@@ -410,6 +410,10 @@ void run_simulated_annealing(double* const xi)
         }
       }
 
+
+      // Added SW 15/04/16
+      write_pot_table_potfit(g_files.tempfile);
+      
 #if defined(RESCALE) && !defined(APOT) && \
     (defined(EAM) || defined(ADP) || defined(MEAM))
       /* Check for rescaling... every tenth step */
