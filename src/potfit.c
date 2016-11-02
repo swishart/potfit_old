@@ -1,4 +1,4 @@
-/****************************************************************
+/**********y******************************************************
  *
  * potfit.c: Contains main potfit program
  *
@@ -35,7 +35,6 @@
 #include "errors.h"
 #include "force.h"
 #include "functions.h"
-#include "kim.h"
 #include "memory.h"
 #include "mpi_utils.h"
 #include "optimize.h"
@@ -44,6 +43,7 @@
 #include "potential_output.h"
 #include "random.h"
 #include "utils.h"
+#include "uq.h"
 
 // forward declarations of helper functions
 
@@ -58,9 +58,6 @@ potfit_filenames g_files;
 potfit_mpi_config g_mpi;
 potfit_parameters g_param;
 potfit_potentials g_pot;
-#if defined(KIM)
-potfit_kim g_kim;
-#endif // KIM
 
 /****************************************************************
     main potfit routine
@@ -68,6 +65,7 @@ potfit_kim g_kim;
 
 int main(int argc, char** argv)
 {
+
   initialize_global_variables();
 
   int ret = init_mpi(&argc, &argv);
@@ -80,11 +78,6 @@ int main(int argc, char** argv)
   read_input_files(argc, argv);
 
   g_mpi.init_done = 1;
-
-#if defined(KIM)
-  // Initialize KIM
-  init_KIM();
-#endif // KIM
 
   ret = broadcast_params_mpi();
 
@@ -110,9 +103,7 @@ int main(int argc, char** argv)
 #if defined(MPI)
   MPI_Bcast(g_pot.opt_pot.table, g_calc.ndimtot, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 #endif  // MPI
-#if !defined(KIM)
   update_calc_table(g_pot.opt_pot.table, g_pot.calc_pot.table, 1);
-#endif  // !KIM
 #endif  // APOT
 
   if (g_mpi.myid > 0) {
@@ -149,8 +140,51 @@ int main(int argc, char** argv)
     double tot = calc_forces(g_pot.calc_pot.table, g_calc.force, 0);
 #endif  // APOT
 
-    write_pot_table_potfit(g_files.endpot);
+#if defined(UQ)
+    double cost_0 = tot;
+    printf("0 %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], tot);
+    double** h_0 = calc_hessian(cost_0);
+    
+    int m = 0;
+    double vl = -1;
+    double vu = 1;
+    int count = 0;
+    double** v_0 = mat_double_mem((g_pot.opt_pot.idxlen - 1),(g_pot.opt_pot.idxlen - 1));
+    
+    // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
+    while (m < (g_pot.opt_pot.idxlen - 1)) {
+      if (count > 5){
+	printf("NOT CONVERGING! ABORTING \n");
+	continue;
+      }
+      
+      vl *= 10;
+      vu *= 10;
+      m = calc_h0_eigenvectors(h_0, vl, vu, v_0);
+      count += 1;
+      
+    }
 
+    double* tot_ptr = &tot;
+    double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0);
+    *tot_ptr = cost; 
+     printf("1 %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost);
+    
+    // run until 10 moves are accepted
+    for (int i=0; i<500;i++)
+      {
+	double** hessian = calc_hessian(*tot_ptr);
+	double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0);
+	*tot_ptr = cost;
+	printf("%d %g %g %g\n",i+2,g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost);
+      }
+    return 0;
+   
+#endif //UQ
+
+      
+    write_pot_table_potfit(g_files.endpot);
+    return 0;
     {
       int format = -1;
 
@@ -167,16 +201,12 @@ int main(int argc, char** argv)
         case POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST:
           format = 4;
           break;
-        case POTENTIAL_FORMAT_KIM:
-          format = 5;
-          break;
       }
 
       printf("\nPotential in format %d written to file \t%s\n", format,
              g_files.endpot);
     }
 
-#if !defined(KIM)
     if (g_param.writeimd == 1)
       write_pot_table_imd(g_files.imdpot);
 
@@ -185,7 +215,6 @@ int main(int argc, char** argv)
 
     if (g_param.write_lammps == 1)
       write_pot_table_lammps();
-#endif // !KIM
 
 // will not work with MPI
 #if defined(PDIST) && !defined(MPI)
@@ -216,10 +245,6 @@ int main(int argc, char** argv)
   // kill MPI
   shutdown_mpi();
 #endif  // MPI
-
-#if defined(KIM)
-  free_KIM();
-#endif  // KIM
 
   free_allocated_memory();
 

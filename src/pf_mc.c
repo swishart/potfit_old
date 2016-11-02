@@ -1,4 +1,4 @@
-/**********y******************************************************
+/****************************************************************
  *
  * potfit.c: Contains main potfit program
  *
@@ -43,7 +43,6 @@
 #include "potential_output.h"
 #include "random.h"
 #include "utils.h"
-#include "uq.h"
 
 // forward declarations of helper functions
 
@@ -65,17 +64,6 @@ potfit_potentials g_pot;
 
 int main(int argc, char** argv)
 {
-
-#if defined(UQ)
-  int flag = 1;
-
-  printf("\n\n\n\n\nCompiled with UQ!\n\n\n\n\n");
-
-  printf("potfit main again\n");
-  
-  //  return 0;
-#endif // UQ
-  
   initialize_global_variables();
 
   int ret = init_mpi(&argc, &argv);
@@ -150,62 +138,6 @@ int main(int argc, char** argv)
     double tot = calc_forces(g_pot.calc_pot.table, g_calc.force, 0);
 #endif  // APOT
 
-
-#if defined(UQ)
-    //    printf("\nOUTput of tot = %g\n", tot);
- 
-    // CALCULATE INITIAL HESSIAN AND EIGENVECTORS    
-    double** h_0 = calc_hessian(tot);
-
-    printf("\n Output of h_0[0][0]: %g \n", h_0[0][0]);
-    printf("\n Output of h_0[0][1]: %g \n", h_0[0][1]);
-    printf("\n Output of h_0[1][0]: %g \n", h_0[1][0]);
-    printf("\n Output of h_0[1][1]: %g \n", h_0[1][1]);
-
-    /*    hessian[0][0] = 1;
-    hessian[0][1] = 1;
-    hessian[1][0] = 1;
-    hessian[1][1] = 2;
-    */
-
-    int m = 0;
-    double vl = -1;
-    double vu = 1;
-    int count = 0;
-    double** v_0 = mat_double_mem((g_pot.opt_pot.idxlen - 1),(g_pot.opt_pot.idxlen - 1));
-    // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
-    while (m < (g_pot.opt_pot.idxlen - 1)) {
-      if (count > 5){
-	printf("NOT CONVERGING! ABORTING \n");
-	continue;
-      }
-
-      vl *= 10;
-      vu *= 10;
-      
-      // printf("\n%d: vl = %g vu = %g \n",count, vl, vu);
-      m = calc_h0_eigenvectors(h_0, vl, vu, v_0);
-      count += 1;
-
-    }
-    
-
-    printf("Number of eigenvalues = %d\n",m);
-
-    printf("\n Output of v_0[0][0]: %g \n", v_0[0][0]);
-    printf("\n Output of v_0[0][1]: %g \n", v_0[0][1]);
-    printf("\n Output of v_0[1][0]: %g \n", v_0[1][0]);
-    printf("\n Output of v_0[1][1]: %g \n", v_0[1][1]);
-
-    m = calc_pot_params(h_0, v_0, tot);
-
-ema
-
-    
-    return 0;
-#endif //UQ
-
-      
     write_pot_table_potfit(g_files.endpot);
 
     {
