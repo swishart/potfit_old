@@ -347,6 +347,13 @@ void run_simulated_annealing(double* const xi)
           F_new = calc_forces(xi_new, forces, 0);
 
           /* accept new point */
+
+                      // Added SW 060716
+
+              if (*g_files.tempfile != '\0') {
+                write_pot_table_potfit(g_files.tempfile);
+              } 
+              
           if (F_new <= F) {
 #if defined(APOT)
             xi[g_pot.opt_pot.idx[h]] = xi_new[g_pot.opt_pot.idx[h]];
@@ -411,7 +418,7 @@ void run_simulated_annealing(double* const xi)
       }
 
 
-      // Added SW 15/04/16
+      // Added SW 27/06/16
       write_pot_table_potfit(g_files.tempfile);
       
 #if defined(RESCALE) && !defined(APOT) && \
