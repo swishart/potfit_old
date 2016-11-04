@@ -1,5 +1,8 @@
 *.o
 *.swp
 *~
+version.h
+tags
+cscope.out
 potfit_*
 *.pyc
