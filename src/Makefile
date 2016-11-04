@@ -203,6 +203,10 @@ ifneq (,$(strip $(findstring evo,${MAKETARGET})))
   POTFITSRC      += diff_evo.c
 endif
 
+ifneq (,$(strip $(findstring uq,${MAKETARGET})))
+  POTFITSRC	 += uq.c
+endif
+
 #########################################################
 #
 # potfit Configuration rules
@@ -379,6 +383,10 @@ endif
 
 ifneq (,$(findstring resc,${MAKETARGET}))
 CFLAGS += -DRESCALE
+endif
+
+ifneq (,$(findstring uq,${MAKETARGET}))
+CFLAGS += -DUQ
 endif
 
 # Substitute .o for .c to get the names of the object files

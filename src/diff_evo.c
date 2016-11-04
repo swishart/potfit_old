@@ -429,7 +429,7 @@ void run_differential_evolution(double* xi)
 
       double force = calc_forces(trial, forces, 0);
 
-      if (force < min_cost) {
+     //if (force < min_cost) {
         memcpy(best, trial, D * sizeof(double));
 
         if (*g_files.tempfile != '\0') {
@@ -443,6 +443,11 @@ void run_differential_evolution(double* xi)
 #endif  // APOT
           write_pot_table_potfit(g_files.tempfile);
         }
+
+
+        // added SW 040716
+        if (force < min_cost) {
+          
         min_cost = force;
       }
 

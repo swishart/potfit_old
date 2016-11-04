@@ -65,11 +65,9 @@ double randn (double mu, double sigma)
 }
 
 double** calc_hessian(double cost_0){
-  
+
   int num_params = g_pot.opt_pot.idxlen; // Number of potential parameters
   num_params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
-
-  // Create the Hessian of analytic potential parameters
   // For N parameters, require:
   // diagonal: 2N cost evaluations
   // off-diagonal: 2N(N-1) cost evaluations (4 per hessian element)
@@ -81,27 +79,52 @@ double** calc_hessian(double cost_0){
   double param_perturb_dist[num_params]; 
   double** hessian = mat_double_mem(num_params, num_params); //mat_double() defined in powell_lsq.c
   double two_cost0 = 2*cost_0;
+
+  //  printf("\n\ng_pot.opt_pot.idx[] length  = %d\n", sizeof(g_pot.opt_pot.idx)/sizeof(g_pot.opt_pot.idx[0]));
+  // printf("\n\ng_pot.opt_pot.table[] length  = %d\n", sizeof(g_pot.opt_pot.table)/sizeof(double));
+
+  // printf("\n table[0] = %g\n",g_pot.opt_pot.table[0]);
+  //printf("\n table[1] = %g\n",g_pot.opt_pot.table[1]);
+  //printf("\n table[2] = %g\n",g_pot.opt_pot.table[2]);
+  //printf("\n table[3] = %g\n",g_pot.opt_pot.table[3]);
+  //printf("\n table[4] = %g\n",g_pot.opt_pot.table[4]);
   
   for (int j=0;j<num_params;j++){
     param_perturb_dist[j] = 0.0001*g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+    //    printf("g_pot.opt_pot.table[%d] = %g\n", g_pot.opt_pot.idx[j],g_pot.opt_pot.table[g_pot.opt_pot.idx[j]]);
+    // printf("param_perturb_dist[%d] = %g\n",j, param_perturb_dist[j]);
   }
+
+
+  // printf("\n\nCost_0 = %g. Calc_cost0 = %g\n\n", cost_0, calc_forces(g_pot.opt_pot.table, g_calc.force, 0));
   
   // For diagonal entries, use (c_(i+1) - 2*cost_0 + c_(i-1))/(param_perturb_dist[i]^2)
   for (int i=0;i<num_params;i++){
-    
+
     double cost_plus;
     double cost_minus;
 
+    // printf("\nParameter: %d\n",i);
+    
+    //  printf("start param  = %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
+    // printf("cost_plus param_dist = %g\n", g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+
     cost_plus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
+
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] -= 2*param_perturb_dist[i];
+    // printf("cost_minus param  = %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    
     cost_minus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
-       
+    // printf("back to original param  = %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    
     hessian[i][i] = cost_plus - two_cost0 + cost_minus;
     hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i]);
+
+    // printf("Hessian[%d][%d] = %g\n", i, i, hessian[i][i]);
   }
 
   // For off-diagonal entries:
@@ -136,26 +159,41 @@ double** calc_hessian(double cost_0){
       hessian[i][j] /= (4*param_perturb_dist[i]*param_perturb_dist[j]);
 
       hessian[j][i] = hessian[i][j];
+
+
+      //printf("\nHessian[%d][%d] = %g\n", i, j, hessian[i][j]);
+      //printf("\nHessian[%d][%d] = %g\n", j, i, hessian[j][i]);
     }
   }
+
+
+  // free(hessian);
   return hessian;
+  
 }
 
 
 int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0){
 
+  /* IN */
+
   int params = g_pot.opt_pot.idxlen; // Number of potential parameters
-  params -= 1;
+  params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
+
+  // printf("params = %d\n",params);
 
   char jobz = 'V'; /* Compute eigenvectors and eigenvalues */
   char range = 'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
   char uplo = 'U'; /* Upper triangle of A is stored */
   int lda = params; /* leading dimension of the array A. lda >= max(1,N) */
+  //  double vl = -1; /* eigenvalue lower bound */
+  //  double vu = 1; /* eigenvalue upper bound */
   double abstol = 0.00001; /* 2*DLAMCH('S');  absolute error tolerance for eigenvalues */
   int ldz = params; /* Dimension of array z */
   int il = 0;
   int iu = 0;
 
+  /* OUT */
   int m; /* number eigenvalues found */
   int iwork[5*params];
   int lwork = 8*params;
@@ -163,9 +201,48 @@ int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0){
   int ifail[params]; /* contains indices of unconverged eigenvectors if info > 0  */
   int info = 0;
   int i;
+  
   double w[params];
- 
+  
+  for(i=0;i<params;i++)
+    {
+      ifail[i] = 0;
+      iwork[i] = 0;
+    }
+
+  for(i=params;i<5*params;i++)
+    {
+      iwork[i] = 0;
+    }
+
+  /*
+  for (int i=0;i<params;i++){
+    for (int j=0;j<params;j++){
+      printf("hessian[%d][%d] = %g\n", i, j, h_0[i][j]);
+    }
+    }*/
+
   dsyevx_(&jobz, &range, &uplo, &params, &h_0[0][0], &lda, &vl, &vu, &il, &iu, &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail,&info);
+
+
+  /*  printf("Inside number of eigenvalues = %d\n", m);
+  printf("info = %d\n", info);
+  
+  for (int i=0;i<params;i++){
+    printf("w[%d] = %g\n", i,w[i]);
+    printf("ifail[%d] = %d\n",i,ifail[i]);
+  }
+  */
+
+
+  /*
+  for(int i=0;i<params;i++){
+    for(int j=0;j<params;j++){
+      printf("eigenvector[%d][%d] = %g ", i, j, v_0[i][j]);
+    }
+    printf("\n");
+  }
+  */
   
   return m;
 }
@@ -173,10 +250,14 @@ int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0){
 
 
 
-double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0){
+double calc_pot_params(double** const a, double** const v_0, double* cost_before){// double** const H0_eigenvectors){
+
+  /* IN */
 
   int params = g_pot.opt_pot.idxlen; // Number of potential parameters
   params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
+
+  //  printf("params = %d\n",params);
   
   char jobz = 'V'; /* Compute eigenvectors and eigenvalues */
   char range = 'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
@@ -189,6 +270,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
   int il = 0;
   int iu = 0;
 
+  /* OUT */
   int m; /* number eigenvalues found */
   int iwork[5*params];
   int lwork = 8*params;
@@ -199,46 +281,87 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
 
   double **z = mat_double_mem(params, params);
   double w[params];
+  
+  for(i=0;i<params;i++)
+    {
+      ifail[i] = 0;
+      iwork[i] = 0;
+    }
 
+  for(i=params;i<5*params;i++)
+    {
+      iwork[i] = 0;
+    }
+  /*
+  for (int i=0;i<params;i++){
+    for (int j=0;j<params;j++){
+      printf("hessian[%d][%d] = %g\n", i, j, a[i][j]);
+    }
+  }
+  */
   dsyevx_(&jobz, &range, &uplo, &params, &a[0][0], &lda, &vl, &vu, &il, &iu, &abstol, &m, w, &z[0][0], &ldz, work, &lwork, iwork, ifail,&info);
 
-  // store old parameters incase proposed move isn't accepted
-  double old_params[params];
+  /*
+  printf("Inside number of eigenvalues = %d\n", m);
+  printf("info = %d\n", info);
+
   for (int i=0;i<params;i++){
+    printf("w[%d] = %g\n", i,w[i]);
+    printf("ifail[%d] = %g\n",i,ifail[i]);
+  }
+
+
+  for (int i=0;i<params;i++){
+    for (int j=0;j<params;j++){
+      printf("eigenvector_v0[%d][%d] = %g ", i, j, v_0[i][j]);
+    }
+    printf("\n");
+    }*/
+
+  // For random numbers each time the function is called
+  srand(time(NULL));
+  double old_params[params];
+  
+  for (int i=0;i<params;i++){
+    // printf("Old params = %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
     old_params[i] = g_pot.opt_pot.table[g_pot.opt_pot.idx[i]];
   }
 
-  // Seed random numbers each time cal_pot_params is called (not each time mc_moves is called)
   srand(time(NULL));
-  int mc_decision = mc_moves(v_0, w, cost_before, m, cost_0);
-
-  // Keep generating trials for this hessian until a move is accepted
-  // This saves multiple calculations of the same hessian when a move isn't accepted
+  int mc_decision = mc_moves(v_0, w,cost_before,m);
+  //printf("MC DECISION = %d\n\n\n", mc_decision);
+  
   while (mc_decision == 0) {
-
     //reset parameters to initials params
     for (int i=0;i<params;i++){
       g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] = old_params[i];
     }
-
-    //call function recursively until we accept a move for this set of eigenvalues
-    mc_decision = mc_moves(v_0, w, cost_before, m, cost_0);
-
+    //call functionrecursively until we accept a move for this set of eigenvalues
+    mc_decision = mc_moves(v_0,w,cost_before,m);
+    //printf("MC DECISION = %d\n\n\n", mc_decision);
   }
   
+  for (int i=0;i<params;i++){
+    printf("new param[%d] = %g\n ",i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+  }
+  
+  // ASSIGN z to H0_eigenvectors if initial fit.  
   free(z);
-  // Return new cost
+  
   return *cost_before;
+  
 }
 
 
-int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) {
+int mc_moves(double** v_0,double* w, double* cost_before, int m) {
 
   int params = g_pot.opt_pot.idxlen; // Number of potential parameters
   params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
   
+  // For random numbers each time the function is called
+
   double lambda[params];
-  double R = 0.01; // FIX THIS FOR NOW
+  double R = 0.1; // FIX THIS FOR NOW
   double cost_after;
   
   // If not all eigenvalues are found (i.e. m != params), replace them with 1.
@@ -246,6 +369,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
     {
       double r = R * randn(0.0,1.0);
       lambda[i] = r;
+      //      printf("\n\nEigenvalue not found, use %g instead\n\n", lambda[i]);
     }
 
   for (int i=0;i<m;i++)
@@ -256,37 +380,40 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
       lambda[i] *= r;
     }
 
-  // Matrix multiplication (delta_param[i] = Sum{1}{params} [v_0[i][j] * (r[j]/lambda[j])] )
   for (int i=0;i<params;i++){
     for(int j=0;j<params;j++){
+      //      g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += H0_eigenvectors[i][j]*lambda[j];
       g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += v_0[i][j]*lambda[j];
     }
+    // printf("new param = %g\n", g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
   
   cost_after = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
-  double cost_diff = cost_after - *cost_before;
-
-  // Accept downhill moves outright
-  if (cost_diff < 0){
-    *cost_before = cost_after;
-    return 1;
-  }
-  
-  // Monte Carlo step (seeded from srand(time(NULL)) in calc_pot_params() )
-  // Acceptance probability = 0.8
-  // generate uniform random number [0,1], if greater than 0.8 then accept change
-  // if step accepted, move new cost to cost_before for next cycle
-  double probability = exp(-(params*(cost_diff))/(2*cost_0));
+  ///// MC CRITERIA
   double mc_rand_number = (double)rand() / (double)RAND_MAX;
+  // printf("mc_rand_number = %g\n", mc_rand_number);
+  // printf("cost_after_inside = %g\n", cost_after);
+  //printf("cost_before_inside = %g\n",*cost_before);
+  
+  if ((cost_after < *cost_before)||(mc_rand_number >= 0.5)){
 
-  if (mc_rand_number <= probability){
+    
+    // Acceptance probability = 0.8
+    // generate uniform random number [0,1], if greater than 0.8 then accept change
+    // if step accepted, move new cost to cost_before for next cycle
     *cost_before = cost_after;
+
+    //    printf("accepted MC step new_cost = %g", *cost_before);
     return 1;
-  }
+  } 
+
 
   // If move not accepted, return 0. 
   return 0;
+
 }
+
+
 
 #endif  // UQ&&APOT
