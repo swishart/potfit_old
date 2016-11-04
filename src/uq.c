@@ -11,6 +11,8 @@
 
 #include "force.h"
 
+#include "random.h"
+
 #if defined(UQ)&&(APOT) //Only for analytic potentials at the moment
 
 
@@ -65,7 +67,7 @@ double randn (double mu, double sigma)
 }
 
 double** calc_hessian(double cost_0){
-  
+
   int num_params = g_pot.opt_pot.idxlen; // Number of potential parameters
   num_params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
 
@@ -208,8 +210,6 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
     old_params[i] = g_pot.opt_pot.table[g_pot.opt_pot.idx[i]];
   }
 
-  // Seed random numbers each time cal_pot_params is called (not each time mc_moves is called)
-  srand(time(NULL));
   int mc_decision = mc_moves(v_0, w, cost_before, m, cost_0);
 
   // Keep generating trials for this hessian until a move is accepted
@@ -244,13 +244,13 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
   // If not all eigenvalues are found (i.e. m != params), replace them with 1.
   for (int i = m; i<params; i++)
     {
-      double r = R * randn(0.0,1.0);
+      double r = R * normdist();
       lambda[i] = r;
     }
 
   for (int i=0;i<m;i++)
     {
-      double r = R * randn(0.0,1.0);
+      double r = R * normdist();
       w[i] = fabs(w[i]);
       lambda[i] = 1/sqrt(w[i]);
       lambda[i] *= r;
@@ -278,7 +278,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
   // generate uniform random number [0,1], if greater than 0.8 then accept change
   // if step accepted, move new cost to cost_before for next cycle
   double probability = exp(-(params*(cost_diff))/(2*cost_0));
-  double mc_rand_number = (double)rand() / (double)RAND_MAX;
+  double mc_rand_number = eqdist();
 
   if (mc_rand_number <= probability){
     *cost_before = cost_after;

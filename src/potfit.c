@@ -144,7 +144,7 @@ int main(int argc, char** argv)
     double cost_0 = tot;
     printf("0 %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], tot);
     double** h_0 = calc_hessian(cost_0);
-    
+
     int m = 0;
     double vl = -1;
     double vu = 1;
