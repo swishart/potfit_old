@@ -144,7 +144,7 @@ double** calc_hessian(double cost_0){
 }
 
 
-int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0){
+int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0, double* w){
 
   int params = g_pot.opt_pot.idxlen; // Number of potential parameters
   params -= 1;
@@ -165,7 +165,7 @@ int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0){
   int ifail[params]; /* contains indices of unconverged eigenvectors if info > 0  */
   int info = 0;
   int i;
-  double w[params];
+  //  double w[params];
  
   dsyevx_(&jobz, &range, &uplo, &params, &h_0[0][0], &lda, &vl, &vu, &il, &iu, &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail,&info);
   
@@ -175,7 +175,7 @@ int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0){
 
 
 
-double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0){
+double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0, double* w){
 
   int params = g_pot.opt_pot.idxlen; // Number of potential parameters
   params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
@@ -200,9 +200,9 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
   int i;
 
   double **z = mat_double_mem(params, params);
-  double w[params];
+  //double w[params];
 
-  dsyevx_(&jobz, &range, &uplo, &params, &a[0][0], &lda, &vl, &vu, &il, &iu, &abstol, &m, w, &z[0][0], &ldz, work, &lwork, iwork, ifail,&info);
+  //  dsyevx_(&jobz, &range, &uplo, &params, &a[0][0], &lda, &vl, &vu, &il, &iu, &abstol, &m, w, &z[0][0], &ldz, work, &lwork, iwork, ifail,&info);
 
   // store old parameters incase proposed move isn't accepted
   double old_params[params];
@@ -242,12 +242,22 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
   double cost_after;
   
   // If not all eigenvalues are found (i.e. m != params), replace them with 1.
+  // THIS SHOULD NOT HAPPEN NOW
   for (int i = m; i<params; i++)
     {
       double r = R * normdist();
       lambda[i] = r;
     }
 
+  // If eigenvalue is less than 1, replace it with 1.
+  for (int i=0;i<m;i++){
+    if (w[i] < 1.0){
+      printf("replacing small eigenvalue %g with 1. \n",w[i]);
+      w[i] = 1.0;
+    }
+  }
+  
+  
   for (int i=0;i<m;i++)
     {
       double r = R * normdist();

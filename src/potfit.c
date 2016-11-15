@@ -150,7 +150,7 @@ int main(int argc, char** argv)
     double vu = 1;
     int count = 0;
     double** v_0 = mat_double_mem((g_pot.opt_pot.idxlen - 1),(g_pot.opt_pot.idxlen - 1));
-    
+    double eigenvalues[g_pot.opt_pot.idxlen - 1];
     // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
     while (m < (g_pot.opt_pot.idxlen - 1)) {
       if (count > 5){
@@ -160,21 +160,21 @@ int main(int argc, char** argv)
       
       vl *= 10;
       vu *= 10;
-      m = calc_h0_eigenvectors(h_0, vl, vu, v_0);
+      m = calc_h0_eigenvectors(h_0, vl, vu, v_0, eigenvalues);
       count += 1;
       
     }
 
     double* tot_ptr = &tot;
-    double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0);
+    double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0, eigenvalues);
     *tot_ptr = cost; 
      printf("1 %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost);
-    
+
     // run until 10 moves are accepted
     for (int i=0; i<500;i++)
       {
 	double** hessian = calc_hessian(*tot_ptr);
-	double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0);
+	double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0,eigenvalues);
 	*tot_ptr = cost;
 	printf("%d %g %g %g\n",i+2,g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost);
       }
