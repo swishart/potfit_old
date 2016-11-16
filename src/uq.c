@@ -175,7 +175,7 @@ int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0, doubl
 
 
 
-double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0, double* w){
+double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0, double* w, int* weight){
 
   int params = g_pot.opt_pot.idxlen; // Number of potential parameters
   params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
@@ -198,7 +198,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
   int ifail[params]; /* contains indices of unconverged eigenvectors if info > 0  */
   int info = 0;
   int i;
-
+  
   double **z = mat_double_mem(params, params);
   //double w[params];
 
@@ -210,22 +210,27 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
     old_params[i] = g_pot.opt_pot.table[g_pot.opt_pot.idx[i]];
   }
 
+  int count = 1;
   int mc_decision = mc_moves(v_0, w, cost_before, m, cost_0);
 
   // Keep generating trials for this hessian until a move is accepted
   // This saves multiple calculations of the same hessian when a move isn't accepted
   while (mc_decision == 0) {
 
+   count++; //If move not accepted, count current parameters again
+    
     //reset parameters to initials params
     for (int i=0;i<params;i++){
       g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] = old_params[i];
     }
+    //    printf("--- %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], *cost_before);
 
     //call function recursively until we accept a move for this set of eigenvalues
     mc_decision = mc_moves(v_0, w, cost_before, m, cost_0);
 
   }
-  
+  *weight = count;
+
   free(z);
   // Return new cost
   return *cost_before;
@@ -252,7 +257,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
   // If eigenvalue is less than 1, replace it with 1.
   for (int i=0;i<m;i++){
     if (w[i] < 1.0){
-      printf("replacing small eigenvalue %g with 1. \n",w[i]);
+      // printf("replacing small eigenvalue %g with 1. \n",w[i]);
       w[i] = 1.0;
     }
   }

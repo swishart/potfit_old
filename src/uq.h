@@ -5,7 +5,7 @@ double** mat_double_mem(int, int);
 
 double** calc_hessian(double);
 
-double calc_pot_params(double** const, double** const, double*, double, double*);
+double calc_pot_params(double** const, double** const, double*, double, double*, int*);
 
 int mc_moves(double**,double*, double*, int, double);
 

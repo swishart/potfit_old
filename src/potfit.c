@@ -142,7 +142,7 @@ int main(int argc, char** argv)
 
 #if defined(UQ)
     double cost_0 = tot;
-    printf("0 %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], tot);
+    printf("%g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], tot);
     double** h_0 = calc_hessian(cost_0);
 
     int m = 0;
@@ -165,18 +165,20 @@ int main(int argc, char** argv)
       
     }
 
+    int weight = 1;
+    int* weight_ptr = &weight;
     double* tot_ptr = &tot;
-    double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0, eigenvalues);
+    double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr);
     *tot_ptr = cost; 
-     printf("1 %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost);
+    printf("%g %g %g, %d\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
 
     // run until 10 moves are accepted
     for (int i=0; i<500;i++)
       {
-	double** hessian = calc_hessian(*tot_ptr);
-	double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0,eigenvalues);
+	//	double** hessian = calc_hessian(*tot_ptr);
+	double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr);
 	*tot_ptr = cost;
-	printf("%d %g %g %g\n",i+2,g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost);
+	printf("%g %g %g %d\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
       }
     return 0;
    
