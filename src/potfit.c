@@ -141,6 +141,17 @@ int main(int argc, char** argv)
 #endif  // APOT
 
 #if defined(UQ)
+
+    init_rng(42);
+
+    //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
+    int num_params = g_pot.opt_pot.idxlen;
+      if (g_pot.smooth_pot[0] == 1) {num_params -= 1;
+	//set h to 1 to test
+	g_pot.opt_pot.table[g_pot.opt_pot.idx[2]] = 1;
+	double tot = calc_forces(g_pot.calc_pot.table, g_calc.force, 0);
+      }
+    
     double cost_0 = tot;
     printf("%g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], tot);
     double** h_0 = calc_hessian(cost_0);
@@ -149,13 +160,13 @@ int main(int argc, char** argv)
     double vl = -1;
     double vu = 1;
     int count = 0;
-    double** v_0 = mat_double_mem((g_pot.opt_pot.idxlen - 1),(g_pot.opt_pot.idxlen - 1));
-    double eigenvalues[g_pot.opt_pot.idxlen - 1];
+    double** v_0 = mat_double_mem((num_params),(num_params));
+    double eigenvalues[num_params];
     // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
-    while (m < (g_pot.opt_pot.idxlen - 1)) {
+    while (m < num_params) {
       if (count > 5){
 	printf("NOT CONVERGING! ABORTING \n");
-	continue;
+	return 0;
       }
       
       vl *= 10;

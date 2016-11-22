@@ -68,8 +68,9 @@ double randn (double mu, double sigma)
 
 double** calc_hessian(double cost_0){
 
-  int num_params = g_pot.opt_pot.idxlen; // Number of potential parameters
-  num_params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
+  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
+  int num_params = g_pot.opt_pot.idxlen;
+    if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
 
   // Create the Hessian of analytic potential parameters
   // For N parameters, require:
@@ -146,8 +147,9 @@ double** calc_hessian(double cost_0){
 
 int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0, double* w){
 
-  int params = g_pot.opt_pot.idxlen; // Number of potential parameters
-  params -= 1;
+  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
+  int params = g_pot.opt_pot.idxlen;
+    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
 
   char jobz = 'V'; /* Compute eigenvectors and eigenvalues */
   char range = 'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
@@ -177,8 +179,9 @@ int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0, doubl
 
 double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0, double* w, int* weight){
 
-  int params = g_pot.opt_pot.idxlen; // Number of potential parameters
-  params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
+  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
+  int params = g_pot.opt_pot.idxlen;
+    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
   
   char jobz = 'V'; /* Compute eigenvectors and eigenvalues */
   char range = 'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
@@ -239,8 +242,9 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
 
 int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) {
 
-  int params = g_pot.opt_pot.idxlen; // Number of potential parameters
-  params -= 1; // NOT SURE WHY THIS WORKS FOR NOW - SMOOTH CUTOFF
+  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
+  int params = g_pot.opt_pot.idxlen;
+    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
   
   double lambda[params];
   double R = 0.01; // FIX THIS FOR NOW
