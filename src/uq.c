@@ -240,7 +240,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
 int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) {
 
   int params = g_pot.opt_pot.idxlen; // Number of potential parameters
-  params -= 1; // NOT SURE WHY THIS WORKS FOR NOW
+  params -= 1; // NOT SURE WHY THIS WORKS FOR NOW - SMOOTH CUTOFF
   
   double lambda[params];
   double R = 0.01; // FIX THIS FOR NOW
@@ -300,6 +300,10 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
     return 1;
   }
 
+
+  // Print out unseccessful moves
+  printf("%g %g %g 1 1\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost_after);
+  
   // If move not accepted, return 0. 
   return 0;
 }

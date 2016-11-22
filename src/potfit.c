@@ -170,7 +170,7 @@ int main(int argc, char** argv)
     double* tot_ptr = &tot;
     double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr);
     *tot_ptr = cost; 
-    printf("%g %g %g, %d\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
+    printf("%g %g %g, %d 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
 
     // run until 10 moves are accepted
     for (int i=0; i<500;i++)
@@ -178,7 +178,7 @@ int main(int argc, char** argv)
 	//	double** hessian = calc_hessian(*tot_ptr);
 	double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr);
 	*tot_ptr = cost;
-	printf("%g %g %g %d\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
+	printf("%g %g %g %d 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
       }
     return 0;
    
