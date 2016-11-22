@@ -148,12 +148,19 @@ int main(int argc, char** argv)
     int num_params = g_pot.opt_pot.idxlen;
       if (g_pot.smooth_pot[0] == 1) {num_params -= 1;
 	//set h to 1 to test
-	g_pot.opt_pot.table[g_pot.opt_pot.idx[2]] = 1;
-	double tot = calc_forces(g_pot.calc_pot.table, g_calc.force, 0);
+	//	g_pot.opt_pot.table[g_pot.opt_pot.idx[2]] = 1;
+	//	double tot = calc_forces(g_pot.calc_pot.table, g_calc.force, 0);
       }
     
     double cost_0 = tot;
-    printf("%g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], tot);
+
+    /********************/
+    for (int i=0;i<num_params;i++){
+      printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    }
+    printf("%g\n", tot);
+    /*******************/
+
     double** h_0 = calc_hessian(cost_0);
 
     int m = 0;
@@ -181,7 +188,13 @@ int main(int argc, char** argv)
     double* tot_ptr = &tot;
     double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr);
     *tot_ptr = cost; 
-    printf("%g %g %g, %d 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
+
+    /********************/
+    for(int i=0;i<num_params;i++){
+      printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    }
+    printf("%g\n", cost);
+    /*******************/
 
     // run until 10 moves are accepted
     for (int i=0; i<500;i++)
@@ -189,7 +202,14 @@ int main(int argc, char** argv)
 	//	double** hessian = calc_hessian(*tot_ptr);
 	double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr);
 	*tot_ptr = cost;
-	printf("%g %g %g %d 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
+	//	printf("%g %g %g %d 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
+	/********************/
+	for(int i=0;i<num_params;i++){
+	  printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+	}
+	printf("%g %d 0\n", cost, weight);
+	/*******************/
+
       }
     return 0;
    

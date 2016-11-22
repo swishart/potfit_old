@@ -306,7 +306,14 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
 
 
   // Print out unseccessful moves
-  printf("%g %g %g 1 1\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost_after);
+  //  printf("%g %g %g 1 1\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost_after);
+
+  /********************/
+  for(int i=0;i<params;i++){
+    printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+  }
+  printf("%g 1 1\n", cost_after);
+  /*******************/
   
   // If move not accepted, return 0. 
   return 0;
