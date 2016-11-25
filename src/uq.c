@@ -214,7 +214,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
   }
 
   int count = 1;
-  int mc_decision = mc_moves(v_0, w, cost_before, m, cost_0);
+  int mc_decision = mc_moves(v_0, w, cost_before, params, cost_0);
 
   // Keep generating trials for this hessian until a move is accepted
   // This saves multiple calculations of the same hessian when a move isn't accepted
@@ -229,7 +229,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
     //    printf("--- %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], *cost_before);
 
     //call function recursively until we accept a move for this set of eigenvalues
-    mc_decision = mc_moves(v_0, w, cost_before, m, cost_0);
+    mc_decision = mc_moves(v_0, w, cost_before, params, cost_0);
 
   }
   *weight = count;
@@ -247,7 +247,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
     if (g_pot.smooth_pot[0] == 1) {params -= 1;}
   
   double lambda[params];
-  double R = 0.01; // FIX THIS FOR NOW
+  double R = sqrt(0.5); // FIX THIS FOR NOW
   double cost_after;
   
   // If not all eigenvalues are found (i.e. m != params), replace them with 1.
@@ -273,6 +273,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
       w[i] = fabs(w[i]);
       lambda[i] = 1/sqrt(w[i]);
       lambda[i] *= r;
+      printf("%g %g ", r,lambda[i]);
     }
 
   // Matrix multiplication (delta_param[i] = Sum{1}{params} [v_0[i][j] * (r[j]/lambda[j])] )

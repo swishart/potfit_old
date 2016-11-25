@@ -163,6 +163,8 @@ int main(int argc, char** argv)
 
     double** h_0 = calc_hessian(cost_0);
 
+
+    
     int m = 0;
     double vl = -1;
     double vu = 1;
@@ -183,6 +185,8 @@ int main(int argc, char** argv)
       
     }
 
+    printf("\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
+    printf("Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
     int weight = 1;
     int* weight_ptr = &weight;
     double* tot_ptr = &tot;
