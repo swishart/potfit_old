@@ -1,0 +1,21 @@
+ntypes          1
+config   	Ni_new.potfit_config 
+startpot        LJ_090816.pot
+endpot          Ni_LJ_090816.pot_end
+tempfile        Ni_LJ_090816.tmp
+
+imdpot          Ni_LJ_090816.imd
+plotfile        Ni_LJ_090816.plot
+flagfile        STOP
+
+write_pair      1
+write_lammps    1
+
+imdpotsteps     5000
+output_prefix   Ni_LJ_090816
+
+opt             1
+anneal_temp     100
+eng_weight      90
+stress_weight   10
+seed            42

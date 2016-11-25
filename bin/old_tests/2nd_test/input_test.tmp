@@ -1,0 +1,20 @@
+ntypes          1
+config          Si_super.castep-extract-0.dat
+startpot        start_EAM_pot.pot
+endpot          Si_EAM.pot_end
+tempfile        Si_EAM.tmp
+
+imdpot          Si_EAM.imd
+plotfile        Si_EAM.plot
+flagfile        STOP
+
+write_pair      1
+write_lammps    1
+
+imdpotsteps     5000
+output_prefix   Si_EAM
+
+opt             1
+anneal_temp     100
+eng_weight      100
+seed            42

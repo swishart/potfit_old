@@ -1,0 +1,11 @@
+## Lennard Jones potential fit to Ni reference configurtations evolved with LJ (sigma=2.2808, epsilon=0.519)
+## Trying to recover the above parameters from MD reference forces - a sanity check.
+#F 0 1
+#T PAIR
+#C Ni
+#E
+
+type lj_sc
+cutoff 5.3
+epsilon   0.50 0.00 1.50 
+sigma 1.50 0.00 3.00

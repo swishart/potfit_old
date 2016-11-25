@@ -1,0 +1,38 @@
+# LJ potential for an fcc crystal - bulk Ni
+
+## Initialisation
+#
+units		metal
+boundary    p p p
+atom_style  atomic
+
+## Atom Definition
+#
+read_data 	Ni_bulk_32.lmpdat
+mass 		* 58.693
+
+## Settings
+#
+pair_style 	lj/cut 7.04
+pair_coeff	1 1 0.519 2.2808
+
+fix		myNVT all nvt temp 300.0 300.0 0.1
+
+compute 	1 all temp
+compute 	peatom all pe/atom
+compute 	keatom all ke/atom
+
+compute		peratom all stress/atom NULL 
+compute         p all reduce sum c_peratom[1] c_peratom[2] c_peratom[3] c_peratom[4] c_peratom[5] c_peratom[6]
+variable     	press equal -(c_p[1]+c_p[2]+c_p[3])/(3*vol)
+
+thermo_style    custom step temp press etotal pe ke fmax fnorm v_press c_p[1] c_p[2] c_p[3] c_p[4] c_p[5] c_p[6]
+thermo          1000
+		
+dump		force_id all custom 1000 dump.lj_forces type x y z fx fy fz
+dump 		pos_id all custom 1000 dump.lj_positions type x y z
+
+## Run a Simulation
+#
+#timestep 	TIME
+run 		500000 

@@ -1,0 +1,21 @@
+ntypes          1
+config          potfit_stressed_180716.config 
+startpot        morse_180716.pot
+endpot          Ni_morse_180716.pot_end
+tempfile        Ni_morse_180716.tmp
+
+imdpot          Ni_morse_180716.imd
+plotfile        Ni_morse_180716.plot
+flagfile        STOP
+
+write_pair      1
+write_lammps    1
+
+imdpotsteps     5000
+output_prefix   Ni_morse_180716
+
+opt             1
+anneal_temp     100
+eng_weight      100
+stress_weight   10
+seed            42

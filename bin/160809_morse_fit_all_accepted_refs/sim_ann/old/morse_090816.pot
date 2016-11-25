@@ -1,0 +1,12 @@
+## Morse potential fit to Ni reference configurtations evolved with LJ (sigma=2.2808, epsilon=0.519)
+## Trying to recover the above parameters from MD reference forces - initial UQ investigation.
+#F 0 1
+#T PAIR
+#C Ni
+#E
+
+type morse_sc
+cutoff 10.0
+D_e 5.00 0.00 10.00
+a   7.50 0.00 15.00 
+r_e 5.00 0.00 10.00

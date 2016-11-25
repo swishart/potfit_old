@@ -1,0 +1,22 @@
+ntypes          1
+#config          potfit_initial_230616.config
+config          test.config
+startpot        LJ_250716.pot
+endpot          Ni_LJ_250716.pot_end
+tempfile        Ni_LJ_250716.tmp
+
+imdpot          Ni_LJ_250716.imd
+plotfile        Ni_LJ_250716.plot
+flagfile        STOP
+
+write_pair      1
+write_lammps    1
+
+imdpotsteps     5000
+output_prefix   Ni_LJ_250716
+
+opt             0
+anneal_temp     0
+eng_weight      50
+stress_weight   50
+seed            42

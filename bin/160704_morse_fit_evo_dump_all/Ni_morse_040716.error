@@ -1,0 +1,9 @@
+total error sum 8.115700, count 522 (546 forces, 6 energies)
+sum of force-errors  = 3.802976e+00		( 46.859% - av: 0.006965)
+sum of energy-errors = 4.312724e+00		( 53.141% )
+rms-errors:
+force 	8.345752e-02	(83.457520 meV/A)
+energy 	8.478132e-02	(84.781322 meV)
+
+	force [meV/A]	energy [meV]	stress [MPa]	error sum
+RMS:	8.345752e+01	8.478132e+01	inf	8.115700

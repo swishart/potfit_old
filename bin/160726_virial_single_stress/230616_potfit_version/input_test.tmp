@@ -1,0 +1,20 @@
+ntypes          1
+config          potfit_header.txt 
+startpot        LJ_260716.pot
+endpot          Ni_LJ_260716.pot_end
+tempfile        Ni_LJ_260716.tmp
+
+imdpot          Ni_LJ_260716.imd
+plotfile        Ni_LJ_260716.plot
+flagfile        STOP
+
+write_pair      1
+write_lammps    1
+
+imdpotsteps     5000
+output_prefix   Ni_LJ_260716
+
+opt             1
+anneal_temp     100
+eng_weight      100
+seed            42

@@ -1,0 +1,11 @@
+Limiting constraints
+#conf	p^2		punishment
+0	0.000000	0.000000
+
+Dummy Constraints
+element	U^2		U'^2		U		U'
+Si	0.000000	0.000000	0.000000	4.12477e-06
+
+NORESCALE: <n>!=1
+<n>=1.000000
+Additional punishment of 0.000000 added.

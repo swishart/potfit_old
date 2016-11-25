@@ -1,0 +1,6852 @@
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.50000000	      0.0000	      3.0000
+sigma	        0.50000000	      0.0000	      1.5000
+h	        1.00000000	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.77734360	      0.0000	      3.0000
+sigma	        0.45487195	      0.0000	      1.5000
+h	        1.12632865	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.95072894	      0.0000	      3.0000
+sigma	        0.36311885	      0.0000	      1.5000
+h	        1.14956356	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.95072894	      0.0000	      3.0000
+sigma	        0.36311885	      0.0000	      1.5000
+h	        1.14956356	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.95072894	      0.0000	      3.0000
+sigma	        0.36311885	      0.0000	      1.5000
+h	        1.08421037	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.95072894	      0.0000	      3.0000
+sigma	        0.36311885	      0.0000	      1.5000
+h	        1.08421037	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.95072894	      0.0000	      3.0000
+sigma	        0.36311885	      0.0000	      1.5000
+h	        1.08421037	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.95072894	      0.0000	      3.0000
+sigma	        0.36311885	      0.0000	      1.5000
+h	        1.08421037	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.95072894	      0.0000	      3.0000
+sigma	        0.36311885	      0.0000	      1.5000
+h	        1.08421037	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.95072894	      0.0000	      3.0000
+sigma	        0.36311885	      0.0000	      1.5000
+h	        1.08421037	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.01229279	      0.0000	      3.0000
+sigma	        0.32811662	      0.0000	      1.5000
+h	        1.03558955	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.01229279	      0.0000	      3.0000
+sigma	        0.32811662	      0.0000	      1.5000
+h	        1.03558955	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.01229279	      0.0000	      3.0000
+sigma	        0.32811662	      0.0000	      1.5000
+h	        1.03558955	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.01229279	      0.0000	      3.0000
+sigma	        0.32811662	      0.0000	      1.5000
+h	        1.03558955	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09964771	      0.0000	      3.0000
+sigma	        0.31548454	      0.0000	      1.5000
+h	        1.10335992	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09964771	      0.0000	      3.0000
+sigma	        0.31548454	      0.0000	      1.5000
+h	        1.10335992	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09964771	      0.0000	      3.0000
+sigma	        0.31548454	      0.0000	      1.5000
+h	        1.06382750	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09964771	      0.0000	      3.0000
+sigma	        0.31548454	      0.0000	      1.5000
+h	        1.06382750	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09000475	      0.0000	      3.0000
+sigma	        0.31548454	      0.0000	      1.5000
+h	        1.06382750	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09000475	      0.0000	      3.0000
+sigma	        0.31548454	      0.0000	      1.5000
+h	        1.06382750	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09000475	      0.0000	      3.0000
+sigma	        0.22583421	      0.0000	      1.5000
+h	        1.06382750	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09000475	      0.0000	      3.0000
+sigma	        0.22583421	      0.0000	      1.5000
+h	        1.06382750	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09000475	      0.0000	      3.0000
+sigma	        0.22583421	      0.0000	      1.5000
+h	        1.06382750	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.09000475	      0.0000	      3.0000
+sigma	        0.22583421	      0.0000	      1.5000
+h	        1.06382750	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22583421	      0.0000	      1.5000
+h	        1.09684440	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22583421	      0.0000	      1.5000
+h	        1.09684440	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22474468	      0.0000	      1.5000
+h	        1.09684440	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22474468	      0.0000	      1.5000
+h	        1.09684440	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22474468	      0.0000	      1.5000
+h	        0.98173006	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22474468	      0.0000	      1.5000
+h	        0.98173006	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22474468	      0.0000	      1.5000
+h	        0.98173006	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22474468	      0.0000	      1.5000
+h	        0.98173006	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22474468	      0.0000	      1.5000
+h	        0.98173006	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.85011257	      0.0000	      3.0000
+sigma	        0.22474468	      0.0000	      1.5000
+h	        0.98173006	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.11094345	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        0.86470605	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.11094345	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        0.86470605	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.11094345	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        0.86470605	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.86719711	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        1.04678142	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.86719711	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        1.04678142	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.86719711	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        1.04678142	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.86719711	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        1.04678142	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.86719711	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        1.04678142	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.86719711	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        1.04678142	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.86719711	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        1.04678142	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.86719711	      0.0000	      3.0000
+sigma	        0.20668125	      0.0000	      1.5000
+h	        1.04678142	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.63019653	      0.0000	      3.0000
+sigma	        0.20359371	      0.0000	      1.5000
+h	        0.96355014	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.63019653	      0.0000	      3.0000
+sigma	        0.20359371	      0.0000	      1.5000
+h	        0.96355014	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.63019653	      0.0000	      3.0000
+sigma	        0.20359371	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.63019653	      0.0000	      3.0000
+sigma	        0.20359371	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.20359371	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.20359371	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        1.49500906	      0.0000	      3.0000
+sigma	        0.08261954	      0.0000	      1.5000
+h	        0.88989944	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.73588500	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.73588500	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.13151005	      0.0000	      3.0000
+sigma	        0.05661955	      0.0000	      1.5000
+h	        1.75150097	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000
+#F 0 1
+#T PAIR
+#C Ni
+## Ni-Ni
+#E
+
+type	lj_sc
+cutoff	5.300000
+# rmin	2.292377
+epsilon	        2.34665342	      0.0000	      3.0000
+sigma	        0.00370276	      0.0000	      1.5000
+h	        1.08775693	      0.5000	      2.0000

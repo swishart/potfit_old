@@ -1,0 +1,18 @@
+#!/bin/bash
+
+D_OUTPUT=($(grep D_e Ni_morse_090816.tmp | awk '{print $2}'))
+A_OUTPUT=($(grep a Ni_morse_090816.tmp | awk '{print $2}'))
+R_OUTPUT=($(grep r_e Ni_morse_090816.tmp | awk '{print $2}'))
+
+INDEX=1
+MAX=${#D_OUTPUT[@]}
+##echo "max: $MAX"
+
+while [ $INDEX -lt $MAX ]; do
+    
+    echo -e "$INDEX\t${D_OUTPUT[$INDEX]}\t${A_OUTPUT[$INDEX]}\t${R_OUTPUT[$INDEX]}\r"       >>output_090816.txt
+    echo -e "$((INDEX+1))\t${D_OUTPUT[$INDEX+1]}\t${A_OUTPUT[$INDEX+1]}\t${R_OUTPUT[$INDEX+1]}\r" >>output_090816.txt
+    echo -e "$((INDEX+2))\t${D_OUTPUT[$INDEX+2]}\t${A_OUTPUT[$INDEX+2]}\t${R_OUTPUT[$INDEX+2]}\r" >>output_090816.txt
+
+    let INDEX=INDEX+3
+done

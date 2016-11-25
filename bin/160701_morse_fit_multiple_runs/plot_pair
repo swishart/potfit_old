@@ -1,0 +1,9 @@
+reset;
+set termoption solid;
+set term x11 title 'pair potentials' size 640,480
+set samples 1000;
+set grid;
+set xrange [1.730456:10.0];
+set yrange [-0.3:0.5];
+cof(x) = x**4/(1+x**4);
+pl cof((x-10.0)/0.10763774)*(0.6336447*((1-exp(-2.3556997*(x-2.54697086)))**2-1)) w l t 'Ni-Ni' lt 0 lw 2 lc 1;

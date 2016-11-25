@@ -1,0 +1,21 @@
+ntypes          1
+config   	Ni_bulk_T300.config
+startpot        LJ_020816.pot
+endpot          Ni_LJ_020816.pot_end
+tempfile        Ni_LJ_020816.tmp
+
+imdpot          Ni_LJ_020816.imd
+plotfile        Ni_LJ_020816.plot
+flagfile        STOP
+
+write_pair      1
+write_lammps    1
+
+imdpotsteps     5000
+output_prefix   Ni_LJ_020816
+
+opt             1
+anneal_temp     100
+eng_weight      0
+stress_weight   100
+seed            42
