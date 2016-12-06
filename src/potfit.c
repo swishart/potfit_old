@@ -142,15 +142,9 @@ int main(int argc, char** argv)
 
 #if defined(UQ)
 
-    init_rng(42);
-
     //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
     int num_params = g_pot.opt_pot.idxlen;
-      if (g_pot.smooth_pot[0] == 1) {num_params -= 1;
-	//set h to 1 to test
-	//	g_pot.opt_pot.table[g_pot.opt_pot.idx[2]] = 1;
-	//	double tot = calc_forces(g_pot.calc_pot.table, g_calc.force, 0);
-      }
+      if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
     
     double cost_0 = tot;
 
@@ -163,8 +157,6 @@ int main(int argc, char** argv)
 
     double** h_0 = calc_hessian(cost_0);
 
-
-    
     int m = 0;
     double vl = -1;
     double vu = 1;
@@ -174,7 +166,8 @@ int main(int argc, char** argv)
     // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
     while (m < num_params) {
       if (count > 5){
-	printf("NOT CONVERGING! ABORTING \n");
+	printf("NOT CONVERGING! Use singular value decomposition \n");
+	// CALL SVD FUNCTION HERE
 	return 0;
       }
       
@@ -182,11 +175,11 @@ int main(int argc, char** argv)
       vu *= 10;
       m = calc_h0_eigenvectors(h_0, vl, vu, v_0, eigenvalues);
       count += 1;
-      
     }
 
     printf("\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
     printf("Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
+
     int weight = 1;
     int* weight_ptr = &weight;
     double* tot_ptr = &tot;

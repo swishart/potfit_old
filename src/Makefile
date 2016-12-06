@@ -389,6 +389,10 @@ ifneq (,$(findstring uq,${MAKETARGET}))
 CFLAGS += -DUQ
 endif
 
+ifneq (,$(findstring maxstep,${MAKETARGET}))
+CFLAGS += -DMAX_STEP
+endif
+
 # Substitute .o for .c to get the names of the object files
 OBJECTS := $(subst .c,.o,${SOURCES})
 

@@ -252,30 +252,29 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
   
   // If not all eigenvalues are found (i.e. m != params), replace them with 1.
   // THIS SHOULD NOT HAPPEN NOW
-  for (int i = m; i<params; i++)
-    {
-      double r = R * normdist();
-      lambda[i] = r;
-    }
+  //  for (int i = m; i<params; i++)
+  // {
+  //   double r = R * normdist();
+  //   lambda[i] = r;
+  // }
 
   // If eigenvalue is less than 1, replace it with 1.
   for (int i=0;i<m;i++){
-    if (w[i] < 1.0){
-      // printf("replacing small eigenvalue %g with 1. \n",w[i]);
-      w[i] = 1.0;
-    }
+#if defined(MAX_STEP)
+    if (w[i] < 1.0){ w[i] = 1.0; }
+    printf("\nHELLO MAXXXXXXXXXXXXX\n");
+#else // Use min(lambda,1)
+    if (w[i] > 1.0){ w[i] = 1.0; }
+    printf("\nHELLO MINNNNNNN\n");
+#endif
+
+    double r = R * normdist();
+    w[i] = fabs(w[i]);
+    lambda[i] = 1/sqrt(w[i]);
+    lambda[i] *= r;
+    printf("%g %g ", r,lambda[i]);
   }
   
-  
-  for (int i=0;i<m;i++)
-    {
-      double r = R * normdist();
-      w[i] = fabs(w[i]);
-      lambda[i] = 1/sqrt(w[i]);
-      lambda[i] *= r;
-      printf("%g %g ", r,lambda[i]);
-    }
-
   // Matrix multiplication (delta_param[i] = Sum{1}{params} [v_0[i][j] * (r[j]/lambda[j])] )
   for (int i=0;i<params;i++){
     for(int j=0;j<params;j++){
