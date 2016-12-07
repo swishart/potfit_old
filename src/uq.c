@@ -1,20 +1,115 @@
-#include <mkl_lapack.h>
+/**********y******************************************************                                                                     
+ *                                                                                                                                     
+ * uq.c: Uncertainty quantification using sloppy model method                                                                           *                                                                                                                                     
+ ****************************************************************                                                                      
+ *                                                                                                                                     
+ * Copyright 2002-2016 - the potfit development team                                                                                   
+ *                                                                                                                                     
+ * http://potfit.sourceforge.net/                                                                                                      
+ *                                                                                                                                     
+ ****************************************************************                                                                      
+ *                                                                                                                                     
+ * This file is part of potfit.                                                                                                        
+ *                                                                                                                                     
+ * potfit is free software; you can redistribute it and/or modify                                                                      
+ * it under the terms of the GNU General Public License as published by                                                                
+ * the Free Software Foundation; either version 2 of the License, or                                                                   
+ * (at your option) any later version.                                                                                                 
+ *                                                                                                                                     
+ * potfit is distributed in the hope that it will be useful,                                                                           
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of                                                                      
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                                                                       
+ * GNU General Public License for more details.                                                                                        
+ *                                                                                                                                     
+ * You should have received a copy of the GNU General Public License                                                                   
+ * along with potfit; if not, see <http://www.gnu.org/licenses/>.                                                                      
+ *                                                                                                                                     
+ ****************************************************************/
 
+#include <mkl_lapack.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <time.h>
 
 #include "uq.h"
-
 #include "potfit.h"
-
 #include "force.h"
-
 #include "random.h"
 
 #if defined(UQ)&&(APOT) //Only for analytic potentials at the moment
 
+int uncertainty_quantification(double tot) {
+  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
+  int num_params = g_pot.opt_pot.idxlen;
+  if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
+  
+  double cost_0 = tot;
+  
+  /********************/
+  for (int i=0;i<num_params;i++){
+    printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+  }
+  printf("%g\n", tot);
+  /*******************/
+  
+  double** h_0 = calc_hessian(cost_0);
+  
+  int m = 0;
+  double vl = -1;
+  double vu = 1;
+  int count = 0;
+  double** v_0 = mat_double_mem((num_params),(num_params));
+  double eigenvalues[num_params];
+  // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
+  while (m < num_params) {
+    if (count > 5){
+      printf("NOT CONVERGING! Use singular value decomposition \n");
+      // CALL SVD FUNCTION HERE
+      return 0;
+    }
+    
+    vl *= 10;
+    vu *= 10;
+    m = calc_h0_eigenvectors(h_0, vl, vu, v_0, eigenvalues);
+    count += 1;
+  }
+  
+  printf("\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
+  printf("Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
+  
+  int weight = 1;
+  int* weight_ptr = &weight;
+  double* tot_ptr = &tot;
+  double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr);
+  *tot_ptr = cost;
+  
+  /********************/
+  for(int i=0;i<num_params;i++){
+    printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+  }
+  printf("%g\n", cost);
+  /*******************/
+  
+  // run until 10 moves are accepted
+  for (int i=0; i<500;i++)
+    {
+      //      double** hessian = calc_hessian(*tot_ptr);
+      double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr);
+      *tot_ptr = cost;
+      //      printf("%g %g %g %d 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, we \
+      ight);
+  /********************/
+  for(int i=0;i<num_params;i++){
+    printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+  }
+  printf("%g %d 0\n", cost, weight);
+  /*******************/
+  
+}
+
+return 0;
+
+}
 
 double** mat_double_mem(int rowdim, int coldim)
 {
@@ -262,10 +357,8 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
   for (int i=0;i<m;i++){
 #if defined(MAX_STEP)
     if (w[i] < 1.0){ w[i] = 1.0; }
-    printf("\nHELLO MAXXXXXXXXXXXXX\n");
 #else // Use min(lambda,1)
     if (w[i] > 1.0){ w[i] = 1.0; }
-    printf("\nHELLO MINNNNNNN\n");
 #endif
 
     double r = R * normdist();

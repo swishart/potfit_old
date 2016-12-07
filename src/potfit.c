@@ -1,4 +1,4 @@
-/**********y******************************************************
+/****************************************************************
  *
  * potfit.c: Contains main potfit program
  *
@@ -142,74 +142,8 @@ int main(int argc, char** argv)
 
 #if defined(UQ)
 
-    //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
-    int num_params = g_pot.opt_pot.idxlen;
-      if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
-    
-    double cost_0 = tot;
+ return uncertainty_quantification(tot);
 
-    /********************/
-    for (int i=0;i<num_params;i++){
-      printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-    }
-    printf("%g\n", tot);
-    /*******************/
-
-    double** h_0 = calc_hessian(cost_0);
-
-    int m = 0;
-    double vl = -1;
-    double vu = 1;
-    int count = 0;
-    double** v_0 = mat_double_mem((num_params),(num_params));
-    double eigenvalues[num_params];
-    // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
-    while (m < num_params) {
-      if (count > 5){
-	printf("NOT CONVERGING! Use singular value decomposition \n");
-	// CALL SVD FUNCTION HERE
-	return 0;
-      }
-      
-      vl *= 10;
-      vu *= 10;
-      m = calc_h0_eigenvectors(h_0, vl, vu, v_0, eigenvalues);
-      count += 1;
-    }
-
-    printf("\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
-    printf("Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
-
-    int weight = 1;
-    int* weight_ptr = &weight;
-    double* tot_ptr = &tot;
-    double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr);
-    *tot_ptr = cost; 
-
-    /********************/
-    for(int i=0;i<num_params;i++){
-      printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-    }
-    printf("%g\n", cost);
-    /*******************/
-
-    // run until 10 moves are accepted
-    for (int i=0; i<500;i++)
-      {
-	//	double** hessian = calc_hessian(*tot_ptr);
-	double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr);
-	*tot_ptr = cost;
-	//	printf("%g %g %g %d 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, weight);
-	/********************/
-	for(int i=0;i<num_params;i++){
-	  printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-	}
-	printf("%g %d 0\n", cost, weight);
-	/*******************/
-
-      }
-    return 0;
-   
 #endif //UQ
 
       

@@ -1,3 +1,4 @@
+int uncertainty_quantification(double);
 
 double randn(double, double);
 
