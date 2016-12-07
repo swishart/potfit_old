@@ -411,6 +411,7 @@ typedef struct {
   const char* plotpointfile; /* write points for plotting */
   const char* startpot;      /* file with start potential */
   const char* tempfile;      /* backup potential file */
+  const char* sloppyfile;     /* sloppy model ensemble */
 } potfit_filenames;
 
 // potfit_mpi_config: holds information needed for MPI calculation

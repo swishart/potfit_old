@@ -264,6 +264,13 @@ void read_parameter_file(char const* param_file)
     }
 #endif  // STRESS
 
+#if defined(UQ)
+    // file for sloppy model ensemble uncertainty quantification
+    else if (strcasecmp(token, "sloppyfile") == 0) {
+      get_param_string("sloppyfile", &g_files.sloppyfile, line, param_file);
+    }
+#endif  // UQ
+
     // unknown tag
     else
       warning("Unknown tag <%s> in parameter file ignored!\n", token);

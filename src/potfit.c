@@ -142,7 +142,7 @@ int main(int argc, char** argv)
 
 #if defined(UQ)
 
- return uncertainty_quantification(tot);
+    return uncertainty_quantification(tot,g_files.sloppyfile);
 
 #endif //UQ
 

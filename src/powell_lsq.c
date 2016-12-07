@@ -53,6 +53,7 @@
 #include "potential_output.h"
 #include "rescale.h"
 #include "utils.h"
+#include "uq.h"
 
 #define EPS 0.001
 #define PRECISION 1.E-7
@@ -66,6 +67,7 @@ int gamma_update(double**, double, double, double*, double*, double*, int, int,
 void lineqsys_init(double**, double**, double*, double*, int, int);
 void lineqsys_update(double**, double**, double*, double*, int, int, int);
 double normalize_vector(double*, int);
+
 
 double** mat_double(int rowdim, int coldim)
 {

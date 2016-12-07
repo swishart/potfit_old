@@ -38,7 +38,13 @@
 
 #if defined(UQ)&&(APOT) //Only for analytic potentials at the moment
 
-int uncertainty_quantification(double tot) {
+int uncertainty_quantification(double tot, const char* filename) {
+
+  // open file
+  FILE* outfile = fopen(filename, "w");
+  if (outfile == NULL)
+    error(1, "Could not open file %s for writing\n", filename);
+
   //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
   int num_params = g_pot.opt_pot.idxlen;
   if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
@@ -47,9 +53,9 @@ int uncertainty_quantification(double tot) {
   
   /********************/
   for (int i=0;i<num_params;i++){
-    printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  printf("%g\n", tot);
+  fprintf(outfile,"%g\n", tot);
   /*******************/
   
   double** h_0 = calc_hessian(cost_0);
@@ -58,12 +64,12 @@ int uncertainty_quantification(double tot) {
   double vl = -1;
   double vu = 1;
   int count = 0;
-  double** v_0 = mat_double_mem((num_params),(num_params));
+  double** v_0 = mat_double(num_params,num_params);
   double eigenvalues[num_params];
   // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
   while (m < num_params) {
     if (count > 5){
-      printf("NOT CONVERGING! Use singular value decomposition \n");
+      fprintf(outfile,"NOT CONVERGING! Use singular value decomposition \n");
       // CALL SVD FUNCTION HERE
       return 0;
     }
@@ -74,8 +80,8 @@ int uncertainty_quantification(double tot) {
     count += 1;
   }
   
-  printf("\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
-  printf("Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
+  fprintf(outfile,"\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
+  fprintf(outfile,"Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
   
   int weight = 1;
   int* weight_ptr = &weight;
@@ -85,13 +91,13 @@ int uncertainty_quantification(double tot) {
   
   /********************/
   for(int i=0;i<num_params;i++){
-    printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  printf("%g\n", cost);
+  fprintf(outfile,"%g\n", cost);
   /*******************/
   
   // run until 10 moves are accepted
-  for (int i=0; i<500;i++)
+  for (int i=0; i<10;i++)
     {
       //      double** hessian = calc_hessian(*tot_ptr);
       double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr);
@@ -100,65 +106,18 @@ int uncertainty_quantification(double tot) {
       ight);
   /********************/
   for(int i=0;i<num_params;i++){
-    printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  printf("%g %d 0\n", cost, weight);
+  fprintf(outfile,"%g %d 0\n", cost, weight);
   /*******************/
   
 }
 
+fclose(outfile);
+printf("UQ ensemble parameters written to %s\n", filename);
+
 return 0;
 
-}
-
-double** mat_double_mem(int rowdim, int coldim)
-{
-  double** matrix = NULL;
-
-  /* matrix: array of array of pointers */
-  /* matrix: pointer to rows */
-  matrix = (double**)malloc(rowdim * sizeof(double*));
-
-  /* matrix[0]: pointer to elements */
- matrix[0] = (double*)malloc(rowdim * coldim * sizeof(double));
-
- for (int i = 1; i < rowdim; i++)
-     matrix[i] = matrix[i - 1] + coldim;
-
- return matrix;
-}
-
-
-
-double randn (double mu, double sigma)
-{
-  /* Using Marsaglia polar method to generate Gaussian distributed random numbers */
-
-  double U1, U2, W, mult;
-  static double X1, X2;
-  static int call = 0;
-
-  if (call == 1)
-    {
-      call = !call;
-      return (mu + sigma * (double) X2);
-    }
-
-      do
-	{
-	  U1 = -1 + ((double) rand () / RAND_MAX) * 2;
-	  U2 = -1 + ((double) rand () / RAND_MAX) * 2;
-	  W = pow (U1, 2) + pow (U2, 2);
-	}
-      while (W >= 1 || W == 0);
-
-      mult = sqrt ((-2 * log (W)) / W);
-      X1 = U1 * mult;
-      X2 = U2 * mult;
-
-      call = !call;
-
-      return (mu + sigma * (double) X1);
 }
 
 double** calc_hessian(double cost_0){
@@ -177,7 +136,7 @@ double** calc_hessian(double cost_0){
   // - the size of each parameter perturbation (i.e. 0.0001*parameter)
   // - the final hessian elements
   double param_perturb_dist[num_params]; 
-  double** hessian = mat_double_mem(num_params, num_params); //mat_double() defined in powell_lsq.c
+  double** hessian = mat_double(num_params, num_params); //mat_double() defined in powell_lsq.c
   double two_cost0 = 2*cost_0;
   
   for (int j=0;j<num_params;j++){
@@ -297,7 +256,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
   int info = 0;
   int i;
   
-  double **z = mat_double_mem(params, params);
+  double **z = mat_double(params, params);
   //double w[params];
 
   //  dsyevx_(&jobz, &range, &uplo, &params, &a[0][0], &lda, &vl, &vu, &il, &iu, &abstol, &m, w, &z[0][0], &ldz, work, &lwork, iwork, ifail,&info);
@@ -342,7 +301,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
     if (g_pot.smooth_pot[0] == 1) {params -= 1;}
   
   double lambda[params];
-  double R = sqrt(0.5); // FIX THIS FOR NOW
+  double R = sqrt(0.01); // FIX THIS FOR NOW
   double cost_after;
   
   // If not all eigenvalues are found (i.e. m != params), replace them with 1.
