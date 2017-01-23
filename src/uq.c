@@ -39,7 +39,7 @@
 #if defined(UQ)&&(APOT) //Only for analytic potentials at the moment
 
 int uncertainty_quantification(double cost_0, const char* filename) {
-
+  
   // open file
   FILE* outfile = fopen(filename, "w");
   if (outfile == NULL)
@@ -48,12 +48,17 @@ int uncertainty_quantification(double cost_0, const char* filename) {
   //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
   int num_params = g_pot.opt_pot.idxlen;
   if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
+
+  int pot_attempts = 0;
+  double acc_prob = 0.00;
+  g_config.acc_prob = &acc_prob;
+  g_config.pot_attempts = &pot_attempts;
   
   /********************/
   for (int i=0;i<num_params;i++){
     fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  fprintf(outfile,"%g 1 1\n", cost_0);
+  fprintf(outfile,"%g 1 1 count = %d %.2f\n", cost_0, pot_attempts, acc_prob);
   /*******************/
   
   double** hessian = calc_hessian(cost_0, num_params);
@@ -93,11 +98,13 @@ int uncertainty_quantification(double cost_0, const char* filename) {
   double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr, outfile);
   *tot_ptr = cost;
   
-
+  pot_attempts += weight;
+  acc_prob = 100.0/(double)pot_attempts;
+  
   for(int i=0;i<num_params;i++){
     fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  fprintf(outfile,"%g 1 1\n", cost);
+  fprintf(outfile,"%g 1 1 %d %.2f\n", cost, pot_attempts, acc_prob);
 
   
   // run until 10 moves are accepted
@@ -106,13 +113,15 @@ int uncertainty_quantification(double cost_0, const char* filename) {
       double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr, outfile);
       *tot_ptr = cost;
 
-  for(int i=0;i<num_params;i++){
-    fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-  }
-  fprintf(outfile,"%g %d 1\n", cost, weight);
+      pot_attempts += weight;
+      acc_prob = (100.0*((double)i+2.0))/(double)pot_attempts;
 
-  
-}
+      for(int i=0;i<num_params;i++){
+	fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+      }
+      fprintf(outfile,"%g %d 1 %d %.2f\n", cost, weight, pot_attempts, acc_prob);
+      
+    }
 
 fclose(outfile);
 printf("UQ ensemble parameters written to %s\n", filename);
@@ -322,7 +331,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
 
   }
   *weight = count;
-
+  
   free(z);
   // Return new cost
   return *cost_before;
@@ -397,11 +406,13 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
   // Print out unsuccessful moves
   //  printf("%g %g %g 1 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost_after);
 
+  
+  
   /********************/
   for(int i=0;i<params;i++){
     fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  fprintf(outfile,"%g 1 0\n", cost_after);
+  fprintf(outfile,"%g 1 0 - -\n", cost_after);
   /*******************/
   
   // If move not accepted, return 0. 

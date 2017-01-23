@@ -396,6 +396,8 @@ typedef struct {
 #endif            // DIPOLE
 #if defined(UQ)
   double acceptance_rescaling; /* R - weighting to improve MC move acceptance ratio, system specific */
+  int*   pot_attempts; /* Number of trials generated (running total) */
+  double*   acc_prob; /* MC acceptance probability */
 #endif
 } potfit_configurations;
 
