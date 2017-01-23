@@ -1,4 +1,4 @@
-/**********y******************************************************                                                                     
+/*******A***y******************************************************                                                                     
  *                                                                                                                                     
  * uq.c: Uncertainty quantification using sloppy model method                                                                           *                                                                                                                                     
  ****************************************************************                                                                      
@@ -38,7 +38,7 @@
 
 #if defined(UQ)&&(APOT) //Only for analytic potentials at the moment
 
-int uncertainty_quantification(double tot, const char* filename) {
+int uncertainty_quantification(double cost_0, const char* filename) {
 
   // open file
   FILE* outfile = fopen(filename, "w");
@@ -49,16 +49,14 @@ int uncertainty_quantification(double tot, const char* filename) {
   int num_params = g_pot.opt_pot.idxlen;
   if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
   
-  double cost_0 = tot;
-  
   /********************/
   for (int i=0;i<num_params;i++){
     fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  fprintf(outfile,"%g\n", tot);
+  fprintf(outfile,"%g 1 1\n", cost_0);
   /*******************/
   
-  double** h_0 = calc_hessian(cost_0);
+  double** hessian = calc_hessian(cost_0, num_params);
   
   int m = 0;
   double vl = -1;
@@ -68,48 +66,51 @@ int uncertainty_quantification(double tot, const char* filename) {
   double eigenvalues[num_params];
   // ENTER INFINITE LOOP TO FIND INITIAL EIGENVALUES
   while (m < num_params) {
-    if (count > 5){
-      fprintf(outfile,"NOT CONVERGING! Use singular value decomposition \n");
-      // CALL SVD FUNCTION HERE
-      return 0;
-    }
-    
+
     vl *= 10;
     vu *= 10;
-    m = calc_h0_eigenvectors(h_0, vl, vu, v_0, eigenvalues);
-    count += 1;
+    m = calc_h0_eigenvectors(hessian, vl, vu, v_0, eigenvalues, num_params);
+
+    //    printf("hessian_outside_SVD = (%g, %g), (%g, %g)\n", hessian[0][0],hessian[0][1],hessian[1][0],hessian[1][1]);
+    
+    if (count > 5){
+      
+      fprintf(outfile,"NOT CONVERGING! Use singular value decomposition \n");
+      m = calc_svd(hessian, v_0, eigenvalues, num_params);
+      hessian = calc_hessian(cost_0,num_params);
+      //printf("hessian_outside_SVD_end = (%g, %g), (%g, %g)\n", hessian[0][0],hessian[0][1],hessian[1][0],hessian[1][1]);
+    }
+    
+    count +=1;
   }
   
-  fprintf(outfile,"\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
-  fprintf(outfile,"Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
+  //  fprintf(outfile,"\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
+  //  fprintf(outfile,"Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
   
   int weight = 1;
   int* weight_ptr = &weight;
-  double* tot_ptr = &tot;
-  double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr);
+  double* tot_ptr = &cost_0;
+  double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr, outfile);
   *tot_ptr = cost;
   
-  /********************/
+
   for(int i=0;i<num_params;i++){
     fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  fprintf(outfile,"%g\n", cost);
-  /*******************/
+  fprintf(outfile,"%g 1 1\n", cost);
+
   
   // run until 10 moves are accepted
-  for (int i=0; i<10;i++)
+  for (int i=0; i<500;i++)
     {
-      //      double** hessian = calc_hessian(*tot_ptr);
-      double cost = calc_pot_params(h_0, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr);
+      double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr, outfile);
       *tot_ptr = cost;
-      //      printf("%g %g %g %d 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost, we \
-      ight);
-  /********************/
+
   for(int i=0;i<num_params;i++){
     fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  fprintf(outfile,"%g %d 0\n", cost, weight);
-  /*******************/
+  fprintf(outfile,"%g %d 1\n", cost, weight);
+
   
 }
 
@@ -120,11 +121,7 @@ return 0;
 
 }
 
-double** calc_hessian(double cost_0){
-
-  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
-  int num_params = g_pot.opt_pot.idxlen;
-    if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
+double** calc_hessian(double cost, int num_params){
 
   // Create the Hessian of analytic potential parameters
   // For N parameters, require:
@@ -137,13 +134,13 @@ double** calc_hessian(double cost_0){
   // - the final hessian elements
   double param_perturb_dist[num_params]; 
   double** hessian = mat_double(num_params, num_params); //mat_double() defined in powell_lsq.c
-  double two_cost0 = 2*cost_0;
+  double two_cost = 2*cost;
   
   for (int j=0;j<num_params;j++){
     param_perturb_dist[j] = 0.0001*g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
   }
   
-  // For diagonal entries, use (c_(i+1) - 2*cost_0 + c_(i-1))/(param_perturb_dist[i]^2)
+  // For diagonal entries, use (c_(i+1) - 2*cost + c_(i-1))/(param_perturb_dist[i]^2)
   for (int i=0;i<num_params;i++){
     
     double cost_plus;
@@ -157,7 +154,7 @@ double** calc_hessian(double cost_0){
 
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
        
-    hessian[i][i] = cost_plus - two_cost0 + cost_minus;
+    hessian[i][i] = cost_plus - two_cost + cost_minus;
     hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i]);
   }
 
@@ -188,7 +185,11 @@ double** calc_hessian(double cost_0){
       // c_(i-1)(j-1)
       g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] -= 2*param_perturb_dist[j];
       cost_2minus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
-           
+
+      //reset to start
+      g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
+      g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] += param_perturb_dist[j];
+      
       hessian[i][j] = cost_2plus + cost_2minus - cost_pm - cost_mp;
       hessian[i][j] /= (4*param_perturb_dist[i]*param_perturb_dist[j]);
 
@@ -199,39 +200,73 @@ double** calc_hessian(double cost_0){
 }
 
 
-int calc_h0_eigenvectors(double** h_0, double vl, double vu, double** v_0, double* w){
-
-  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
-  int params = g_pot.opt_pot.idxlen;
-    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
+int calc_h0_eigenvectors(double** hessian, double lower_bound, double upper_bound, double** v_0, double* w, int num_params){
 
   char jobz = 'V'; /* Compute eigenvectors and eigenvalues */
   char range = 'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
   char uplo = 'U'; /* Upper triangle of A is stored */
-  int lda = params; /* leading dimension of the array A. lda >= max(1,N) */
+  int lda = num_params; /* leading dimension of the array A. lda >= max(1,N) */
   double abstol = 0.00001; /* 2*DLAMCH('S');  absolute error tolerance for eigenvalues */
-  int ldz = params; /* Dimension of array z */
+  int ldz = num_params; /* Dimension of array z */
   int il = 0;
   int iu = 0;
 
   int m; /* number eigenvalues found */
-  int iwork[5*params];
-  int lwork = 8*params;
+  int iwork[5*num_params];
+  int lwork = 8*num_params;
   double work[lwork];
-  int ifail[params]; /* contains indices of unconverged eigenvectors if info > 0  */
+  int ifail[num_params]; /* contains indices of unconverged eigenvectors if info > 0  */
   int info = 0;
   int i;
-  //  double w[params];
- 
-  dsyevx_(&jobz, &range, &uplo, &params, &h_0[0][0], &lda, &vl, &vu, &il, &iu, &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail,&info);
+
+
+  //  printf("hessian_eig_before = (%g, %g), (%g, %g)\n", hessian[0][0],hessian[0][1],hessian[1][0],hessian[1][1]);
+  
+  dsyevx_(&jobz, &range, &uplo, &num_params, &hessian[0][0], &lda, &lower_bound, &upper_bound, &il, &iu, &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail, &info);
+
+  //  printf("hessian_eig_after = (%g, %g), (%g, %g)\n", hessian[0][0],hessian[0][1],hessian[1][0],hessian[1][1]);
   
   return m;
 }
 
 
+int calc_svd(double** hessian, double** u, double* s, int num_params){
+
+  char jobu = 'A'; /* Compute left singular vectors */
+  char jobvt = 'A'; /* Compute right singular vectors */
+  int lda = num_params; /* leading dimension of the array A. lda >= max(1,N) */
+  double vl = 0;
+  double vu = 0;
+  int il = 0;
+  int iu = 0;
+
+  int ns; /* number singular values found */
+  int iwork[12*num_params];
+  int lwork = 5*num_params;
+  double work[lwork];
+  int info = 0;
+  double vt[num_params][num_params];
+  
+
+  //printf("hessian_SVD_before = (%g, %g), (%g, %g)\n", hessian[0][0],hessian[0][1],hessian[1][0],hessian[1][1]);
 
 
-double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0, double* w, int* weight){
+  dgesvd_(&jobu, &jobvt, &num_params, &num_params, &hessian[0][0], &lda, s, &u[0][0], &lda, &vt[0][0], &num_params, work, &lwork, &info);
+
+  //printf("hessian_SVD_after = (%g, %g), (%g, %g)\n", hessian[0][0],hessian[0][1],hessian[1][0],hessian[1][1]);
+  
+  // printf("Info = %d\n",info);
+  
+
+  if (info == 0){
+    return lda;
+  }else{
+    printf("UNSUCCESSFUL FINDING OF EIGENVALUES \n");
+  }
+  
+}
+
+double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0, double* w, int* weight, FILE* outfile){
 
   //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
   int params = g_pot.opt_pot.idxlen;
@@ -268,7 +303,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
   }
 
   int count = 1;
-  int mc_decision = mc_moves(v_0, w, cost_before, params, cost_0);
+  int mc_decision = mc_moves(v_0, w, cost_before, params, cost_0, outfile);
 
   // Keep generating trials for this hessian until a move is accepted
   // This saves multiple calculations of the same hessian when a move isn't accepted
@@ -283,7 +318,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
     //    printf("--- %g %g %g\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], *cost_before);
 
     //call function recursively until we accept a move for this set of eigenvalues
-    mc_decision = mc_moves(v_0, w, cost_before, params, cost_0);
+    mc_decision = mc_moves(v_0, w, cost_before, params, cost_0, outfile);
 
   }
   *weight = count;
@@ -294,14 +329,14 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
 }
 
 
-int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) {
+int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, FILE* outfile) {
 
   //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
   int params = g_pot.opt_pot.idxlen;
     if (g_pot.smooth_pot[0] == 1) {params -= 1;}
   
   double lambda[params];
-  double R = sqrt(0.01); // FIX THIS FOR NOW
+  double R; // = sqrt(0.01); // FIX THIS FOR NOW
   double cost_after;
   
   // If not all eigenvalues are found (i.e. m != params), replace them with 1.
@@ -312,6 +347,8 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
   //   lambda[i] = r;
   // }
 
+  R = sqrt(g_config.acceptance_rescaling);
+  //  printf("\n\n sqrt of R value from file = %g\n\n", R);
   // If eigenvalue is less than 1, replace it with 1.
   for (int i=0;i<m;i++){
 #if defined(MAX_STEP)
@@ -324,7 +361,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
     w[i] = fabs(w[i]);
     lambda[i] = 1/sqrt(w[i]);
     lambda[i] *= r;
-    printf("%g %g ", r,lambda[i]);
+    // printf("%g %g ", r,lambda[i]);
   }
   
   // Matrix multiplication (delta_param[i] = Sum{1}{params} [v_0[i][j] * (r[j]/lambda[j])] )
@@ -357,14 +394,14 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0) 
   }
 
 
-  // Print out unseccessful moves
-  //  printf("%g %g %g 1 1\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost_after);
+  // Print out unsuccessful moves
+  //  printf("%g %g %g 1 0\n",g_pot.opt_pot.table[g_pot.opt_pot.idx[0]], g_pot.opt_pot.table[g_pot.opt_pot.idx[1]], cost_after);
 
   /********************/
   for(int i=0;i<params;i++){
-    printf("%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  printf("%g 1 1\n", cost_after);
+  fprintf(outfile,"%g 1 0\n", cost_after);
   /*******************/
   
   // If move not accepted, return 0. 

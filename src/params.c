@@ -269,6 +269,10 @@ void read_parameter_file(char const* param_file)
     else if (strcasecmp(token, "sloppyfile") == 0) {
       get_param_string("sloppyfile", &g_files.sloppyfile, line, param_file);
     }
+
+    else if (strcasecmp(token, "acceptance_rescaling") == 0) {
+      get_param_double("acceptance_rescaling", &g_config.acceptance_rescaling, line, param_file, 0, 1);
+    }
 #endif  // UQ
 
     // unknown tag

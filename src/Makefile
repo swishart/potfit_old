@@ -415,6 +415,14 @@ powell_lsq.o: powell_lsq.c
 		exit 1; \
 		}
 
+uq.o: uq.c
+	@echo " [CC] uq.c"
+	@${CC} ${CFLAGS} ${CINCLUDE} -c $< || { \
+		echo -e "The following command failed with the above error:\n"; \
+		echo -e ${CC} ${CFLAGS} ${CINCLUDE} -c $<"\n"; \
+		exit 1; \
+		}
+
 # special rules for function evaluation
 utils.o: utils.c
 	@echo " [CC] utils.c"

@@ -394,6 +394,9 @@ typedef struct {
   double dp_tol;  // dipole iteration precision
   double dp_mix;  // ???
 #endif            // DIPOLE
+#if defined(UQ)
+  double acceptance_rescaling; /* R - weighting to improve MC move acceptance ratio, system specific */
+#endif
 } potfit_configurations;
 
 // potfit_filenames: holds all kinds of filenames
