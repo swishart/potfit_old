@@ -148,13 +148,12 @@ int main(int argc, char** argv)
     }
     printf("\n");
     
-    return uncertainty_quantification(tot,g_files.sloppyfile);
+    uncertainty_quantification(tot,g_files.sloppyfile);
 
 #endif //UQ
 
-      
     write_pot_table_potfit(g_files.endpot);
-    return 0;
+
     {
       int format = -1;
 
