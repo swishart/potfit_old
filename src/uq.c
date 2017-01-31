@@ -47,19 +47,12 @@ int uncertainty_quantification(double cost_0, const char* filename) {
 
   //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
   int num_params = g_pot.opt_pot.idxlen;
-  if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
+  //  if (g_pot.smooth_pot[0] == 1) {num_params -= 1;}
 
   int pot_attempts = 0;
   double acc_prob = 0.00;
   g_config.acc_prob = &acc_prob;
   g_config.pot_attempts = &pot_attempts;
-  
-  /********************/
-  for (int i=0;i<num_params;i++){
-    fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-  }
-  fprintf(outfile,"%g 1 1 count = %d %.2f\n", cost_0, pot_attempts, acc_prob);
-  /*******************/
   
   double** hessian = calc_hessian(cost_0, num_params);
   
@@ -88,9 +81,24 @@ int uncertainty_quantification(double cost_0, const char* filename) {
     
     count +=1;
   }
+
+  /* Print Eigenvalues and Eigenvectors of hessian */
+  for (int i=0;i<num_params;i++){
+    fprintf(outfile,"%.4f ",eigenvalues[i]);
+    for (int j=0;j<num_params;j++){
+      fprintf(outfile,"%.4f ",v_0[i][j]);
+    }
+    fprintf(outfile,"\n");
+  }
+
+
+  /* Print initial best fit */
+  for (int i=0;i<num_params;i++){
+    fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+  }
+  fprintf(outfile,"%g 1 1 count = %d %.2f\n", cost_0, pot_attempts, acc_prob);
+  /*******************/
   
-  //  fprintf(outfile,"\nEigenvalues = %g %g\n",eigenvalues[0],eigenvalues[1] );
-  //  fprintf(outfile,"Eigenvectors = %g %g, %g %g\n",v_0[0][0],v_0[0][1],v_0[1][0],v_0[1][1]);
   
   int weight = 1;
   int* weight_ptr = &weight;
@@ -108,7 +116,7 @@ int uncertainty_quantification(double cost_0, const char* filename) {
 
   
   // run until 10 moves are accepted
-  for (int i=0; i<500;i++)
+  for (int i=0; i<g_config.acc_moves;i++)
     {
       double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0,eigenvalues, weight_ptr, outfile);
       *tot_ptr = cost;
@@ -131,7 +139,8 @@ return 0;
 }
 
 double** calc_hessian(double cost, int num_params){
-
+  // Implementing equation 5.7.10 from Numerical recipes in C
+  
   // Create the Hessian of analytic potential parameters
   // For N parameters, require:
   // diagonal: 2N cost evaluations
@@ -279,7 +288,7 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
 
   //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
   int params = g_pot.opt_pot.idxlen;
-    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
+  //    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
   
   char jobz = 'V'; /* Compute eigenvectors and eigenvalues */
   char range = 'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
@@ -342,11 +351,12 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
 
   //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
   int params = g_pot.opt_pot.idxlen;
-    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
+  //    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
   
   double lambda[params];
   double R; // = sqrt(0.01); // FIX THIS FOR NOW
   double cost_after;
+  double delta[params];
   
   // If not all eigenvalues are found (i.e. m != params), replace them with 1.
   // THIS SHOULD NOT HAPPEN NOW
@@ -374,10 +384,13 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
   }
   
   // Matrix multiplication (delta_param[i] = Sum{1}{params} [v_0[i][j] * (r[j]/lambda[j])] )
+
   for (int i=0;i<params;i++){
+    delta[i] = 0;
     for(int j=0;j<params;j++){
-      g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += v_0[i][j]*lambda[j];
+      delta[i] += v_0[i][j]*lambda[j];
     }
+    g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += delta[i];
   }
   
   cost_after = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
@@ -387,6 +400,13 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
   // Accept downhill moves outright
   if (cost_diff < 0){
     *cost_before = cost_after;
+
+    //Print change in parameters
+    for(int i=0;i<params;i++){
+      printf("%.4f ",delta[i]);
+    }
+    printf("\n");
+
     return 1;
   }
   
@@ -399,6 +419,13 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
 
   if (mc_rand_number <= probability){
     *cost_before = cost_after;
+
+    //Print change in parameters
+    for(int i=0;i<params;i++){
+      printf("%.4f ",delta[i]);
+    }
+    printf("\n");
+    
     return 1;
   }
 

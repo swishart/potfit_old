@@ -142,6 +142,12 @@ int main(int argc, char** argv)
 
 #if defined(UQ)
 
+    for (int i=0;i<g_pot.opt_pot.idxlen;i++) {
+
+      printf("Parameter  %d = %f ", i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    }
+    printf("\n");
+    
     return uncertainty_quantification(tot,g_files.sloppyfile);
 
 #endif //UQ

@@ -273,6 +273,11 @@ void read_parameter_file(char const* param_file)
     else if (strcasecmp(token, "acceptance_rescaling") == 0) {
       get_param_double("acceptance_rescaling", &g_config.acceptance_rescaling, line, param_file, 0, 1);
     }
+
+    else if (strcasecmp(token, "acc_moves") == 0){
+      get_param_int("acc_moves", &g_config.acc_moves, line, param_file, 0, INT_MAX);
+    }
+
 #endif  // UQ
 
     // unknown tag
