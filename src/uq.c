@@ -1,4 +1,4 @@
-/*******A***y******************************************************                                                                     
+/****************************************************************                                                                     
  *                                                                                                                                     
  * uq.c: Uncertainty quantification using sloppy model method                                                                           *                                                                                                                                     
  ****************************************************************                                                                      
@@ -370,10 +370,10 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
   //  printf("\n\n sqrt of R value from file = %g\n\n", R);
   // If eigenvalue is less than 1, replace it with 1.
   for (int i=0;i<m;i++){
-#if defined(MAX_STEP)
-    if (w[i] < 1.0){ w[i] = 1.0; }
-#else // Use min(lambda,1)
+#if defined(MIN_STEP)
     if (w[i] > 1.0){ w[i] = 1.0; }
+#else // Use max(lambda,1)
+    if (w[i] < 1.0){ w[i] = 1.0; }
 #endif
 
     double r = R * normdist();
