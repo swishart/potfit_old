@@ -5,9 +5,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -39,10 +39,14 @@
 
 #include "potfit.h"
 
-#if defined(ACML)
-#include <acml.h>
-#else
+#if defined(MKL)
 #include <mkl_lapack.h>
+#elif defined(ACML)
+#include <acml.h>
+#elif defined(__ACCELERATE__)
+#include <Accelerate/Accelerate.h>
+#else
+#error No math library defined!
 #endif  // ACML
 
 #include "bracket.h"
@@ -73,11 +77,11 @@ double** mat_double(int rowdim, int coldim)
 {
   double** matrix = NULL;
 
-  /* matrix: array of array of pointers */
-  /* matrix: pointer to rows */
+  // matrix: array of array of pointers
+  // matrix: pointer to rows
   matrix = (double**)Malloc(rowdim * sizeof(double*));
 
-  /* matrix[0]: pointer to elements */
+  // matrix[0]: pointer to elements
   matrix[0] = (double*)Malloc(rowdim * coldim * sizeof(double));
 
   for (int i = 1; i < rowdim; i++)
@@ -94,12 +98,10 @@ double** mat_double(int rowdim, int coldim)
 
 void run_powell_lsq(double* xi)
 {
+  char fact[1] = "N";
+  char uplo[1] = "U"; // char used in dsysvx
   int n = 0;
-#if !defined(ACML)
-  char uplo[1] = "U"; /* char used in dsysvx */
-  char fact[1] = "N"; /* char used in dsysvx */
-#endif                // ACML
-  int breakflag;
+  int breakflag = 0;
   double cond = 0.0;
   double F1 = 0.0;
   double F2 = 0.0;
@@ -108,7 +110,7 @@ void run_powell_lsq(double* xi)
   double xi1 = 0.0;
   double xi2 = 0.0;
   double ferror = 0.0;
-  double berror = 0.0; /* forward/backward error estimates */
+  double berror = 0.0; // forward/backward error estimates
 
   /* Direction vectors */
   double** d = mat_double(g_calc.ndim, g_calc.ndim);
@@ -139,9 +141,9 @@ void run_powell_lsq(double* xi)
   /* Vector pointing into correct dir'n */
   double* delta = (double*)Malloc(g_calc.ndimtot * sizeof(double)); /* ==0 */
 
-#if !defined(ACML) /* work arrays not needed */
+#if !defined(ACML) // work arrays not needed for ACML
   int worksize = 64 * g_calc.ndim;
-  /* work array to be used by dsysvx */
+  // work array to be used by dsysvx
   double* work = (double*)Malloc(worksize * sizeof(double));
   int* iwork = (int*)Malloc(g_calc.ndim * sizeof(int));
 #endif  // ACML
@@ -224,15 +226,19 @@ void run_powell_lsq(double* xi)
       int j = 1; /* 1 rhs */
 
 /* Linear Equation Solution (lapack) */
-#if defined(ACML)
-      dsysvx('N', 'U', g_calc.ndim, j, &lineqsys[0][0], g_calc.ndim,
-             &les_inverse[0][0], g_calc.ndim, perm_indx, p, g_calc.ndim, q,
-             g_calc.ndim, &cond, &ferror, &berror, &i);
-#else
+#if defined(MKL)
       dsysvx(fact, uplo, &g_calc.ndim, &j, &lineqsys[0][0], &g_calc.ndim,
              &les_inverse[0][0], &g_calc.ndim, perm_indx, p, &g_calc.ndim, q,
              &g_calc.ndim, &cond, &ferror, &berror, work, &worksize, iwork, &i);
-#endif  // ACML
+#elif defined(ACML)
+      dsysvx(fact[0], uplo[0], g_calc.ndim, j, &lineqsys[0][0], g_calc.ndim,
+             &les_inverse[0][0], g_calc.ndim, perm_indx, p, g_calc.ndim, q,
+             g_calc.ndim, &cond, &ferror, &berror, &i);
+#elif defined(__ACCELERATE__)
+      dsysvx_(fact, uplo, &g_calc.ndim, &j, &lineqsys[0][0], &g_calc.ndim,
+             &les_inverse[0][0], &g_calc.ndim, perm_indx, p, &g_calc.ndim, q,
+             &g_calc.ndim, &cond, &ferror, &berror, work, &worksize, iwork, &i);
+#endif
 
 #if defined(DEBUG) && !(defined APOT)
       printf("q0: %d %f %f %f %f %f %f %f %f\n", i, q[0], q[1], q[2], q[3],

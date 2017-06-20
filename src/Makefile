@@ -2,9 +2,9 @@
 #
 # potfit - open-source force-matching
 #
-# Copyright 2002-2016 - the potfit development team
+# Copyright 2002-2017 - the potfit development team
 #
-# http://potfit.sourceforge.net/
+# https://www.potfit.net/
 #
 ############################################################################
 #
@@ -39,7 +39,7 @@ MPI_FLAGS	+= -DMPI
 DEBUG_FLAGS	+= -DDEBUG
 ACML4PATH 	= ${ACML4DIR}/lib
 ACML5PATH 	= ${ACML5DIR}/lib
-BIN_DIR 	= ../bin/
+BIN_DIR 	= bin/
 
 ###########################################################################
 #
@@ -71,17 +71,16 @@ DEBUG_FLAGS += ${${PARALLEL}_FLAGS} ${DEBUG_${PARALLEL}_FLAGS}
 LIBS += ${${PARALLEL}_LIBS}
 
 # optimization or debug
-CFLAGS := ${FLAGS}
-ifneq (,$(findstring debug,${MAKETARGET}))
-CFLAGS += ${DEBUG_FLAGS}
-else
+CFLAGS = ${FLAGS}
+
 ifneq (,$(findstring asan,${MAKETARGET}))
-CFLAGS += ${ASAN_FLAGS}
-LFLAGS_SERIAL = ${ASAN_LFLAGS}
-LFLAGS_MPI = ${ASAN_LFLAGS}
+  CFLAGS += ${ASAN_FLAGS} ${DEBUG_FLAGS}
+  LFLAGS_SERIAL = ${ASAN_LFLAGS}
+  LFLAGS_MPI = ${ASAN_LFLAGS}
+else ifneq (,$(findstring debug,${MAKETARGET}))
+  CFLAGS += ${DEBUG_FLAGS}
 else
-CFLAGS += ${OPT_FLAGS}
-endif
+  CFLAGS += ${OPT_FLAGS}
 endif
 
 # profiling support
@@ -137,12 +136,10 @@ POTFITSRC 	+= simann.c
 POTFITSRC 	+= splines.c
 POTFITSRC 	+= utils.c
 
-ifneq (,$(strip $(findstring apot,${MAKETARGET})))
-  POTFITSRC 	+= potential_input_f0.c
-else
-  POTFITSRC 	+= potential_input_f3.c
-  POTFITSRC 	+= potential_input_f4.c
-endif
+POTFITSRC	+= potential_input_f0.c
+POTFITSRC	+= potential_input_f3.c
+POTFITSRC	+= potential_input_f4.c
+POTFITSRC	+= potential_input_f5.c
 
 ifneq (,$(strip $(findstring pair,${MAKETARGET})))
   POTFITSRC      += force_pair.c
@@ -229,7 +226,7 @@ endif
 # embedded atom method (EAM) potentials
 ifneq (,$(strip $(findstring eam,${MAKETARGET})))
   ifneq (,$(findstring 1,${INTERACTION}))
-    ERROR += More than one potential model specified
+    ERROR += "More than one potential model specified!\n"
   endif
   ifneq (,$(strip $(findstring meam,${MAKETARGET})))
     CFLAGS  += -DMEAM
@@ -245,13 +242,16 @@ endif
 ifneq (,$(strip $(findstring coulomb,${MAKETARGET})))
   ifeq (,$(strip $(findstring eam,${MAKETARGET})))
     ifneq (,$(findstring 1,${INTERACTION}))
-      ERROR += More than one potential model specified
+      ERROR += "More than one potential model specified!\n"
     endif
   endif
   ifeq (,$(strip $(findstring apot,${MAKETARGET})))
-    ERROR += COULOMB does not support tabulated potentials
+    ERROR += "COULOMB does not support tabulated potentials!\n"
   endif
-  CFLAGS  += -DCOULOMB
+  CFLAGS += -DCOULOMB
+  ifneq (,$(strip $(findstring dsf,${MAKETARGET})))
+    CFLAGS += -DDSF
+  endif
   INTERACTION = 1
 endif
 
@@ -259,11 +259,14 @@ endif
 ifneq (,$(strip $(findstring dipole,${MAKETARGET})))
   ifeq (,$(strip $(findstring eam,${MAKETARGET})))
     ifneq (,$(findstring 1,${INTERACTION}))
-      ERROR += More than one potential model specified
+      ERROR += "More than one potential model specified!\n"
     endif
   endif
+  ifneq (,$(strip $(findstring dsf,${MAKETARGET})))
+      ERROR += "DIPOLE and DSF are not currently compatible!\\n"
+  endif
   ifeq (,$(strip $(findstring apot,${MAKETARGET})))
-    ERROR += DIPOLE does not support tabulated potentials
+    ERROR += "DIPOLE does not support tabulated potentials!\n"
   endif
   CFLAGS  += -DCOULOMB -DDIPOLE
   INTERACTION = 1
@@ -272,7 +275,7 @@ endif
 # angular dependent potentials (ADP)
 ifneq (,$(strip $(findstring adp,${MAKETARGET})))
   ifneq (,$(findstring 1,${INTERACTION}))
-    ERROR += More than one potential model specified
+    ERROR += "More than one potential model specified!\n"
   endif
   CFLAGS  += -DADP
   INTERACTION = 1
@@ -281,10 +284,10 @@ endif
 # Stillinger-Weber potentials (STIWEB)
 ifneq (,$(strip $(findstring stiweb,${MAKETARGET})))
   ifneq (,$(findstring 1,${INTERACTION}))
-    ERROR += More than one potential model specified
+    ERROR += "More than one potential model specified!\n"
   endif
   ifeq (,$(findstring apot,${MAKETARGET}))
-    ERROR += STIWEB does not work without the apot flag
+    ERROR += "STIWEB does not work without the apot flag!\n"
   endif
   CFLAGS  += -DSTIWEB
   INTERACTION = 1
@@ -293,20 +296,27 @@ endif
 # Tersoff potentials (TERSOFF and TERSOFFMOD)
 ifneq (,$(strip $(findstring tersoff,${MAKETARGET})))
   ifneq (,$(findstring 1,${INTERACTION}))
-    ERROR += "More than one potential model specified."
+    ERROR += "More than one potential model specified!\n"
   endif
   ifeq (,$(findstring apot,${MAKETARGET}))
-    ERROR += "TERSOFF does not work without the apot flag!"
+    ERROR += "TERSOFF does not work without the apot flag!\n"
   endif
   ifneq (,$(findstring tersoffmod,${MAKETARGET}))
     CFLAGS += -DTERSOFFMOD
   endif
-  CFLAGS  += -DTERSOFF
+  CFLAGS += -DTERSOFF
+  INTERACTION = 1
+endif
+
+ifneq (,$(findstring kim,${MAKETARGET}))
+  ifneq (,$(findstring 1,${INTERACTION}))
+    ERROR += "More than one potential model specified.\n"
+  endif
   INTERACTION = 1
 endif
 
 ifneq (,$(findstring 0,${INTERACTION}))
-  ERROR += "No interaction model specified."
+  ERROR += "No interaction model specified!\n"
 endif
 
 # EVO - for differential evolution
@@ -317,7 +327,7 @@ endif
 # APOT - for analytic potentials
 ifneq (,$(findstring apot,${MAKETARGET}))
   ifneq (,$(findstring resc,${MAKETARGET}))
-    ERROR += "Analytic potentials are incompatible with the rescale option!"
+    ERROR += "Analytic potentials are incompatible with the rescale option!\n"
   endif
 CFLAGS += -DAPOT
 endif
@@ -337,23 +347,23 @@ WARNING += "limit is now mandatory -- "
 endif
 
 ifneq (,$(findstring parab,${MAKETARGET}))
-ERROR += "parab is no longer supported, please remove it from your target -- "
+  ERROR += "parab is no longer supported, please remove it from your target!\n"
 endif
 
 ifneq (,$(findstring wzero,${MAKETARGET}))
-ERROR += "wzero is no longer supported, please remove it from your target -- "
+  ERROR += "wzero is no longer supported, please remove it from your target!\n"
 endif
 
 ifneq (,$(findstring dist,${MAKETARGET}))
-ifeq (,$(findstring MPI,${PARALLEL}))
-CFLAGS += -DPDIST
-else
-ERROR += "dist is not mpi parallelized -- "
-endif
+  ifeq (,$(findstring MPI,${PARALLEL}))
+    CFLAGS += -DPDIST
+  else
+    ERROR += "dist is not mpi parallelized!\n"
+  endif
 endif
 
 ifneq (,$(findstring newscale,${MAKETARGET}))
-ERROR += "newscale is no longer supported, please remove it from your target -- "
+  ERROR += "newscale is no longer supported, please remove it from your target!\n"
 endif
 
 ifneq (,$(findstring fweight,${MAKETARGET}))
@@ -364,21 +374,23 @@ ifneq (,$(findstring contrib,${MAKETARGET}))
 CFLAGS += -DCONTRIB
 endif
 
+ifneq (,$(findstring mkl,${MAKETARGET}))
+  ifneq (,$(findstring acml,${MAKETARGET}))
+    ERROR += "ACML cannot be used together with MKL.\n"
+  endif
+endif
+
 # force acml4 or acml5 over acml
 ifneq (,$(findstring acml,${MAKETARGET}))
-ifeq (,$(findstring acml4,${MAKETARGET}))
-ifeq (,$(findstring acml5,${MAKETARGET}))
-ERROR += The acml target is obsolete. Please use acml4 or acml5.
-endif
-endif
-endif
-
-ifneq (,$(findstring acml4,${MAKETARGET}))
-CFLAGS += -DACML -DACML4
-endif
-
-ifneq (,$(findstring acml5,${MAKETARGET}))
-CFLAGS += -DACML -DACML5
+  ifneq (,$(findstring mkl,${MAKETARGET}))
+    ERROR += "ACML cannot be used together with MKL.\n"
+  endif
+  ifeq (,$(findstring acml4,${MAKETARGET}))
+    ifeq (,$(findstring acml5,${MAKETARGET}))
+      ERROR += "The acml target is obsolete. Please use acml4 or acml5.\n"
+    endif
+  endif
+  CFLAGS += -DACML
 endif
 
 ifneq (,$(findstring resc,${MAKETARGET}))
@@ -389,16 +401,46 @@ ifneq (,$(findstring uq,${MAKETARGET}))
 CFLAGS += -DUQ
 endif
 
-ifneq (,$(findstring maxstep,${MAKETARGET}))
-CFLAGS += -DMAX_STEP
+
+ifneq (,$(findstring minstep,${MAKETARGET}))
+CFLAGS += -DMIN_STEP
 endif
+
+# compability with KIM
+ifneq ($(findstring kim,${MAKETARGET}),)
+  ifeq ($(findstring kim-toolchain,${SYSTEM}),)
+    ERROR += "KIM support requires the SYSTEM variable setting 'kim-toolchain'.\n"
+  endif
+endif
+ifneq ($(findstring kim-toolchain,${SYSTEM}),)
+  ifeq ($(findstring kim,${MAKETARGET}),)
+    ERROR += "SYSTEM=kim-toolchain is not supported for non-KIM builds.\n"
+  endif
+endif
+
+ifneq (,$(findstring kim,${MAKETARGET}))
+  ifeq ($(shell kim-api-build-config --version 2> /dev/null),)
+    ERROR += "kim-api-build-config could not be found. Check your PATH variable.\n"
+  endif
+  ifneq (,$(findstring apot,${MAKETARGET}))
+    ERROR += "KIM option uses the OpenKIM internal data format, please remove apot from target!\n"
+  endif
+  ifneq (,$(findstring dist,${MAKETARGET}))
+    ERROR += "KIM potential does not support dist option!\n"
+  endif
+  ifneq (,$(findstring resc,${MAKETARGET}))
+    ERROR += "KIM potential does not support resc option!\n"
+  endif
+endif
+
+CFLAGS += -D${TARGET} -D${MATH_LIB} 
 
 # Substitute .o for .c to get the names of the object files
 OBJECTS := $(subst .c,.o,${SOURCES})
 
 ###########################################################################
 #
-#	 Rules
+# targets for building potfit
 #
 ###########################################################################
 
@@ -434,71 +476,51 @@ utils.o: utils.c
 
 # generic compilation rule
 %.o: %.c
-ifeq (,${MAKETARGET})
-	@echo -e "Usage:"
-	@echo -e "  make potfit_[interaction]_[options]\n"
-	@echo "For more details on compiling potfit please look at the Makefile"
-	@exit
-else
 	@echo " [CC] ${@:.o=.c}"
 	@${CC} ${CFLAGS} -c $< || { \
 		echo -e "The following command failed with the above error:\n"; \
 		echo -e ${CC} ${CFLAGS} -c $<"\n"; \
-		exit 1; \
+		exit -1; \
 		}
+
+# check for errors here
+.PHONY: errors
+errors:
+ifneq (,${ERROR})
+	@echo -e "\nThe following error(s) occurred:"
+	@echo -e ${ERROR}
+	@exit -1
 endif
 
 # How to link
-${MAKETARGET}: ${OBJECTS}
+${MAKETARGET}: errors ${OBJECTS}
 	@echo " [LD] $@"
-ifeq (,${BIN_DIR})
 	@${CC} ${LFLAGS_${PARALLEL}} -o $@ ${OBJECTS} ${LIBS}
-else
-	@${CC} ${LFLAGS_${PARALLEL}} -o ${BIN_DIR}/$@ ${OBJECTS} ${LIBS}
-endif
-ifneq (,${STRIP})
-  ifeq (,$(findstring prof,${MAKETARGET}))
-    ifeq (,$(findstring debug,${MAKETARGET}))
-      ifeq (,${BIN_DIR})
-	@${STRIP} -x $@
-      else
-	@${STRIP} -x ${BIN_DIR}/$@
+
+ifneq (${TARGET},MACOS)
+  ifneq (,${STRIP})
+    ifeq (,$(findstring prof,${MAKETARGET}))
+      ifeq (,$(findstring debug,${MAKETARGET}))
+        ifeq (,$(findstring asan,${MAKETARGET}))
+	@${STRIP} --strip-unneeded -R .comment $@
+        endif
       endif
     endif
   endif
 endif
-	@echo -e "Building $@ was sucessfull."
 
-# First recursion only set the MAKETARGET Variable
-.DEFAULT:
-ifneq (,${CC})
-	@${MAKE} --no-print-directory MAKETARGET='$@' STAGE2
-else
-	@echo "There is no compiler defined for this option."
-	@echo -e "Please adjust the Makefile.\n"
-	@exit
+ifneq (,${BIN_DIR})
+  ifneq (,$(wildcard ../${BIN_DIR}))
+	@mv $@ ../${BIN_DIR}
+  endif
 endif
-
-
-# Second recursion sets MAKETARGET variable and compiles
-# An empty MAKETARGET variable would create an infinite recursion, so we check
-STAGE2:
-ifneq (,${ERROR})
-	@echo -e "\nError: ${ERROR}\n"
-else
-ifneq (,${MAKETARGET})
-ifneq (,${WARNING})
-	@echo "${WARNING}"
-endif
-	@${MAKE} MAKETARGET='${MAKETARGET}' ${MAKETARGET}
-else
-	@echo 'No TARGET specified.'
-endif
-endif
+	@echo -e "\nCompiled with options"
+	@echo -e "CC=${CC} \nCFLAGS=${CFLAGS} \nLIBS=${LIBS}\n"
+	@echo -e "Building $@ was successful."
 
 ###########################################################################
 #
-#	 Misc. TARGETs
+# misc. targets
 #
 ###########################################################################
 
@@ -507,6 +529,3 @@ clean:
 
 distclean:
 	@rm -f *.o *.u *~ \#* *.V *.T *.O *.il
-
-help:
-	@echo "Usage: make potfit[_<parallel>][_<option>[_<option>...]]"

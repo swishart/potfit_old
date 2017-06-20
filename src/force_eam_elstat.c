@@ -5,9 +5,9 @@
  * AND eam forces/energies
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -141,6 +141,8 @@ double calc_forces(double* xi_opt, double* forces, int flag)
     case POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST:
       xi = xi_opt;
       break;
+    case POTENTIAL_FORMAT_KIM:
+      error(1, "KIM format is not supported by EAM elstat force routine!");
   }
 
 #if !defined(MPI)
@@ -248,6 +250,8 @@ double calc_forces(double* xi_opt, double* forces, int flag)
                     g_pot.calc_pot.last[col] - first + 1, *(xi + first - 2),
                     0.0, g_pot.calc_pot.d2tab + first);
         }
+        case POTENTIAL_FORMAT_KIM:
+          error(1, "KIM format is not supported by EAM elstat force routine!");
       }
     }
 
@@ -273,6 +277,8 @@ double calc_forces(double* xi_opt, double* forces, int flag)
                     g_pot.calc_pot.last[col] - first + 1, *(xi + first - 2),
                     *(xi + first - 1), g_pot.calc_pot.d2tab + first);
         }
+        case POTENTIAL_FORMAT_KIM:
+          error(1, "KIM format is not supported by EAM elstat force routine!");
       }
     }
 

@@ -5,9 +5,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -133,7 +133,8 @@ double calc_forces(double* xi_opt, double* forces, int flag)
 
   switch (g_pot.format_type) {
     case POTENTIAL_FORMAT_UNKNOWN:
-      break;
+      error(1, "Unknown potential format detected! (%s:%d)\n", __FILE__,
+            __LINE__);
     case POTENTIAL_FORMAT_ANALYTIC:
       xi = g_pot.calc_pot.table;
       break;
@@ -141,6 +142,8 @@ double calc_forces(double* xi_opt, double* forces, int flag)
     case POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST:
       xi = xi_opt;
       break;
+    case POTENTIAL_FORMAT_KIM:
+      error(1, "KIM format is not supported by elstat force routine!");
   }
 
   ne = g_pot.apot_table.total_ne_par;
@@ -239,6 +242,8 @@ double calc_forces(double* xi_opt, double* forces, int flag)
                     g_pot.calc_pot.last[col] - first + 1, *(xi + first - 2),
                     0.0, g_pot.calc_pot.d2tab + first);
         }
+        case POTENTIAL_FORMAT_KIM:
+          error(1, "KIM format is not supported by elstat force routine!");
       }
     }
 

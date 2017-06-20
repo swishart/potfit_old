@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -30,7 +30,7 @@
 #ifndef MPI_UTILS_H_INCLUDED
 #define MPI_UTILS_H_INCLUDED
 
-int init_mpi(int* argc, char*** argv);
+int initialize_mpi(int* argc, char*** argv);
 void shutdown_mpi();
 int broadcast_params_mpi();
 void potsync();

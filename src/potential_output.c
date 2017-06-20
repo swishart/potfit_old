@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -467,6 +467,61 @@ void write_pot_table4(char const* filename)
 }
 
 /****************************************************************
+<<<<<<< HEAD
+=======
+ *
+ *  write potential table (format 5)
+ *
+ ****************************************************************/
+
+void write_pot_table5(char const* filename)
+{
+#if defined(KIM)
+  pot_table_t* pt = &g_pot.opt_pot;
+
+  // open file
+  FILE* outfile = fopen(filename, "w");
+  if (outfile == NULL)
+    error(1, "Could not open file %s\n", filename);
+
+  // write header
+  fprintf(outfile, "#F 5 1");
+  fprintf(outfile, "\n#C");
+  for (int i = 0; i < g_param.ntypes; i++)
+    fprintf(outfile, " %s", g_config.elements[i]);
+  fprintf(outfile, "\n#E\n\n");
+
+  // write KIM Model name
+  fprintf(outfile, "# KIM Model name\n");
+  fprintf(outfile, "model\t%s\n\n", g_kim.model_name);
+
+  // write cutoff
+  fprintf(outfile, "# cutoff distance\n");
+  fprintf(outfile, "cutoff\t%f\n\n", g_config.rcutmax);
+
+  // number of opt params
+  fprintf(outfile, "# the number of optimizable parameters that will be listed below\n");
+  fprintf(outfile, "# use 'kim_opt_param list' to get a list of supported parameters for the current model\n");
+  fprintf(outfile, "kim_opt_param\t%d\n\n", g_kim.num_opt_param);
+
+  // write data
+  int k = 0;
+  fprintf(outfile, "# parameters\n");
+  for (int i = 0; i < g_kim.num_opt_param; i++) {
+    fprintf(outfile, "%s\n", g_kim.freeparams.name[g_kim.idx_opt_param[i]]);
+    for (int j = 0; j < g_kim.size_opt_param[i]; j++) {
+      fprintf(outfile, "  %f\t", pt->table[k]);
+      fprintf(outfile, "%f\t%f\n", g_pot.apot_table.pmin[0][k], g_pot.apot_table.pmax[0][k]);
+      k++;
+    }
+  }
+
+  fclose(outfile);
+#endif
+}
+
+/****************************************************************
+>>>>>>> 5b114eb6a53d5cf08d9cc613596d898595245b19
   write plot version of potential table
 ****************************************************************/
 
@@ -622,51 +677,43 @@ void write_plotpot_pair(pot_table_t* pt, const char* filename)
 
 void write_pairdist(pot_table_t* pt, const char* filename)
 {
-  int h, i, j, typ1, typ2, col;
-#if defined(EAM)
-  int k = 0;
-  int l = 0;
-#endif  // EAM
-  double rr;
-  atom_t* atom;
-  neigh_t* neigh;
-  FILE* outfile;
-
-  /* open file */
-  outfile = fopen(filename, "w");
-  if (NULL == outfile)
+  // open file
+  FILE* outfile = fopen(filename, "w");
+  if (outfile == NULL)
     error(1, "Could not open file %s\n", filename);
 
-  /* initialize distribution vector */
+  // initialize distribution vector
   int freq[g_calc.ndimtot];
+  memset(freq, 0, sizeof(freq));
 
-  for (h = g_mpi.firstconf; h < g_mpi.firstconf + g_mpi.myconf; h++) {
-    for (i = 0; i < g_config.inconf[h]; i++) {
-      atom = g_config.atoms + i + g_config.cnfstart[h];
-      typ1 = atom->type;
+  for (int h = g_mpi.firstconf; h < g_mpi.firstconf + g_mpi.myconf; h++) {
+    for (int i = 0; i < g_config.inconf[h]; i++) {
+      atom_t* atom = g_config.atoms + i + g_config.cnfstart[h];
+      int typ1 = atom->type;
 
-      /* pair potentials */
-      for (j = 0; j < atom->num_neigh; j++) {
-        neigh = atom->neigh + j;
-        typ2 = neigh->type;
-        col = (typ1 <= typ2)
+      // pair potentials
+      for (int j = 0; j < atom->num_neigh; j++) {
+        neigh_t* neigh = atom->neigh + j;
+        int typ2 = neigh->type;
+        int col = (typ1 <= typ2)
                   ? typ1 * g_param.ntypes + typ2 - ((typ1 * (typ1 + 1)) / 2)
                   : typ2 * g_param.ntypes + typ1 - ((typ2 * (typ2 + 1)) / 2);
-        /* this has already been calculated */
+        // this has already been calculated
         if (neigh->r < pt->end[col])
           freq[neigh->slot[0]]++;
 #if defined(EAM)
-        /* transfer function */
+        // transfer function
         col = g_calc.paircol + typ2;
         if (neigh->r < pt->end[col])
           freq[neigh->slot[1]]++;
 #endif  // EAM
       }
 #if defined(EAM)
-      /* embedding function - get index first */
-      col = g_calc.paircol + g_param.ntypes + typ1;
+      // embedding function - get index first
+      int col = g_calc.paircol + g_param.ntypes + typ1;
+      int j = 0;
       if (g_pot.format_type == POTENTIAL_FORMAT_TABULATED_EQ_DIST) {
-        rr = atom->rho - pt->begin[col];
+        double rr = atom->rho - pt->begin[col];
 #if defined(RESCALE)
         if (rr < 0.0)
           error(1, "short distance\n");
@@ -677,12 +724,11 @@ void write_pairdist(pot_table_t* pt, const char* filename)
         j = MIN((int)(rr * pt->invstep[col]) + pt->first[col], pt->last[col]);
 #endif         // RESCALE
       } else { /* format ==4 */
-        rr = atom->rho;
-        k = pt->first[col];
-        l = pt->last[col];
+        int k = pt->first[col];
+        int l = pt->last[col];
         while (l - k > 1) {
           j = (k + l) >> 1;
-          if (pt->xcoord[j] > rr)
+          if (pt->xcoord[j] > atom->rho)
             l = j;
           else
             k = j;
@@ -693,11 +739,11 @@ void write_pairdist(pot_table_t* pt, const char* filename)
 #endif  // EAM
     }
   }
-  /* finished calculating data - write it to output file */
-  j = 0;
-  for (col = 0; col < pt->ncols; col++) {
-    for (i = pt->first[col]; i < pt->last[col]; i++) {
-      rr = 0.5 * (pt->xcoord[i] + pt->xcoord[i + 1]);
+
+  // finished calculating data - write it to output file
+  for (int col = 0; col < pt->ncols; col++) {
+    for (int i = pt->first[col]; i < pt->last[col]; i++) {
+      double rr = 0.5 * (pt->xcoord[i] + pt->xcoord[i + 1]);
       fprintf(outfile, "%f %d\n", rr, freq[i]);
     }
     fprintf(outfile, "\n\n");

@@ -1,6 +1,6 @@
 /****************************************************************
  *
- * forces.h: General settings for force routines
+ * kim.h: header file for KIM interface
  *
  ****************************************************************
  *
@@ -27,31 +27,26 @@
  *
  ****************************************************************/
 
-#ifndef FORCE_H_INCLUDED
-#define FORCE_H_INCLUDED
+#ifndef KIM_H_INCLUDED
+#define KIM_H_INCLUDED
 
-double calc_forces(double* xi_opt, double* forces, int shutdown_flag);
-extern double (*g_splint)(pot_table_t*, double*, int, double);
-extern double (*g_splint_grad)(pot_table_t*, double*, int, double);
-extern double (*g_splint_comb)(pot_table_t*, double*, int, double, double*);
+#if defined(KIM)
 
-// common force initialization (force_common.cc)
-void init_force_common(int is_worker);
-// individual force initialization (force_XXX.cc)
-void init_force(int is_worker);
+#include "KIM_API_C.h"
+#include "KIM_API_status.h"
 
-void set_force_vector_pointers();
-void gather_variable(double* var);
-void gather_forces(double* error_sum, double* forces);
+#include "kim.h"
 
-void update_splines(double* xi, int start_col, int num_col, int grad_flag);
+#if !defined(DIM)
+#define DIM 3
+#else
+STATIC_ASSERT(DIM==3, potfit_kim_support_requires_DIM_eq_3);
+#endif
 
-#if defined(STIWEB)
-void update_stiweb_pointers(double*);
-#endif  // STIWEB
+// called from potfit.c
+void initialize_KIM();
+void shutdown_KIM();
 
-#if defined(TERSOFF)
-void update_tersoff_pointers(double*);
-#endif  // TERSOFF
+#endif // KIM
 
-#endif  // FORCE_H_INCLUDED
+#endif // KIM_H_INCLUDED

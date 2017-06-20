@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -135,6 +135,7 @@ void write_errors(double* force, double tot)
     rms[1] = sqrt(rms[1] / g_config.nconf);
   }
 
+#if defined(STRESS)
   // stresses
   if (g_param.sweight != 0) {
     for (int i = 0; i < g_config.nconf; i++)
@@ -145,6 +146,7 @@ void write_errors(double* force, double tot)
       rms[2] = 0.0;
     rms[2] = sqrt(rms[2] / (6 * g_config.nconf));
   }
+#endif  // STRESS
 
   if (g_param.write_output_files) {
     fprintf(outfile, "sum of force-errors  = %e\t\t( %.3f%% - av: %f)\n", f_sum,
@@ -301,8 +303,6 @@ double write_force_errors(double* force)
   component[1] = 'y';
   component[2] = 'z';
 
-  fprintf(outfile, "#conf:atom\ttype\tdf^2\t\tf\t\tf0\t\tdf/f0\t\t|f|\n");
-
   for (int i = 0; i < 3 * g_config.natoms; i++) {
 #if defined(CONTRIB)
     if (g_config.atoms[i / 3].contrib == 0)
@@ -316,6 +316,8 @@ double write_force_errors(double* force)
     if (i > 2 && i % 3 == 0 &&
         g_config.atoms[i / 3].conf != g_config.atoms[i / 3 - 1].conf)
       fprintf(outfile, "\n\n");
+    if (i == 0)
+      fprintf(outfile, "#conf:atom\ttype\tdf^2\t\tf\t\tf0\t\tdf/f0\t\t|f|\n");
     fprintf(outfile, "%3d:%6d:%c\t%4s\t%e\t%e\t%e\t%e\t%e\n",
             g_config.atoms[i / 3].conf, i / 3, component[i % 3],
             g_config.elements[g_config.atoms[i / 3].type], sqr,
@@ -445,12 +447,14 @@ double write_stress_errors(double* force)
     fprintf(outfile, "Stresses on unit cell\n");
   }
 
-  strcpy(component[0], "xx\0");
-  strcpy(component[1], "yy\0");
-  strcpy(component[2], "zz\0");
-  strcpy(component[3], "xy\0");
-  strcpy(component[4], "yz\0");
-  strcpy(component[5], "zx\0");
+  memset(component, 0, sizeof(component));
+
+  strcpy(component[0], "xx");
+  strcpy(component[1], "yy");
+  strcpy(component[2], "zz");
+  strcpy(component[3], "xy");
+  strcpy(component[4], "yz");
+  strcpy(component[5], "zx");
 
   fprintf(outfile, "#\tconf_w\tw*ds^2\t\ts\t\ts0\t\tds/s0\n");
 

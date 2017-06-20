@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -58,7 +58,7 @@ int broadcast_angles();
   set up MPI communication
 ****************************************************************/
 
-int init_mpi(int* argc, char*** argv)
+int initialize_mpi(int* argc, char*** argv)
 {
 #if defined(MPI)
   // initialize the MPI communication

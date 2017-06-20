@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -51,6 +51,9 @@
   (A) = (B);          \
   (B) = (C);
 
+// very simple static assert
+#define STATIC_ASSERT(COND,MSG) typedef char static_assertion_##MSG[(COND)?1:-1]
+
 // include preprocessor flags and certain compile time constants
 #include "defines.h"
 
@@ -62,6 +65,9 @@
 extern potfit_calculation g_calc;
 extern potfit_configurations g_config;
 extern potfit_filenames g_files;
+#if defined(KIM)
+extern potfit_kim g_kim;
+#endif
 extern potfit_mpi_config g_mpi;
 extern potfit_parameters g_param;
 extern potfit_potentials g_pot;

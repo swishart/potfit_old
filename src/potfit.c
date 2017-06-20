@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -55,6 +55,9 @@ void start_mpi_worker(double* force);
 potfit_calculation g_calc;
 potfit_configurations g_config;
 potfit_filenames g_files;
+#if defined(KIM)
+potfit_kim g_kim;
+#endif // KIM
 potfit_mpi_config g_mpi;
 potfit_parameters g_param;
 potfit_potentials g_pot;
@@ -68,9 +71,7 @@ int main(int argc, char** argv)
 
   initialize_global_variables();
 
-  int ret = init_mpi(&argc, &argv);
-
-  if (ret != POTFIT_SUCCESS) {
+  if (initialize_mpi(&argc, &argv) != POTFIT_SUCCESS) {
     shutdown_mpi();
     return EXIT_FAILURE;
   }
@@ -79,9 +80,11 @@ int main(int argc, char** argv)
 
   g_mpi.init_done = 1;
 
-  ret = broadcast_params_mpi();
+#if defined(KIM)
+  initialize_KIM();
+#endif // KIM
 
-  switch (ret) {
+  switch (broadcast_params_mpi()) {
     case POTFIT_ERROR_MPI_CLEAN_EXIT:
       shutdown_mpi();
       return EXIT_SUCCESS;
@@ -215,9 +218,13 @@ int main(int argc, char** argv)
   shutdown_mpi();
 #endif  // MPI
 
+#if defined(KIM)
+  shutdown_KIM();
+#endif  // KIM
+
   free_allocated_memory();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 /****************************************************************
@@ -286,9 +293,11 @@ void error(int done, const char* msg, ...)
 
   if (done == 1) {
 #if defined(MPI)
-    /* go wake up other threads */
-    calc_forces(NULL, NULL, 1);
-    shutdown_mpi();
+    if (g_mpi.init_done == 1) {
+      /* go wake up other threads */
+      calc_forces(NULL, NULL, 1);
+      shutdown_mpi();
+    }
 #endif  // MPI
     free_allocated_memory();
     exit(EXIT_SUCCESS);

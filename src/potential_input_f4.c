@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -32,6 +32,15 @@
 #include "memory.h"
 #include "potential_input.h"
 #include "utils.h"
+
+#if defined(APOT)
+
+void read_pot_table4(char const* a, FILE* b, potential_state* c)
+{
+  error(1, "Unsupported potential format in %s", a);
+}
+
+#else
 
 void init_calc_table4();
 

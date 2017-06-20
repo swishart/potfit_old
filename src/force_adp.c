@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -209,7 +209,7 @@ double calc_forces(double* xi_opt, double* forces, int flag)
           forces[n_i + 1] = -g_config.force_0[n_i + 1];
           forces[n_i + 2] = -g_config.force_0[n_i + 2];
         } else {
-          memset(forces + 3 * n_i, 0, 3 * sizeof(double));
+          memset(forces + n_i, 0, 3 * sizeof(double));
         }
         // reset atomic density, dipole and quadrupol distortions
         atom_t* atom = &g_config.conf_atoms[n_i / 3 - g_mpi.firstatom];

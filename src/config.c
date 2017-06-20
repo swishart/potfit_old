@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -102,18 +102,17 @@ void read_config(const char* filename)
 
   // initialize elements array if not yet done from potential file
   if (g_config.elements == NULL) {
-    g_config.elements = (char**)Malloc(g_param.ntypes * sizeof(char*));
+    g_config.elements = (char const**)Malloc(g_param.ntypes * sizeof(char*));
     for (int i = 0; i < g_param.ntypes; i++) {
       g_config.elements[i] = (char*)Malloc(5 * sizeof(char));
-      sprintf(g_config.elements[i], "%d", i);
-      g_config.elements[i][i < 10 ? 1 : 2] = '\0';
+      sprintf((char*)g_config.elements[i], "%d", i);
+      *((char*)g_config.elements[i] + (i < 10 ? 1 : 2)) = '\0';
     }
   } else
     cstate.num_fixed_elements = g_param.ntypes;
 
   // initialize minimum distance array
-  double* mindist =
-      (double*)Malloc(g_param.ntypes * g_param.ntypes * sizeof(double));
+  double* mindist = (double*)Malloc(isquare(g_param.ntypes) * sizeof(double));
 
   // set maximum cutoff distance as starting value for mindist
   for (int i = 0; i < g_param.ntypes * g_param.ntypes; i++)
@@ -181,6 +180,11 @@ void read_config(const char* filename)
 #if defined(STRESS)
     cstate.stresses = g_config.stress + g_config.nconf;
 #endif  // STRESS
+
+#if defined(KIM)
+    if (g_kim.NBC == KIM_NEIGHBOR_TYPE_OPBC)
+      g_kim.box_vectors = (double *) Realloc(g_kim.box_vectors, 3*(g_config.nconf+1)*sizeof(double));
+#endif  // KIM
 
     // read header lines
     do {
@@ -330,6 +334,22 @@ void read_config(const char* filename)
 
     g_config.volume[g_config.nconf] = make_box(&cstate);
 
+#if defined(KIM)
+    if (g_kim.NBC == KIM_NEIGHBOR_TYPE_OPBC) {
+      double small_value = 1e-8;
+      if(cstate.box_x.y > small_value || cstate.box_x.z > small_value
+	    || cstate.box_y.z > small_value || cstate.box_y.x > small_value
+	    || cstate.box_z.x > small_value || cstate.box_z.y > small_value){
+        error(1,"KIM: simulation box of configuration %d is not orthogonal. Try to use 'NEIGH_RVEC' "
+	      "instead of 'MI_OPBC'.\n", g_config.nconf);
+      } else {
+        // store the box size info in box_vectors
+        g_kim.box_vectors[3 * g_config.nconf + 0] = cstate.box_x.x;
+        g_kim.box_vectors[3 * g_config.nconf + 1] = cstate.box_y.y;
+        g_kim.box_vectors[3 * g_config.nconf + 2] = cstate.box_z.z;
+      }
+    }
+#endif   // KIM
     // read the atoms
     for (int i = 0; i < cstate.atom_count; i++) {
       atom_t* atom = g_config.atoms + g_config.natoms + i;
@@ -422,6 +442,24 @@ void read_config(const char* filename)
     error(1, "Please adjust \"ntypes\" in your parameter file.\n");
   }
 
+#if defined(KIM)
+  if (g_param.ntypes > g_kim.freeparams.nspecies)
+    error(1, "The KIM model %s does only support %d species!\n", g_kim.model_name, g_kim.freeparams.nspecies);
+
+  // check if all atom types are supported by the KIM model
+  for (int i = 0; i < g_param.ntypes; ++i) {
+    int found = 0;
+    for (int j = 0; j < g_kim.freeparams.nspecies; ++j) {
+      if (strcmp(g_config.elements[i], g_kim.freeparams.species[j]) == 0) {
+        found = 1;
+        break;
+      }
+    }
+    if (!found)
+      error(1, "The KIM model %s does not support the species %s!\n", g_kim.model_name, g_config.elements[i]);
+  }
+#endif // KIM
+
   /* mdim is the dimension of the force vector:
      - 3*natoms forces
      - nconf cohesive energies,
@@ -431,25 +469,25 @@ void read_config(const char* filename)
   g_calc.mdim += 6 * g_config.nconf;
 #endif  // STRESS
 
-/* mdim has additional components for EAM-like potentials */
+  // mdim has additional components for EAM-like potentials
 #if defined(EAM) || defined(ADP) || defined(MEAM)
-  g_calc.mdim += g_config.nconf;     /* nconf limiting constraints */
-  g_calc.mdim += 2 * g_param.ntypes; /* g_param.ntypes dummy constraints */
+  g_calc.mdim += g_config.nconf;     // nconf limiting constraints
+  g_calc.mdim += 2 * g_param.ntypes; // g_param.ntypes dummy constraints
 #if defined(TBEAM)
   g_calc.mdim +=
-      2 * g_param.ntypes; /* additional dummy constraints for s-band */
+      2 * g_param.ntypes; // additional dummy constraints for s-band
 #endif                    // TBEAM
 #endif                    // EAM || ADP || MEAM
 
-/* mdim has additional components for analytic potentials */
+  // mdim has additional components for analytic potentials
 #if defined(APOT)
-  /* 1 slot for each analytic parameter -> punishment */
+  // 1 slot for each analytic parameter -> punishment
   g_calc.mdim += g_pot.opt_pot.idxlen;
-  /* 1 slot for each analytic potential -> punishment */
+  // 1 slot for each analytic potential -> punishment
   g_calc.mdim += g_pot.apot_table.number + 1;
 #endif  // APOT
 
-  /* copy forces into single vector */
+  // copy forces into single vector
   g_config.force_0 = (double*)Malloc(g_calc.mdim * sizeof(double));
 
   int k = 0;
@@ -567,7 +605,9 @@ void read_config(const char* filename)
     }
   }
 
+#if !defined(KIM)
   update_slots();
+#endif  // KIM
 #endif  // APOT
 
   print_minimal_distances_matrix(mindist);
@@ -826,14 +866,14 @@ void read_sphere_center(char const* pline, config_state* cstate)
 void read_chemical_elements(char* psrc, config_state* cstate)
 {
   int i = 0;
-  char const* pchar = strtok(psrc + 3, " \t");
+  char const* pchar = strtok(psrc + 3, " \t\r\n");
 
   if (!cstate->num_fixed_elements) {
     while (pchar != NULL && i < g_param.ntypes) {
       int len = max(strlen(pchar), 4);
-      strncpy(g_config.elements[i], pchar, len);
-      g_config.elements[i][len] = '\0';
-      pchar = strtok(NULL, " \t");
+      strncpy((char*)g_config.elements[i], pchar, len);
+      *((char*)g_config.elements[i] + len) = '\0';
+      pchar = strtok(NULL, " \t\r\n");
       i++;
       cstate->num_fixed_elements++;
     }
@@ -842,19 +882,19 @@ void read_chemical_elements(char* psrc, config_state* cstate)
       if (strcmp(pchar, g_config.elements[i]) != 0) {
         if (atoi(g_config.elements[i]) == i && i > cstate->num_fixed_elements) {
           int len = max(strlen(pchar), 4);
-          strncpy(g_config.elements[i], pchar, len);
-          g_config.elements[i][len] = '\0';
+          strncpy((char*)g_config.elements[i], pchar, len);
+          *((char*)g_config.elements[i] + len) = '\0';
           cstate->num_fixed_elements++;
         } else {
           error(0, "Mismatch found in configuration %d, line %d.\n",
                 cstate->config, cstate->line);
           error(0, "Expected element >> %s << but found element >> %s <<.\n",
                 g_config.elements[i], pchar);
-          error(0, "You can use list_config to identify that configuration.\n");
+          error(0, "You may use the 'list_config' utility to identify that configuration.\n");
           error(1, "Please check your configuration files!\n");
         }
       }
-      pchar = strtok(NULL, " \t");
+      pchar = strtok(NULL, " \t\r\n");
       i++;
     }
   }
@@ -971,7 +1011,9 @@ void init_neighbors(config_state* cstate, double* mindist)
                         g_config.atoms[i].pos.y, g_config.atoms[i].pos.z);
                 warning(" atom %d (type %d) at pos: %f %f %f\n",
                         j - g_config.natoms, type2, dd.x, dd.y, dd.z);
+#if !defined(KIM)
                 short_distance = 1;
+#endif // !KIM
               }
               g_config.atoms[i].neigh = (neigh_t*)Realloc(
                   g_config.atoms[i].neigh,
@@ -1006,8 +1048,8 @@ void init_neighbors(config_state* cstate, double* mindist)
 
               /* pre-compute index and shift into potential table */
 
-              /* pair potential */
               if (!short_distance) {
+                /* pair potential */
                 int col = (type1 <= type2)
                               ? type1 * g_param.ntypes + type2 -
                                     ((type1 * (type1 + 1)) / 2)

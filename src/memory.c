@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -49,7 +49,7 @@ typedef struct {
   int num_pointers;
 } potfit_memory;
 
-potfit_memory g_memory;
+static potfit_memory g_memory;
 
 /****************************************************************
  *
@@ -61,7 +61,7 @@ potfit_memory g_memory;
 void* Malloc(size_t size)
 {
   if (size == 0)
-    error(1, "Allocating memory with size=0!\n");
+    error(1, "Allocating memory with size 0!\n");
 
   void* p = malloc(size);
 
@@ -93,7 +93,7 @@ void* Malloc(size_t size)
 void* Realloc(void* pvoid, size_t size)
 {
   if (size == 0)
-    error(1, "Reallocating memory with size=0!\n");
+    error(1, "Reallocating memory with size 0!\n");
 
   if (pvoid == NULL)
     return Malloc(size);
@@ -123,6 +123,11 @@ void initialize_global_variables()
   memset(&g_config, 0, sizeof(g_config));
   memset(&g_files, 0, sizeof(g_files));
 
+  g_config.rcutmin = 999.9;
+
+#if defined(KIM)
+  memset(&g_kim, 0, sizeof(g_kim));
+#endif // KIM
   g_mpi.init_done = 0;
   g_mpi.myid = 0;
   g_mpi.num_cpus = 1;
@@ -139,7 +144,6 @@ void initialize_global_variables()
 
   memset(&g_param, 0, sizeof(g_param));
   g_param.sweight = -1.0;
-
   g_param.global_cell_scale = 1.0;
 #if defined(EVO)
   g_param.evo_threshold = 1.0e-6;
@@ -167,7 +171,11 @@ void initialize_global_variables()
   g_memory.num_pointers = 0;
 
 #if defined(PAIR)
+#if !defined(KIM)
   init_interaction_name("PAIR");
+#else
+  init_interaction_name("KIM");
+#endif // !KIM
 #elif defined(EAM) && !defined(COULOMB)
 #if !defined(TBEAM)
   init_interaction_name("EAM");

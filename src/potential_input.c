@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -46,14 +46,12 @@ void allocate_memory_for_potentials(potential_state* pstate);
 void calculate_cutoffs();
 void read_maxch_file();
 
-#if defined(APOT)
 void read_pot_table0(char const* potential_filename, FILE* pfile);
-#else
 void read_pot_table3(char const* potential_filename, FILE* pfile,
                      potential_state* pstate);
 void read_pot_table4(char const* potential_filename, FILE* pfile,
                      potential_state* pstate);
-#endif  // APOT
+void read_pot_table5(char const* potential_filename, FILE* pfile);
 
 /****************************************************************
  *
@@ -64,7 +62,6 @@ void read_pot_table4(char const* potential_filename, FILE* pfile,
 void read_pot_table(char const* potential_filename)
 {
   char buffer[1024];
-  char* res = NULL;
 
   potential_state pstate;
 
@@ -86,9 +83,7 @@ void read_pot_table(char const* potential_filename)
   // read the header
   do {
     // read one line
-    res = fgets(buffer, 1024, pfile);
-
-    if (NULL == res)
+    if (NULL == fgets(buffer, 1024, pfile))
       error(1, "Unexpected end of file in %s\n", potential_filename);
 
     // check if it is a header line
@@ -129,24 +124,21 @@ void read_pot_table(char const* potential_filename)
   allocate_memory_for_potentials(&pstate);
 
   switch (g_pot.format_type) {
+    case POTENTIAL_FORMAT_ANALYTIC:
+      read_pot_table0(potential_filename, pfile);
+      break;
+    case POTENTIAL_FORMAT_TABULATED_EQ_DIST:
+      read_pot_table3(potential_filename, pfile, &pstate);
+      break;
+    case POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST:
+      read_pot_table4(potential_filename, pfile, &pstate);
+      break;
+    case POTENTIAL_FORMAT_KIM:
+      read_pot_table5(potential_filename, pfile);
+      break;
     case POTENTIAL_FORMAT_UNKNOWN:
       error(1, "Unknown potential format detected! (%s:%d)\n", __FILE__,
             __LINE__);
-    case POTENTIAL_FORMAT_ANALYTIC:
-#if defined(APOT)
-      read_pot_table0(potential_filename, pfile);
-#endif  // APOT
-      break;
-    case POTENTIAL_FORMAT_TABULATED_EQ_DIST:
-#if !defined(APOT)
-      read_pot_table3(potential_filename, pfile, &pstate);
-#endif  // !APOT
-      break;
-    case POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST:
-#if !defined(APOT)
-      read_pot_table4(potential_filename, pfile, &pstate);
-#endif  // !APOT
-      break;
   }
 
   fclose(pfile);
@@ -164,53 +156,44 @@ void read_pot_table(char const* potential_filename)
 
 void read_pot_line_F(char const* pbuf, potential_state* pstate)
 {
-  int format = -1;
-
-  // format complete?
+  int format = POTENTIAL_FORMAT_UNKNOWN;
 
   int rval = sscanf(pbuf + 2, "%d %d", &format, &pstate->num_pots);
-
   if (rval != 2)
     error(1, "Corrupt format header line in file %s\n", pstate->filename);
 
   switch (format) {
-    case 0:
-#if !defined(APOT)
-      error(1, "potfit binary compiled without analytic potential support.\n");
-#endif
-      g_pot.format_type = POTENTIAL_FORMAT_ANALYTIC;
+    case POTENTIAL_FORMAT_ANALYTIC:
+      printf(" - Potential file format %d detected: analytic potentials\n", format);
       break;
-    case 3:
-#if defined(APOT)
-      error(1, "potfit binary compiled without tabulated potential support.\n");
-#endif
-      g_pot.format_type = POTENTIAL_FORMAT_TABULATED_EQ_DIST;
+    case POTENTIAL_FORMAT_TABULATED_EQ_DIST:
+      printf(" - Potential file format %d detected: tabulated eqdist\n", format);
       break;
-    case 4:
-#if defined(APOT)
-      error(1, "potfit binary compiled without tabulated potential support.\n");
-#endif
-      g_pot.format_type = POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST;
+    case POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST:
+      printf(" - Potential file format %d detected: tabulated non-eqdist\n", format);
       break;
+    case POTENTIAL_FORMAT_KIM:
+      printf(" - Potential file format %d detected: KIM interface\n", format);
+      break;
+    case POTENTIAL_FORMAT_UNKNOWN:
     default:
       break;
   }
 
-  switch (g_pot.format_type) {
-    case POTENTIAL_FORMAT_UNKNOWN:
-      error(1, "Unrecognized potential format specified in file %s\n",
-            pstate->filename);
-      break;
-    case POTENTIAL_FORMAT_ANALYTIC:
-      printf(" - Potential file format 0 (analytic potentials) detected\n");
-      break;
-    case POTENTIAL_FORMAT_TABULATED_EQ_DIST:
-      printf(" - Potential file format 3 (tabulated eqdist) detected\n");
-      break;
-    case POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST:
-      printf(" - Potential file format 4 (tabulated non-eqdist) detected\n");
-      break;
-  }
+#if defined(APOT)
+#if defined(KIM)
+  if (format != POTENTIAL_FORMAT_KIM)
+    error(1, "This potfit binary only supports KIM potentials.\n");
+#else
+  if (format != POTENTIAL_FORMAT_ANALYTIC)
+    error(1, "This potfit binary only supports analytic potentials.\n");
+#endif // KIM
+#else
+  if (format != POTENTIAL_FORMAT_TABULATED_EQ_DIST && format != POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST)
+    error(1, "This potfit binary only supports tabulated potentials.\n");
+#endif
+
+  g_pot.format_type = format;
 
   // only pair potentials for
   // - pair interactions
@@ -244,15 +227,25 @@ void read_pot_line_F(char const* pbuf, potential_state* pstate)
   npots = g_param.ntypes * g_param.ntypes;
 #endif  // TERSOFF && !TERSOFFMOD
 
+#if defined(KIM)
+  npots = 1;
+#endif // KIM
+
   if (pstate->num_pots == npots) {
     printf(" - Using %d %s potentials to calculate forces\n", npots,
            g_pot.interaction_name);
     fflush(stdout);
   } else {
+#if defined(KIM)
+    warning("The number of potentials should always be '1' when KIM is used.\n"
+            "You specified %d in file '%s', and it is reset to %d.\n", pstate->num_pots, pstate->filename, npots);
+    pstate->num_pots = npots;
+#else
     error(0, "Wrong number of data columns in %s potential file \"%s\".\n",
           g_pot.interaction_name, pstate->filename);
     error(1, "For g_param.ntypes=%d there should be %d, but there are %d.\n",
           g_param.ntypes, npots, pstate->num_pots);
+#endif // KIM
   }
 
   g_pot.gradient = (int*)Malloc(npots * sizeof(int));
@@ -366,11 +359,11 @@ void read_pot_line_C(char* pbuf, potential_state* pstate)
   } else
     error(1, "#C needs to be specified after #F in file %s\n", pstate->filename);
 
-  g_config.elements = (char**)Malloc(g_param.ntypes * sizeof(char*));
+  g_config.elements = (char const**)Malloc(g_param.ntypes * sizeof(char*));
   for (int i = 0; i < g_param.ntypes; i++) {
     g_config.elements[i] = (char*)Malloc((strlen(names[i]) + 1) * sizeof(char));
-    strncpy(g_config.elements[i], names[i], strlen(names[i]));
-    g_config.elements[i][strlen(names[i])] = '\0';
+    strncpy((char*)g_config.elements[i], names[i], strlen(names[i]));
+    *((char*)g_config.elements[i] + strlen(names[i])) = '\0';
   }
 }
 
@@ -420,12 +413,11 @@ void allocate_memory_for_potentials(potential_state* pstate)
     apt->pmax[size] = (double*)Malloc(g_param.ntypes * sizeof(double));
   } else
 #endif  // PAIR
-  {
-    apt->values = (double**)Malloc(size * sizeof(double*));
-    apt->invar_par = (int**)Malloc(size * sizeof(int*));
-    apt->pmin = (double**)Malloc(size * sizeof(double*));
-    apt->pmax = (double**)Malloc(size * sizeof(double*));
-  }
+
+  apt->values = (double**)Malloc(size * sizeof(double*));
+  apt->invar_par = (int**)Malloc(size * sizeof(int*));
+  apt->pmin = (double**)Malloc(size * sizeof(double*));
+  apt->pmax = (double**)Malloc(size * sizeof(double*));
 
 #else  // !COULOMB
   apt->ratio = (double*)Malloc(g_param.ntypes * sizeof(double));

@@ -4,9 +4,9 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2016 - the potfit development team
+ * Copyright 2002-2017 - the potfit development team
  *
- * http://potfit.sourceforge.net/
+ * https://www.potfit.net/
  *
  ****************************************************************
  *
@@ -37,7 +37,11 @@
 
 #if !defined(APOT)
 
-void read_pot_table0(char const* potential_filename, FILE* pfile) {}
+void read_pot_table0(char const* potential_filename, FILE* pfile)
+{
+  error(1, "Unsupported potential format in %s", potential_filename);
+}
+
 #else
 
 typedef struct {
@@ -56,14 +60,14 @@ void init_calc_table0();
 /****************************************************************
  *
  *  read potential in analytic format:
- *  	for more information an how to specify an analytic potential
- *  	please check the documentation
+ *    for more information an how to specify an analytic potential
+ *    please check the documentation
  *
  *  parameters:
- *  	pot_table_t * ... pointer to the potential table
- *  	apot_table_t * ... pointer to the analytic potential table
- *  	char * ... name of the potential file (for error messages)
- *  	FILE * ... open file handle of the potential file
+ *    pot_table_t * ... pointer to the potential table
+ *    apot_table_t * ... pointer to the analytic potential table
+ *    char * ... name of the potential file (for error messages)
+ *    FILE * ... open file handle of the potential file
  *
  ****************************************************************/
 
@@ -96,10 +100,10 @@ void read_pot_table0(char const* potential_filename, FILE* pfile)
 
   /* if we have global parameters, are they actually used ? */
   if (g_pot.have_globals) {
-    int j = 0;
+    int use_count = 0;
     for (int i = 0; i < apt->globals; i++)
-      j += apt->n_glob[i];
-    if (j == 0) {
+      use_count += apt->n_glob[i];
+    if (use_count == 0) {
       g_pot.have_globals = 0;
       printf("You defined global parameters but did not use them.\n");
       printf("Disabling global parameters.\n\n");
@@ -326,7 +330,8 @@ void read_chemical_potentials(apot_state* pstate)
     /* search for cp */
     do {
       fgetpos(pstate->pfile, &filepos);
-      fscanf(pstate->pfile, "%s", buffer);
+      if (1 != fscanf(pstate->pfile, "%s", buffer))
+        error(1, "Error while searching for chemical potentials\n");
     } while (strncmp(buffer, "cp", 2) != 0 && !feof(pstate->pfile));
 
     /* and save the position */
@@ -597,7 +602,11 @@ void read_global_parameters(apot_state* pstate)
   fsetpos(pstate->pfile, &pstate->startpos);
   do {
     fgetpos(pstate->pfile, &filepos);
-    fscanf(pstate->pfile, "%s", buffer);
+    int ret = fscanf(pstate->pfile, "%s", buffer);
+    if (feof(pstate->pfile))
+      return;
+    else if (ret != 1)
+      error(1, "Error while searching for global parameters\n");
   } while (strcmp(buffer, "global") != 0 && !feof(pstate->pfile));
   fsetpos(pstate->pfile, &filepos);
 
@@ -609,6 +618,9 @@ void read_global_parameters(apot_state* pstate)
     apt->total_par += apt->globals;
 
     int i = apt->number + g_param.enable_cp;
+#if defined(COULOMB)
+    i += 5;
+#endif
     int j = apt->globals;
     g_pot.global_pot = i;
 
@@ -648,7 +660,6 @@ void read_global_parameters(apot_state* pstate)
     for (j = 0; j < apt->globals; j++) {
       apt->param_name[g_pot.global_pot][j] = (char*)Malloc(30 * sizeof(char));
 
-      strcpy(apt->param_name[g_pot.global_pot][j], "\0");
       int ret_val = fscanf(
           pstate->pfile, "%s %lf %lf %lf", apt->param_name[g_pot.global_pot][j],
           &apt->values[g_pot.global_pot][j], &apt->pmin[g_pot.global_pot][j],
@@ -721,7 +732,8 @@ void read_analytic_potentials(apot_state* pstate)
   fsetpos(pstate->pfile, &pstate->startpos);
   do {
     fgetpos(pstate->pfile, &filepos);
-    fscanf(pstate->pfile, "%s", buffer);
+    if (1 != fscanf(pstate->pfile, "%s", buffer))
+      error(1, "Error while searching for analytic potentials\n");
   } while (strcmp(buffer, "type") != 0 && !feof(pstate->pfile));
   fsetpos(pstate->pfile, &filepos);
 
@@ -729,7 +741,8 @@ void read_analytic_potentials(apot_state* pstate)
     // scan for next "type" keyword
     do {
       fgetpos(pstate->pfile, &filepos);
-      fscanf(pstate->pfile, "%s", buffer);
+      if (1 != fscanf(pstate->pfile, "%s", buffer))
+        error(1, "Error while searching for analytic potentials\n");
     } while (strcmp(buffer, "type") != 0 && !feof(pstate->pfile));
     fsetpos(pstate->pfile, &filepos);
 
@@ -752,7 +765,7 @@ void read_analytic_potentials(apot_state* pstate)
 
     // check if potential is "pohlong" and change it to bjs
     if (strcmp(name, "pohlong") == 0)
-      strcpy(name, "bjs\0");
+      strcpy(name, "bjs");
 
     if (apot_get_num_parameters(name) == -1)
       error(1,
@@ -795,10 +808,12 @@ void read_analytic_potentials(apot_state* pstate)
 
     fgetpos(pstate->pfile, &filepos);
 
-    fgets(buffer, 255, pstate->pfile);
+    if (NULL == fgets(buffer, 255, pstate->pfile))
+      error(1, "Error reading analytic potentials\n");
     while (buffer[0] == '#') {
       fgetpos(pstate->pfile, &filepos);
-      fgets(buffer, 255, pstate->pfile);
+      if (NULL == fgets(buffer, 255, pstate->pfile))
+        error(1, "Error reading analytic potentials\n");
     }
     fsetpos(pstate->pfile, &filepos);
 
@@ -812,11 +827,12 @@ void read_analytic_potentials(apot_state* pstate)
 
       fgetpos(pstate->pfile, &filepos);
 
-      fgets(name, 255, pstate->pfile);
-
+      if (NULL == fgets(name, 255, pstate->pfile))
+        error(1, "Error reading analytic potentials\n");
       while (name[0] == '#' && !feof(pstate->pfile) &&
              (j != apt->n_par[i] - 1)) {
-        fgets(name, 255, pstate->pfile);
+        if (NULL == fgets(name, 255, pstate->pfile))
+          error(1, "Error reading analytic potentials\n");
       }
 
       if ((j != (apt->n_par[i] - 1)) &&
