@@ -353,3 +353,5 @@ void init_calc_table4()
   g_pot.calc_pot.d2tab = g_pot.opt_pot.d2tab;
   g_pot.calc_pot.idx = g_pot.opt_pot.idx;
 }
+
+#endif // APOT
