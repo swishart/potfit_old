@@ -264,22 +264,6 @@ void read_parameter_file(char const* param_file)
     }
 #endif  // STRESS
 
-#if defined(UQ)
-    // file for sloppy model ensemble uncertainty quantification
-    else if (strcasecmp(token, "sloppyfile") == 0) {
-      get_param_string("sloppyfile", &g_files.sloppyfile, line, param_file);
-    }
-
-    else if (strcasecmp(token, "acceptance_rescaling") == 0) {
-      get_param_double("acceptance_rescaling", &g_config.acceptance_rescaling, line, param_file, 0, 1);
-    }
-
-    else if (strcasecmp(token, "acc_moves") == 0){
-      get_param_int("acc_moves", &g_config.acc_moves, line, param_file, 0, INT_MAX);
-    }
-
-#endif  // UQ
-
     // unknown tag
     else
       warning("Unknown tag <%s> in parameter file ignored!\n", token);

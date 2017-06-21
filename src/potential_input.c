@@ -31,6 +31,7 @@
 
 #include "chempot.h"
 #include "functions.h"
+#include "kim.h"
 #include "memory.h"
 #include "potential_input.h"
 #include "utils.h"
@@ -203,7 +204,6 @@ void read_pot_line_F(char const* pbuf, potential_state* pstate)
   int npots = g_calc.paircol;
 
 // more potential functions for other interactions
-
 #if defined(EAM)
   npots += 2 * g_param.ntypes;
 #if defined(TBEAM)
@@ -503,6 +503,15 @@ void calculate_cutoffs()
     }
   }
 #endif  // EAM || ADP || MEAM
+
+#if defined(COULOMB)
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      g_config.rcut[i * n + j] =
+          MAX(g_config.rcut[i * n + j], g_config.dp_cut);
+    }
+  }
+#endif  // COULOMB
 
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {

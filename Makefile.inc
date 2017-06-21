@@ -78,15 +78,15 @@
 #
 # ifeq (custom,${SYSTEM})
 #   CC_SERIAL		= serial-compiler
-#   CC_MPI		  = MPI-compiler
-#   OMPI_CC      	  = compiler for mpicc
-#   OMPI_CLINKER 	  = linker for mpicc
-#   OPT_FLAGS		    += generic flags for optimization
-#   DEBUG_FLAGS		       += generic flags for debugging
-#   PROF_FLAGS		       	  += flags for profiling
-#   PROF_LIBS			     += libraries for profiling
-#   LFLAGS_SERIAL 		     += flags for serial linking
-#   LFLAGS_MPI 			     	+= flags for MPI linking
+#   CC_MPI		= MPI-compiler
+#   OMPI_CC      	= compiler for mpicc
+#   OMPI_CLINKER 	= linker for mpicc
+#   OPT_FLAGS		+= generic flags for optimization
+#   DEBUG_FLAGS		+= generic flags for debugging
+#   PROF_FLAGS		+= flags for profiling
+#   PROF_LIBS		+= libraries for profiling
+#   LFLAGS_SERIAL 	+= flags for serial linking
+#   LFLAGS_MPI 		+= flags for MPI linking
 #   export        MPICH_CC MPICH_CLINKER
 # endif
 #
@@ -110,11 +110,11 @@ SHELL = /bin/bash
 # i686-gcc          32bit GNU Compiler
 # kim-toolchain     use the KIM toolchain via kim-api-build-config
 
-SYSTEM = x86_64-icc
+SYSTEM = x86_64-gcc
 
 # Base directory of your installation of the MKL or ACML
 
-MKLDIR      = /warwick/intel/composer_xe_2015/mkl
+MKLDIR      = /opt/intel/composer_xe_2015.1.133/mkl
 ACML4DIR    = /opt/acml4.4.0/gfortran64
 ACML5DIR    = /opt/acml/gfortran64
 LIBMDIR     = /opt/acml/libm
@@ -178,10 +178,8 @@ ifeq (${MATH_LIB},__ACCELERATE__)
   LIBS += -framework Accelerate
 else ifeq (${MATH_LIB},MKL)
   CINCLUDE      += -I${MKLDIR}/include
-#  LIBS          += -Wl,--start-group -lmkl_intel_lp64 -lmkl_sequential \
+  LIBS          += -Wl,--start-group -lmkl_intel_lp64 -lmkl_sequential \
                    -lmkl_core -Wl,--end-group -lpthread
-LIBS          += -L${MKLDIR}/lib/intel64 -Wl,--start-group -lmkl_intel_lp64 -lmkl_sequential \
-                    -lmkl_core -Wl,--end-group -lpthread
 else ifeq (${MATH_LIB},ACML4)
   CINCLUDE      += -I${ACML4DIR}/include
   LIBS          = -L${ACML4PATH} -lpthread -lacml -lacml_mv

@@ -128,6 +128,7 @@ void initialize_global_variables()
 #if defined(KIM)
   memset(&g_kim, 0, sizeof(g_kim));
 #endif // KIM
+
   g_mpi.init_done = 0;
   g_mpi.myid = 0;
   g_mpi.num_cpus = 1;

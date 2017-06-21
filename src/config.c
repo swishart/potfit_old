@@ -350,6 +350,7 @@ void read_config(const char* filename)
       }
     }
 #endif   // KIM
+
     // read the atoms
     for (int i = 0; i < cstate.atom_count; i++) {
       atom_t* atom = g_config.atoms + g_config.natoms + i;
@@ -978,7 +979,12 @@ void init_neighbors(config_state* cstate, double* mindist)
 #if defined(THREEBODY)
     for (int j = g_config.natoms; j < g_config.natoms + cstate->atom_count; j++)
 #else
-    for (int j = i; j < g_config.natoms + cstate->atom_count; j++)
+    int j_start = i;
+#if defined(KIM)
+    if (g_kim.is_half_neighbors != 1)
+      j_start = g_config.natoms;
+#endif
+    for (int j = j_start; j < g_config.natoms + cstate->atom_count; j++)
 #endif  // THREEBODY
     {
       d.x = g_config.atoms[j].pos.x - g_config.atoms[i].pos.x;
@@ -1037,6 +1043,7 @@ void init_neighbors(config_state* cstate, double* mindist)
               n->dist.x = dd.x * r;
               n->dist.y = dd.y * r;
               n->dist.z = dd.z * r;
+
 #if defined(ADP)
               n->sqrdist.xx = dd.x * dd.x * r * r;
               n->sqrdist.yy = dd.y * dd.y * r * r;
@@ -1155,6 +1162,8 @@ void set_neighbor_slot(neigh_t* neighbor, int col, double r, int store_slot)
       shift = (r - g_pot.calc_pot.xcoord[klo]) / step;
       break;
     }
+    case POTENTIAL_FORMAT_KIM:
+      return;
     case POTENTIAL_FORMAT_UNKNOWN:
       error(1, "Unknown potential format detected.\n");
   }

@@ -395,12 +395,6 @@ typedef struct {
   double dp_tol;  // dipole iteration precision
   double dp_mix;  // ???
 #endif            // DIPOLE
-#if defined(UQ)
-  double    acceptance_rescaling; /* R - weighting to improve MC move acceptance ratio, system specific */
-  int*      pot_attempts; /* Number of trials generated (running total) */
-  double*   acc_prob; /* MC acceptance probability */
-  int       acc_moves; /* Number of accepted Mc moves */
-#endif
 } potfit_configurations;
 
 // potfit_filenames: holds all kinds of filenames
@@ -418,7 +412,6 @@ typedef struct {
   const char* plotpointfile; /* write points for plotting */
   const char* startpot;      /* file with start potential */
   const char* tempfile;      /* backup potential file */
-  const char* sloppyfile;     /* sloppy model ensemble */
 } potfit_filenames;
 
 // potfit_mpi_config: holds information needed for MPI calculation

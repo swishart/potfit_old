@@ -95,113 +95,133 @@ endif
 #
 ###########################################################################
 
-POTFITHDR   	+= bracket.h
-POTFITHDR 	+= config.h
-POTFITHDR 	+= defines.h
-POTFITHDR 	+= elements.h
-POTFITHDR 	+= errors.h
-POTFITHDR 	+= force.h
-POTFITHDR 	+= memory.h
-POTFITHDR 	+= mpi_utils.h
-POTFITHDR 	+= optimize.h
-POTFITHDR 	+= params.h
-POTFITHDR 	+= potfit.h
-POTFITHDR 	+= potential_input.h
-POTFITHDR 	+= potential_output.h
-POTFITHDR 	+= random.h
-POTFITHDR 	+= splines.h
-POTFITHDR 	+= types.h
-POTFITHDR 	+= utils.h
+# header files needed for all options
 
-POTFITSRC 	+= bracket.c
-POTFITSRC 	+= brent.c
-POTFITSRC 	+= config.c
-POTFITSRC 	+= elements.c
-POTFITSRC 	+= errors.c
-POTFITSRC 	+= force_common.c
-POTFITSRC 	+= linmin.c
-POTFITSRC 	+= memory.c
-POTFITSRC 	+= mpi_utils.c
-POTFITSRC 	+= optimize.c
+POTFITHDR	+= bracket.h
+POTFITHDR	+= config.h
+POTFITHDR	+= defines.h
+POTFITHDR	+= elements.h
+POTFITHDR	+= errors.h
+POTFITHDR	+= force.h
+POTFITHDR	+= memory.h
+POTFITHDR	+= mpi_utils.h
+POTFITHDR	+= optimize.h
+POTFITHDR	+= params.h
+POTFITHDR	+= potfit.h
+POTFITHDR	+= potential_input.h
+POTFITHDR	+= potential_output.h
+POTFITHDR	+= random.h
+POTFITHDR	+= splines.h
+POTFITHDR	+= types.h
+POTFITHDR	+= utils.h
+
+# source files needed for all options
+
+POTFITSRC	+= bracket.c
+POTFITSRC	+= brent.c
+POTFITSRC	+= config.c
+POTFITSRC	+= elements.c
+POTFITSRC	+= errors.c
+POTFITSRC	+= force_common.c
+POTFITSRC	+= linmin.c
+POTFITSRC	+= memory.c
+POTFITSRC	+= mpi_utils.c
+POTFITSRC	+= optimize.c
 POTFITSRC	+= params.c
-POTFITSRC 	+= potential_input.c
-POTFITSRC 	+= potential_output.c
-POTFITSRC 	+= potential_output_imd.c
-POTFITSRC 	+= potential_output_lammps.c
-POTFITSRC 	+= potfit.c
-POTFITSRC 	+= powell_lsq.c
-POTFITSRC 	+= random.c
-POTFITSRC 	+= random_dsfmt.c
-POTFITSRC 	+= simann.c
-POTFITSRC 	+= splines.c
-POTFITSRC 	+= utils.c
+POTFITSRC	+= potential_input.c
+POTFITSRC	+= potential_output.c
+POTFITSRC	+= potential_output_imd.c
+POTFITSRC	+= potential_output_lammps.c
+POTFITSRC	+= potfit.c
+POTFITSRC	+= powell_lsq.c
+POTFITSRC	+= random.c
+POTFITSRC	+= random_dsfmt.c
+POTFITSRC	+= simann.c
+POTFITSRC	+= splines.c
+POTFITSRC	+= utils.c
+
+# potential representations
 
 POTFITSRC	+= potential_input_f0.c
 POTFITSRC	+= potential_input_f3.c
 POTFITSRC	+= potential_input_f4.c
 POTFITSRC	+= potential_input_f5.c
 
+# force routines
+
 ifneq (,$(strip $(findstring pair,${MAKETARGET})))
-  POTFITSRC      += force_pair.c
+  POTFITSRC	+= force_pair.c
 endif
 
 ifneq (,$(strip $(findstring eam,${MAKETARGET})))
   ifneq (,$(strip $(findstring meam,${MAKETARGET})))
-    POTFITSRC      += force_meam.c
+    POTFITSRC	+= force_meam.c
   else ifneq (,$(strip $(findstring coulomb,${MAKETARGET})))
-    POTFITSRC      += force_eam_elstat.c
+    POTFITSRC	+= force_eam_elstat.c
   else ifneq (,$(strip $(findstring dipole,${MAKETARGET})))
-    POTFITSRC      += force_eam_elstat.c
+    POTFITSRC	+= force_eam_elstat.c
   else
-    POTFITSRC      += force_eam.c
+    POTFITSRC	+= force_eam.c
   endif
 endif
 
 ifneq (,$(strip $(findstring coulomb,${MAKETARGET})))
   ifeq (,$(strip $(findstring eam,${MAKETARGET})))
-    POTFITSRC      += force_elstat.c
+    POTFITSRC	+= force_elstat.c
   endif
 endif
 
 ifneq (,$(strip $(findstring dipole,${MAKETARGET})))
   ifeq (,$(strip $(findstring eam,${MAKETARGET})))
-    POTFITSRC      += force_elstat.c
+    POTFITSRC	+= force_elstat.c
   endif
 endif
 
 ifneq (,$(strip $(findstring adp,${MAKETARGET})))
-  POTFITSRC      += force_adp.c
+  POTFITSRC	+= force_adp.c
 endif
 
 ifneq (,$(strip $(findstring stiweb,${MAKETARGET})))
-  POTFITSRC      += force_stiweb.c
+  POTFITSRC	+= force_stiweb.c
 endif
 
 ifneq (,$(strip $(findstring tersoff,${MAKETARGET})))
-  POTFITSRC      += force_tersoff.c
+  POTFITSRC	+= force_tersoff.c
 endif
 
+# additional files for certain options
+
 ifneq (,$(strip $(findstring apot,${MAKETARGET})))
-  POTFITHDR      += functions.h
-  POTFITSRC      += functions.c functions_impl.c
+  POTFITHDR	+= functions.h
+  POTFITSRC	+= functions.c functions_impl.c
   ifneq (,$(strip $(findstring pair,${MAKETARGET})))
-    POTFITHDR      += chempot.h
-    POTFITSRC      += chempot.c
+    POTFITHDR	+= chempot.h
+    POTFITSRC	+= chempot.c
   endif
+else ifneq (,$(strip $(findstring kim,${MAKETARGET})))
+  POTFITHDR	+= chempot.h
+  POTFITHDR	+= functions.h
+  POTFITHDR	+= kim.h
+
+  POTFITSRC	+= chempot.c
+  POTFITSRC	+= force_kim.c
+  POTFITSRC	+= functions.c
+  POTFITSRC	+= functions_impl.c
+  POTFITSRC	+= kim.c
 else
   ifneq (,$(strip $(findstring meam,${MAKETARGET})))
-    POTFITSRC 	+= rescale_meam.c
+    POTFITSRC	+= rescale_meam.c
   else
-    POTFITSRC      += rescale.c
+    POTFITSRC	+= rescale.c
   endif
 endif
 
 ifneq (,$(strip $(findstring evo,${MAKETARGET})))
-  POTFITSRC      += diff_evo.c
+  POTFITSRC	+= diff_evo.c
 endif
 
-ifneq (,$(strip $(findstring uq,${MAKETARGET})))
-  POTFITSRC	 += uq.c
+ifneq (,$(strip $(findstring parab,${MAKETARGET})))
+  POTFITSRC	+= parabola.c
 endif
 
 #########################################################
@@ -229,11 +249,11 @@ ifneq (,$(strip $(findstring eam,${MAKETARGET})))
     ERROR += "More than one potential model specified!\n"
   endif
   ifneq (,$(strip $(findstring meam,${MAKETARGET})))
-    CFLAGS  += -DMEAM
+    CFLAGS += -DMEAM
   else ifneq (,$(strip $(findstring tbeam,${MAKETARGET})))
-    CFLAGS  += -DEAM -DTBEAM
+    CFLAGS += -DEAM -DTBEAM
   else
-    CFLAGS  += -DEAM
+    CFLAGS += -DEAM
   endif
   INTERACTION = 1
 endif
@@ -268,7 +288,7 @@ ifneq (,$(strip $(findstring dipole,${MAKETARGET})))
   ifeq (,$(strip $(findstring apot,${MAKETARGET})))
     ERROR += "DIPOLE does not support tabulated potentials!\n"
   endif
-  CFLAGS  += -DCOULOMB -DDIPOLE
+  CFLAGS += -DCOULOMB -DDIPOLE
   INTERACTION = 1
 endif
 
@@ -277,7 +297,7 @@ ifneq (,$(strip $(findstring adp,${MAKETARGET})))
   ifneq (,$(findstring 1,${INTERACTION}))
     ERROR += "More than one potential model specified!\n"
   endif
-  CFLAGS  += -DADP
+  CFLAGS += -DADP
   INTERACTION = 1
 endif
 
@@ -289,7 +309,7 @@ ifneq (,$(strip $(findstring stiweb,${MAKETARGET})))
   ifeq (,$(findstring apot,${MAKETARGET}))
     ERROR += "STIWEB does not work without the apot flag!\n"
   endif
-  CFLAGS  += -DSTIWEB
+  CFLAGS += -DSTIWEB
   INTERACTION = 1
 endif
 
@@ -321,7 +341,7 @@ endif
 
 # EVO - for differential evolution
 ifneq (,$(findstring evo,${MAKETARGET}))
-CFLAGS += -DEVO
+  CFLAGS += -DEVO
 endif
 
 # APOT - for analytic potentials
@@ -329,21 +349,21 @@ ifneq (,$(findstring apot,${MAKETARGET}))
   ifneq (,$(findstring resc,${MAKETARGET}))
     ERROR += "Analytic potentials are incompatible with the rescale option!\n"
   endif
-CFLAGS += -DAPOT
+  CFLAGS += -DAPOT
 endif
 
 # Stress
 ifneq (,$(findstring stress,${MAKETARGET}))
-CFLAGS += -DSTRESS
+  CFLAGS += -DSTRESS
 endif
 
 # Disable gauge punishments for EAM/ADP
 ifneq (,$(findstring nopunish,${MAKETARGET}))
-CFLAGS += -DNOPUNISH
+  CFLAGS += -DNOPUNISH
 endif
 
 ifneq (,$(findstring limit,${MAKETARGET}))
-WARNING += "limit is now mandatory -- "
+  WARNING += "limit is now mandatory -- "
 endif
 
 ifneq (,$(findstring parab,${MAKETARGET}))
@@ -367,11 +387,11 @@ ifneq (,$(findstring newscale,${MAKETARGET}))
 endif
 
 ifneq (,$(findstring fweight,${MAKETARGET}))
-CFLAGS += -DFWEIGHT
+  CFLAGS += -DFWEIGHT
 endif
 
 ifneq (,$(findstring contrib,${MAKETARGET}))
-CFLAGS += -DCONTRIB
+  CFLAGS += -DCONTRIB
 endif
 
 ifneq (,$(findstring mkl,${MAKETARGET}))
@@ -394,16 +414,11 @@ ifneq (,$(findstring acml,${MAKETARGET}))
 endif
 
 ifneq (,$(findstring resc,${MAKETARGET}))
-CFLAGS += -DRESCALE
+  CFLAGS += -DRESCALE
 endif
 
-ifneq (,$(findstring uq,${MAKETARGET}))
-CFLAGS += -DUQ
-endif
-
-
-ifneq (,$(findstring minstep,${MAKETARGET}))
-CFLAGS += -DMIN_STEP
+ifneq (,$(findstring kim,${MAKETARGET}))
+  CFLAGS += -DKIM
 endif
 
 # compability with KIM
@@ -448,36 +463,9 @@ OBJECTS := $(subst .c,.o,${SOURCES})
 ${OBJECTS}: ${HEADERS}
 
 # How to compile *.c files
-# special rules for force computation
-powell_lsq.o: powell_lsq.c
-	@echo " [CC] powell_lsq.c"
-	@${CC} ${CFLAGS} ${CINCLUDE} -c $< || { \
-		echo -e "The following command failed with the above error:\n"; \
-		echo -e ${CC} ${CFLAGS} ${CINCLUDE} -c $<"\n"; \
-		exit 1; \
-		}
-
-uq.o: uq.c
-	@echo " [CC] uq.c"
-	@${CC} ${CFLAGS} ${CINCLUDE} -c $< || { \
-		echo -e "The following command failed with the above error:\n"; \
-		echo -e ${CC} ${CFLAGS} ${CINCLUDE} -c $<"\n"; \
-		exit 1; \
-		}
-
-# special rules for function evaluation
-utils.o: utils.c
-	@echo " [CC] utils.c"
-	@${CC} ${CFLAGS} ${CINCLUDE} -c $< || { \
-		echo -e "The following command failed with the above error:\n"; \
-		echo -e ${CC} ${CFLAGS} ${CINCLUDE} -c $<"\n"; \
-		exit 1; \
-		}
-
-# generic compilation rule
 %.o: %.c
 	@echo " [CC] ${@:.o=.c}"
-	@${CC} ${CFLAGS} -c $< || { \
+	@${CC} ${CFLAGS} ${CINCLUDE} -c $< || { \
 		echo -e "The following command failed with the above error:\n"; \
 		echo -e ${CC} ${CFLAGS} -c $<"\n"; \
 		exit -1; \
@@ -496,7 +484,6 @@ endif
 ${MAKETARGET}: errors ${OBJECTS}
 	@echo " [LD] $@"
 	@${CC} ${LFLAGS_${PARALLEL}} -o $@ ${OBJECTS} ${LIBS}
-
 ifneq (${TARGET},MACOS)
   ifneq (,${STRIP})
     ifeq (,$(findstring prof,${MAKETARGET}))
@@ -508,7 +495,6 @@ ifneq (${TARGET},MACOS)
     endif
   endif
 endif
-
 ifneq (,${BIN_DIR})
   ifneq (,$(wildcard ../${BIN_DIR}))
 	@mv $@ ../${BIN_DIR}

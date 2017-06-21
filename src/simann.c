@@ -347,13 +347,6 @@ void run_simulated_annealing(double* const xi)
           F_new = calc_forces(xi_new, forces, 0);
 
           /* accept new point */
-
-                      // Added SW 060716
-
-              if (*g_files.tempfile != '\0') {
-                write_pot_table_potfit(g_files.tempfile);
-              } 
-              
           if (F_new <= F) {
 #if defined(APOT)
             xi[g_pot.opt_pot.idx[h]] = xi_new[g_pot.opt_pot.idx[h]];
@@ -399,7 +392,7 @@ void run_simulated_annealing(double* const xi)
       fflush(stdout);
 
       /* End annealing if break flagfile exists */
-      if (*g_files.flagfile != '\0') {
+      if (g_files.flagfile && *g_files.flagfile != '\0') {
         FILE* ff = fopen(g_files.flagfile, "r");
         if (NULL != ff) {
           printf("Annealing terminated in presence of break flagfile \"%s\"!\n",
@@ -417,18 +410,10 @@ void run_simulated_annealing(double* const xi)
         }
       }
 
-
-      // Added SW 27/06/16
-      write_pot_table_potfit(g_files.tempfile);
-      
 #if defined(RESCALE) && !defined(APOT) && \
     (defined(EAM) || defined(ADP) || defined(MEAM))
       /* Check for rescaling... every tenth step */
       if (((m + 1) % 10 == 0) && (do_rescale == 1)) {
-
-        // Added SW 07/04/16 - generate potential ensemble
-	//  write_pot_table_potfit(g_files.tempfile);
-
         /* Was rescaling necessary ? */
         if (rescale(&g_pot.opt_pot, 1.0, 0) != 0.0) {
           /* wake other threads and sync potentials */

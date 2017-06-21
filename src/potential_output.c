@@ -39,6 +39,7 @@
 void write_pot_table0(char const* filename);
 void write_pot_table3(char const* filename);
 void write_pot_table4(char const* filename);
+void write_pot_table5(char const* filename);
 
 /****************************************************************
  *
@@ -59,6 +60,10 @@ void write_pot_table_potfit(char const* filename)
       write_pot_table3(filename);
     case POTENTIAL_FORMAT_TABULATED_NON_EQ_DIST:
       write_pot_table4(filename);
+      break;
+    case POTENTIAL_FORMAT_KIM:
+      write_pot_table5(filename);
+      break;
   }
 }
 
@@ -76,7 +81,7 @@ void write_pot_table0(char const* filename)
   FILE* outfile = NULL;
 
   /* open file */
-  outfile = fopen(filename, "a");
+  outfile = fopen(filename, "w");
   if (NULL == outfile)
     error(1, "Could not open file %s\n", filename);
 
@@ -467,8 +472,6 @@ void write_pot_table4(char const* filename)
 }
 
 /****************************************************************
-<<<<<<< HEAD
-=======
  *
  *  write potential table (format 5)
  *
@@ -521,7 +524,6 @@ void write_pot_table5(char const* filename)
 }
 
 /****************************************************************
->>>>>>> 5b114eb6a53d5cf08d9cc613596d898595245b19
   write plot version of potential table
 ****************************************************************/
 
