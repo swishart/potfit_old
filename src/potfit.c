@@ -44,6 +44,7 @@
 #include "potential_output.h"
 #include "random.h"
 #include "utils.h"
+#include "uq.h"
 
 // forward declarations of helper functions
 
@@ -143,6 +144,15 @@ int main(int argc, char** argv)
 #else
     double tot = calc_forces(g_pot.calc_pot.table, g_calc.force, 0);
 #endif  // APOT
+
+#if defined(UQ)
+    for (int i=0;i<g_pot.opt_pot.idxlen;i++) {
+      printf("Parameter  %d = %f ", i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    }
+    printf("\n");
+    
+    uncertainty_quantification(tot,g_files.sloppyfile);
+#endif //UQ
 
     write_pot_table_potfit(g_files.endpot);
 

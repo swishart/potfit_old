@@ -220,6 +220,10 @@ ifneq (,$(strip $(findstring evo,${MAKETARGET})))
   POTFITSRC	+= diff_evo.c
 endif
 
+ifneq (,$(strip $(findstring uq,${MAKETARGET})))
+   POTFITSRC    += uq.c
+endif 
+
 ifneq (,$(strip $(findstring parab,${MAKETARGET})))
   POTFITSRC	+= parabola.c
 endif
@@ -415,6 +419,14 @@ endif
 
 ifneq (,$(findstring resc,${MAKETARGET}))
   CFLAGS += -DRESCALE
+endif
+
+ifneq (,$(findstring uq,${MAKETARGET}))
+  CFLAGS += -DUQ
+endif
+
+ifneq (,$(findstring minstep,${MAKETARGET}))
+  CFLAGS += -DMINSTEP
 endif
 
 ifneq (,$(findstring kim,${MAKETARGET}))

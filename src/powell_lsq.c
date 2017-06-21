@@ -57,6 +57,7 @@
 #include "potential_output.h"
 #include "rescale.h"
 #include "utils.h"
+#include "uq.h"
 
 #define EPS 0.001
 #define PRECISION 1.E-7
