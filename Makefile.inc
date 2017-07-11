@@ -114,7 +114,8 @@ SYSTEM = x86_64-gcc
 
 # Base directory of your installation of the MKL or ACML
 
-MKLDIR      = /opt/intel/composer_xe_2015.1.133/mkl
+#MKLDIR      = /opt/intel/composer_xe_2015.1.133/mkl
+MKLDIR      = /opt/intel/mkl
 ACML4DIR    = /opt/acml4.4.0/gfortran64
 ACML5DIR    = /opt/acml/gfortran64
 LIBMDIR     = /opt/acml/libm
@@ -194,7 +195,7 @@ endif # x86_64-icc
 ifeq (x86_64-gcc,${SYSTEM})
   # compiler
   CC_SERIAL     = gcc
-  CC_MPI        = mpicc
+  CC_MPI        = mpicc-openmpi-mp
   OMPI_CC       = gcc
   OMPI_CLINKER  = gcc
 
@@ -204,7 +205,7 @@ ifeq (x86_64-gcc,${SYSTEM})
   # profiling and debug flags
   PROF_FLAGS    += -m64 -g3 -pg
   PROF_LIBS     += -m64 -g3 -pg
-  DEBUG_FLAGS   += -m64 -g3 -Wall -Werror -pedantic -std=c99
+  DEBUG_FLAGS   += -m64 -g3 -Wall -pedantic -std=c99
   ASAN_FLAGS    += -g -fsanitize=address -fno-omit-frame-pointer
   ASAN_LFLAGS   = -g -fsanitize=address
 
@@ -239,7 +240,7 @@ ifeq (x86_64-clang,${SYSTEM})
   # profiling and debug flags
   PROF_FLAGS    += -g
   PROF_LIBS     += -g
-  DEBUG_FLAGS   += -g -Wall -Werror -pedantic -std=c99
+  DEBUG_FLAGS   += -g -Wall -pedantic -std=c99
   ASAN_FLAGS    += -g -fsanitize=address -fno-omit-frame-pointer
   ASAN_LFLAGS   = -g -fsanitize=address
 
