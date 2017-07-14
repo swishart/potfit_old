@@ -395,12 +395,6 @@ typedef struct {
   double dp_tol;  // dipole iteration precision
   double dp_mix;  // ???
 #endif            // DIPOLE
-#if defined(UQ)
-  double    acceptance_rescaling; /* R - weighting to improve MC move acceptance ratio, system specific */
-  int*      pot_attempts; /* Number of trials generated (running total) */
-  double*   acc_prob; /* MC acceptance probability */
-  int       acc_moves; /* Number of accepted Mc moves */
-#endif
 } potfit_configurations;
 
 // potfit_filenames: holds all kinds of filenames
@@ -482,6 +476,10 @@ typedef struct {
   double plotmin;           /* minimum for plotfile */
 #endif                      // APOT
   double global_cell_scale; /* global scaling parameter */
+#if defined(UQ)
+  double    acceptance_rescaling; /* R - weighting to improve MC move acceptance ratio, system specific */
+  int       acc_moves; /* Number of accepted Mc moves */
+#endif
 } potfit_parameters;
 
 // potfit_potentials: holds information from potential file

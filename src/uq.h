@@ -27,12 +27,12 @@
  *
  ****************************************************************/
 
-void uncertainty_quantification(double);
+void ensemble_generation(double);
 
-double** calc_hessian(double, int);
-int calc_h0_eigenvectors(double**, double, double, double**, double*, int);
-int calc_svd(double**, double**, double*, int);
-double calc_pot_params(double** const, double** const, double*, double, double*, int*, FILE*);
-int mc_moves(double**,double*, double*, int, double, FILE*);
+double** calc_hessian(double);
+int calc_h0_eigenvectors(double**, double, double, double**, double*);
+int calc_svd(double**, double**, double*);
+double generate_mc_sample(double** const, double** const, double, double, double*, int*, FILE*);
+int mc_moves(double**,double*, double, double, FILE*);
 
 double** mat_double(int, int); /* in powell_lsq.c */

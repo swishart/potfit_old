@@ -151,7 +151,7 @@ int main(int argc, char** argv)
     }
     printf("\n");
     
-    uncertainty_quantification(tot,g_files.sloppyfile);
+    ensemble_generation(tot);
 #endif //UQ
 
     write_pot_table_potfit(g_files.endpot);

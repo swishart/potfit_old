@@ -1,6 +1,6 @@
 /****************************************************************                                                                     
  *                                                                                                                                     
- * uq.c: Uncertainty quantification using sloppy model method                                                                           *                                                                                                                                     
+ * uq.c: Uncertainty quantification using sloppy model method                                                                                                                                                                                                                
  ****************************************************************                                                                      
  *                                                                                                                                     
  * Copyright 2002-2017 - the potfit development team                                                                                   
@@ -26,26 +26,34 @@
  *                                                                                                                                     
  ****************************************************************/
 
+#include "potfit.h"
+
+#if defined(MKL)
 #include <mkl_lapack.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+#elif defined(ACML)
+#include <acml.h>
+#elif defined(__ACCELERATE__)
+#include <Accelerate/Accelerate.h>
+#else
+#error No math library defined!
+#endif  // ACML
 
 #include "uq.h"
-#include "potfit.h"
 #include "force.h"
 #include "random.h"
 
-#if defined(UQ)&&(APOT) //Only for analytic potentials at the moment
+#define VERY_SMALL 1.E-12
+
+#if defined(UQ)&&(APOT) /* Only for analytic potentials at the moment */
 
 /****************************************************************
  *
  *   main sloppy model routine
  *
  ****************************************************************/
-void uncertainty_quantification(double cost_0) {
+void ensemble_generation(double cost_0) {
   
-  // open file
+  /* open file */
   FILE* outfile = fopen(g_files.sloppyfile, "w");
   if (outfile == NULL)
     error(1, "Could not open file %s for writing\n", filename);
@@ -53,8 +61,6 @@ void uncertainty_quantification(double cost_0) {
   /* Initialise variables to 0 */
   int pot_attempts      = 0;
   double acc_prob       = 0.00;
-  g_config.acc_prob     = &acc_prob;
-  g_config.pot_attempts = &pot_attempts;
   
   /* Calculate the best fit hessian */
   double** hessian = calc_hessian(cost_0, g_pot.opt_pot.idxlen);
@@ -90,6 +96,12 @@ void uncertainty_quantification(double cost_0) {
     count +=1;
   }
 
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
+    if (eigenvalues[i] < 0){
+      warning("Negative eigenvalue of %.4f, has the best fit minimum been found?!\nThis implies the best fit potential is not at the miminum!\n", eigenvalue[i]);
+    }
+  }
+
   /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
   fprintf(outfile,"------------------------------------------------------\n");
   fprintf(outfile,"Eigenvalues and eigenvectors of the best fit hessian:\n");
@@ -106,7 +118,7 @@ void uncertainty_quantification(double cost_0) {
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
   fprintf(outfile, "Parameter %d\t",i+1);
   }
-  fprintf(outfile, "Cost\tWeight\tAccepted\tAttempts\tAcceptance Probability (%)\n", );
+  fprintf(outfile, "Cost\tWeight\tAccepted\tAttempts\tAcceptance Probability\n", );
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     fprintf(outfile,"%g\t",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
@@ -115,31 +127,14 @@ void uncertainty_quantification(double cost_0) {
   /* Initialise variables and take first Monte Carlo step */
   int weight      = 1;
   int* weight_ptr = &weight;
-  double* tot_ptr = &cost_0;
-  double cost     = calc_pot_params(hessian, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr, outfile);
-  *tot_ptr        = cost;
-  
-  pot_attempts += weight;
-  acc_prob = 100.0/(double)pot_attempts; /* Convert to percentage of potentials accepted */
-  
-  for(int i=0;i<g_pot.opt_pot.idxlen;i++){
-    fprintf(outfile,"%g\t",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-  }
-  fprintf(outfile,"%g\t1\t1\t%d\t%.2f\n", cost, pot_attempts, acc_prob);
-
-  /* store old parameters incase proposed move isn't accepted */
-  double old_params[params];
-  int count = 1;
-  int mc_decision;
 
   /* run until number of moves specified in param file are accepted */
-  for (int i=0; i<g_config.acc_moves;i++)
+  for (int i=0; i<=g_param.acc_moves;i++)
     {
-      double cost = calc_pot_params(hessian, v_0, tot_ptr, cost_0, eigenvalues, weight_ptr, outfile);
-      *tot_ptr = cost;
+      double cost = generate_mc_sample(hessian, v_0, cost, cost_0, eigenvalues, weight_ptr, outfile);
 
       pot_attempts += weight;
-      acc_prob = (100.0*((double)i+1.0))/(double)pot_attempts; /* Add one to include the MC step outside loop */
+      acc_prob = (((double)i+1.0))/(double)pot_attempts; /* Add one to include the MC step outside loop */
 
       /* Write accepted move to file */
       for(int i=0;i<g_pot.opt_pot.idxlen;i++){
@@ -159,7 +154,7 @@ printf("UQ ensemble parameters written to %s\n", filename);
  *
  ****************************************************************/
 
-double** calc_hessian(double cost, int num_params){
+double** calc_hessian(double cost){
 /*  Implementing equation 5.7.10 from Numerical recipes in C
   
   Create the Hessian of analytic potential parameters
@@ -171,18 +166,23 @@ double** calc_hessian(double cost, int num_params){
   - the cost evaluations per hessian element
   - the size of each parameter perturbation (i.e. 0.0001*parameter)
   - the final hessian elements */
-  double param_perturb_dist[num_params]; 
-  double** hessian    = mat_double(num_params, num_params); /* mat_double() defined in powell_lsq.c */
+  double param_perturb_dist[g_pot.opt_pot.idxlen; 
+  double** hessian    = mat_double(g_pot.opt_pot.idxlen, g_pot.opt_pot.idxlen); /* mat_double() defined in powell_lsq.c */
   double two_cost     = 2*cost;
   double perturbation = 0.0001;  
 
   /* Pre-calculate each parameter perturbation */
-  for (int j=0;j<num_params;j++){
+  for (int j=0;j<g_pot.opt_pot.idxlen;j++){
     param_perturb_dist[j] = perturbation * g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+
+    if (g_pot.opt_pot.table[_pot.opt_pot.idx[j]] == 0){
+      param_perturb_dist[j] = perturbation;
+      warning("parameter %d is 0. Using set perturbation of %f.\n", j, perturbation);
+    }
   }
   
   /* For diagonal entries, use (c_(i+1) - 2*cost + c_(i-1))/(param_perturb_dist[i]^2) */
-  for (int i=0;i<num_params;i++){
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     
     double cost_plus;
     double cost_minus;
@@ -195,14 +195,20 @@ double** calc_hessian(double cost, int num_params){
 
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
        
+    /* print a warning if either cost_plus or cost_minus are less than 10^(-12) */
+    if (cost_plus < VERY_SMALL) || (cost_minus < VERY_SMALL){
+      warning("The change in cost_plus/cost_minus when calculating the hessian is less than 10^(-12). This will affect precision.\nConsider changing the scale of cost perturbation. \n");
+
+    }
+
     hessian[i][i] = cost_plus - two_cost + cost_minus;
-    hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i]);
+    hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i])
   }
 
   /* For off-diagonal entries:
      Use [c_(i+1)(j+1)-c_(i+1)(j-1)-c_(i-1)(j+1)+c_(i-1)(j-1)]/(param_perturb_dist[i]*param_perturb_dist[j]*4) */
-  for (int i=0;i<num_params;i++){
-    for (int j=(i+1);j<num_params;j++){
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
+    for (int j=(i+1);j<g_pot.opt_pot.idxlen;j++){
 
       double cost_2plus;
       double cost_2minus;
@@ -246,26 +252,36 @@ double** calc_hessian(double cost, int num_params){
  *
  ***********************************************************************/
 
-int calc_h0_eigenvectors(double** hessian, double lower_bound, double upper_bound, double** v_0, double* w, int num_params){
+int calc_h0_eigenvectors(double** hessian, double lower_bound, double upper_bound, double** v_0, double* w){
 
   char jobz = 'V'; /* Compute eigenvectors and eigenvalues */
   char range = 'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
   char uplo = 'U'; /* Upper triangle of A is stored */
-  int lda = num_params; /* leading dimension of the array A. lda >= max(1,N) */
+  int lda = g_pot.opt_pot.idxlen; /* leading dimension of the array A. lda >= max(1,N) */
   double abstol = 0.00001; /* 2*DLAMCH('S');  absolute error tolerance for eigenvalues */
-  int ldz = num_params; /* Dimension of array z */
+  int ldz = g_pot.opt_pot.idxlen; /* Dimension of array z */
   int il = 0;
   int iu = 0;
 
   int m; /* number eigenvalues found */
-  int iwork[5*num_params];
-  int lwork = 8*num_params;
+  int iwork[5*g_pot.opt_pot.idxlen];
+  int lwork = 8*g_pot.opt_pot.idxlen;
   double work[lwork];
-  int ifail[num_params]; /* contains indices of unconverged eigenvectors if info > 0  */
+  int ifail[g_pot.opt_pot.idxlen]; /* contains indices of unconverged eigenvectors if info > 0  */
   int info = 0;
   int i;
   
-  dsyevx_(&jobz, &range, &uplo, &num_params, &hessian[0][0], &lda, &lower_bound, &upper_bound, &il, &iu, &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail, &info);
+  #if defined(MKL)
+    dsyevx_(&jobz, &range, &uplo, &g_pot.opt_pot.idxlen, &hessian[0][0], &lda, &lower_bound, &upper_bound, &il, &iu, 
+      &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail, &info);
+  #elif defined(ACML)
+    dsyevx_(&jobz, &range, &uplo, &g_pot.opt_pot.idxlen, &hessian[0][0], &lda, &lower_bound, &upper_bound, &il, &iu, 
+      &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail, &info, int jobz_len, int range_len, int uplo_len);  
+  #elif defined(__ACCELERATE__)
+        dsyevx_(&jobz, &range, &uplo, &g_pot.opt_pot.idxlen, &hessian[0][0], &lda, &lower_bound, &upper_bound, &il, &iu, 
+      &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail, &info);
+  #endif
+
 
   return m;
 }
@@ -276,24 +292,36 @@ int calc_h0_eigenvectors(double** hessian, double lower_bound, double upper_boun
  *
  *********************************************************/
 
-int calc_svd(double** hessian, double** u, double* s, int num_params){
+int calc_svd(double** hessian, double** u, double* s){
 
   char jobu = 'A'; /* Compute left singular vectors */
   char jobvt = 'A'; /* Compute right singular vectors */
-  int lda = num_params; /* leading dimension of the array A. lda >= max(1,N) */
+  int lda = g_pot.opt_pot.idxlen; /* leading dimension of the array A. lda >= max(1,N) */
   double vl = 0;
   double vu = 0;
   int il = 0;
   int iu = 0;
 
   int ns; /* number singular values found */
-  int iwork[12*num_params];
-  int lwork = 5*num_params;
+  int iwork[12*g_pot.opt_pot.idxlen];
+  int lwork = 5*g_pot.opt_pot.idxlen;
   double work[lwork];
   int info = 0;
-  double vt[num_params][num_params];
+  double vt[g_pot.opt_pot.idxlen][g_pot.opt_pot.idxlen];
   
-  dgesvd_(&jobu, &jobvt, &num_params, &num_params, &hessian[0][0], &lda, s, &u[0][0], &lda, &vt[0][0], &num_params, work, &lwork, &info);
+
+  #if defined(MKL)
+      dgesvd_(&jobu, &jobvt, &g_pot.opt_pot.idxlen, &g_pot.opt_pot.idxlen, &hessian[0][0], &lda, s, &u[0][0],
+       &lda, &vt[0][0], &g_pot.opt_pot.idxlen, work, &lwork, &info);
+  #elif defined(ACML)
+      dgesvd_(&jobu, &jobvt, &g_pot.opt_pot.idxlen, &g_pot.opt_pot.idxlen, &hessian[0][0], &lda, s, &u[0][0],
+       &lda, &vt[0][0], &g_pot.opt_pot.idxlen, work, &lwork, &info);
+  #elif defined(__ACCELERATE__)
+      dgesvd_(&jobu, &jobvt, &g_pot.opt_pot.idxlen, &g_pot.opt_pot.idxlen, &hessian[0][0], &lda, s, &u[0][0],
+       &lda, &vt[0][0], &g_pot.opt_pot.idxlen, work, &lwork, &info);
+  #endif
+
+
 
   if (info == 0){
     return lda;
@@ -309,21 +337,19 @@ int calc_svd(double** hessian, double** u, double* s, int num_params){
  *
  *********************************************************/
 
-double calc_pot_params(double** const a, double** const v_0, double* cost_before, double cost_0, double* w, int* weight, FILE* outfile){
+double generate_mc_sample(double** const a, double** const v_0, double cost_before, double cost_0, double* w, int* weight, FILE* outfile){
 
-  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
-  /* SW - WHAT TO DO ABOUT THIS? */
-  int params = g_pot.opt_pot.idxlen;
-  //    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
-     
+  /* If smooth cutoff is enabled, there is an extra parameter (h), which we are adjusting unless it's bounds are chosen to be fixed */
+
   /* store old parameters incase proposed move isn't accepted */
-  double old_params[params];
-  for (int i=0;i<params;i++){
+  double old_params[g_pot.opt_pot.idxlen];
+
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     old_params[i] = g_pot.opt_pot.table[g_pot.opt_pot.idx[i]];
   }
 
   int count = 1;
-  int mc_decision = mc_moves(v_0, w, cost_before, params, cost_0, outfile);
+  int mc_decision = mc_moves(v_0, w, cost_before, cost_0, outfile);
 
   /* Keep generating trials for this hessian until a move is accepted
      This saves multiple calculations of the same hessian when a move isn't accepted */
@@ -332,18 +358,18 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
    count++; /* If move not accepted, count current parameters again */
     
     /* reset parameters to initials params */
-    for (int i=0;i<params;i++){
+    for (int i=0;i<pg_pot.opt_pot.idxlen;i++){
       g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] = old_params[i];
     }
    
     /* call function recursively until we accept a move for this set of eigenvalues */
-    mc_decision = mc_moves(v_0, w, cost_before, params, cost_0, outfile);
+    mc_decision = mc_moves(v_0, w, cost_before, cost_0, outfile);
 
   }
   *weight = count;
   
   /* Return new cost */
-  return *cost_before;
+  return cost_before;
 }
 
 /********************************************************
@@ -352,22 +378,17 @@ double calc_pot_params(double** const a, double** const v_0, double* cost_before
  *
  *********************************************************/
 
-int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, FILE* outfile) {
-
-  //If smooth cutoff is enabled, there is an extra parameter (h), which we are not adjusting
-  /* SW - WHAT TO DO ABOUT THIS? */
-  int params = g_pot.opt_pot.idxlen;
-  //    if (g_pot.smooth_pot[0] == 1) {params -= 1;}
+int mc_moves(double** v_0,double* w, double cost_before, double cost_0, FILE* outfile) {
   
-  double lambda[params];
+  double lambda[g_pot.opt_pot.idxlen];
   double R; 
   double cost_after;
-  double delta[params];
+  double delta[g_pot.opt_pot.idxlen];
 
-  R = sqrt(g_config.acceptance_rescaling);
+  R = sqrt(g_param.acceptance_rescaling);
   
   /* If eigenvalue is less than 1, replace it with 1. */
-  for (int i=0;i<m;i++){
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
 #if defined(MIN_STEP)
     if (w[i] > 1.0){ w[i] = 1.0; }
 #else /* Use max(lambda,1) */
@@ -379,11 +400,11 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
     lambda[i] *= r;
   }
   
-  /* Matrix multiplication (delta_param[i] = Sum{1}{params} [v_0[i][j] * (r[j]/lambda[j])] ) */
+  /* Matrix multiplication (delta_param[i] = Sum{1}{g_pot.opt_pot.idxlen} [v_0[i][j] * (r[j]/lambda[j])] ) */
 
-  for (int i=0;i<params;i++){
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     delta[i] = 0;
-    for(int j=0;j<params;j++){
+    for(int j=0;j<g_pot.opt_pot.idxlen;j++){
       delta[i] += v_0[i][j]*lambda[j];
     }
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += delta[i];
@@ -391,14 +412,14 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
   
   cost_after = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
-  double cost_diff = cost_after - *cost_before;
+  double cost_diff = cost_after - cost_before;
 
   /* Accept downhill moves outright */
   if (cost_diff < 0){
     *cost_before = cost_after;
 
     /* Print change in parameters */
-    for(int i=0;i<params;i++){
+    for(int i=0;i<g_pot.opt_pot.idxlen;i++){
       printf("%.4f ",delta[i]);
     }
     printf("\n");
@@ -406,18 +427,18 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
     return 1;
   }
   
-  /* Monte Carlo step (seeded from srand(time(NULL)) in calc_pot_params() )
+  /* Monte Carlo step (seeded from srand(time(NULL)) in generate_mc_sample() )
      Acceptance probability = 0.8
      generate uniform random number [0,1], if greater than 0.8 then accept change
      if step accepted, move new cost to cost_before for next cycle */
-  double probability = exp(-(params*(cost_diff))/(2*cost_0));
+  double probability = exp(-(g_pot.opt_pot.idxlen*(cost_diff))/(2*cost_0));
   double mc_rand_number = eqdist();
 
   if (mc_rand_number <= probability){
-    *cost_before = cost_after;
+    cost_before = cost_after;
 
     /* Print change in parameters */
-    for(int i=0;i<params;i++){
+    for(int i=0;i<g_pot.opt_pot.idxlen;i++){
       printf("%.4f ",delta[i]);
     }
     printf("\n");
@@ -426,7 +447,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
   }
 
   /* Print out unsuccessful moves */
-  for(int i=0;i<params;i++){
+  for(int i=0;i<g_pot.opt_pot.idxlen;i++){
     fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
   fprintf(outfile,"%g 1 0 - -\n", cost_after);
@@ -435,4 +456,4 @@ int mc_moves(double** v_0,double* w, double* cost_before, int m, double cost_0, 
   return 0;
 }
 
-#endif  // UQ&&APOT
+#endif  /* UQ&&APOT */
