@@ -271,12 +271,13 @@ void read_parameter_file(char const* param_file)
      }
 
      else if (strcasecmp(token, "acceptance_rescaling") == 0) {
-       get_param_double("acceptance_rescaling", &g_config.acceptance_rescaling, line, param_file, 0, 1);
+       get_param_double("acceptance_rescaling", &g_param.acceptance_rescaling, line, param_file, 0.0000000000001, 1);
      }
 
      else if (strcasecmp(token, "acc_moves") == 0){
-       get_param_int("acc_moves", &g_config.acc_moves, line, param_file, 0, INT_MAX);
+       get_param_int("acc_moves", &g_param.acc_moves, line, param_file, 1, INT_MAX);
      }
+
 #endif  // UQ
 
 
@@ -436,4 +437,26 @@ void check_parameters_complete(char const* paramfile)
   if (g_param.global_cell_scale <= 0)
     error(1, "Missing parameter or invalid value in %s : cell_scale is \"%f\"\n",
           paramfile, g_param.global_cell_scale);
+
+#if defined(UQ)
+  if (g_files.sloppyfile == NULL) {
+        warning("sloppyfile is missing in %s, setting it to %s.uq\n", paramfile,
+            g_files.output_prefix);
+    g_files.sloppyfile =
+        (const char*)Malloc((strlen(g_files.output_prefix) + 4) * sizeof(char));
+    sprintf((char*)g_files.sloppyfile, "%s.uq", g_files.output_prefix);
+  }
+
+  if (g_param.acc_moves == 0)
+    error(1,
+        "Missing parameter or invalid value in %s : acc_moves is <undefined>\n",
+         paramfile, g_param.acc_moves);
+
+  if (g_param.acceptance_rescaling == 0)
+    error(1,
+        "Missing parameter or invalid value in %s : acceptance_rescaling is <undefined>\n",
+         paramfile, g_param.acceptance_rescaling);
+
+  #endif // UQ
+
 }

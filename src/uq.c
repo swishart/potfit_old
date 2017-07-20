@@ -25,6 +25,7 @@
  * along with potfit; if not, see <http://www.gnu.org/licenses/>.                                                                      
  *                                                                                                                                     
  ****************************************************************/
+#include <sys/stat.h>
 
 #include "potfit.h"
 
@@ -41,6 +42,7 @@
 #include "uq.h"
 #include "force.h"
 #include "random.h"
+#include "potential_output.h"
 
 #define VERY_SMALL 1.E-12
 
@@ -56,14 +58,14 @@ void ensemble_generation(double cost_0) {
   /* open file */
   FILE* outfile = fopen(g_files.sloppyfile, "w");
   if (outfile == NULL)
-    error(1, "Could not open file %s for writing\n", filename);
+    error(1, "Could not open file %s for writing\n", g_files.sloppyfile);
 
   /* Initialise variables to 0 */
   int pot_attempts      = 0;
   double acc_prob       = 0.00;
   
   /* Calculate the best fit hessian */
-  double** hessian = calc_hessian(cost_0, g_pot.opt_pot.idxlen);
+  double** hessian = calc_hessian(cost_0);
   
   int m     = 0;
   double vl = -1; // Initial lower bound for eigenvalues - this range is adjusted until all are found
@@ -81,12 +83,12 @@ void ensemble_generation(double cost_0) {
     vl *= 10;
     vu *= 10;
 
-    m = calc_h0_eigenvectors(hessian, vl, vu, v_0, eigenvalues, g_pot.opt_pot.idxlen);
+    m = calc_h0_eigenvectors(hessian, vl, vu, v_0, eigenvalues);
     
     if (count > 5){
-      fprintf(outfile,"NOT CONVERGING! Use singular value decomposition \n");
+      printf("NOT CONVERGING! Use singular value decomposition.\n");
 
-      m = calc_svd(hessian, v_0, eigenvalues, g_pot.opt_pot.idxlen);
+      m = calc_svd(hessian, v_0, eigenvalues);
 
       /* Check all eigenvalues have been found, otherwise exit */
       if (m != g_pot.opt_pot.idxlen){
@@ -98,31 +100,36 @@ void ensemble_generation(double cost_0) {
 
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     if (eigenvalues[i] < 0){
-      warning("Negative eigenvalue of %.4f, has the best fit minimum been found?!\nThis implies the best fit potential is not at the miminum!\n", eigenvalue[i]);
+      warning("Negative eigenvalue of %.4f, has the best fit minimum been found?!\nThis implies the best fit potential is not at the miminum!\n", eigenvalues[i]);
     }
   }
 
   /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
-  fprintf(outfile,"------------------------------------------------------\n");
+  fprintf(outfile,"------------------------------------------------------\n\n");
   fprintf(outfile,"Eigenvalues and eigenvectors of the best fit hessian:\n");
-  fprintf(outfile, "eigenvalue, eigenvector (x, y ,z)\n");
+  fprintf(outfile,"eigenvalue, eigenvector (x, y ,z)\n");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
-    fprintf(outfile,"%.4f\t",eigenvalues[i]);
+    fprintf(outfile,"%-11.4f ",eigenvalues[i]);
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      fprintf(outfile,"%.4f ",v_0[i][j]);
+      fprintf(outfile,"%-10.4f ",v_0[i][j]);
     }
     fprintf(outfile,"\n");
   }
 
+  fprintf(outfile,"\n------------------------------------------------------\n\n");
   /* Print initial best fit */
+  fprintf(outfile, "Identifier ");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
-  fprintf(outfile, "Parameter %d\t",i+1);
+  fprintf(outfile, "Param %-4d ",i+1);
   }
-  fprintf(outfile, "Cost\tWeight\tAccepted\tAttempts\tAcceptance Probability\n", );
-  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
-    fprintf(outfile,"%g\t",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-  }
-  fprintf(outfile,"%g\t1\t1\t%d\t%.2f\n", cost_0, pot_attempts, acc_prob);
+  fprintf(outfile, "Cost       Weight     Accepted   Attempts   Acceptance Probability\n");
+
+  // /* Create directory to store parameter files */ -SW 
+  // int status;
+  // status = mkdir(g_files.output_prefix, S_IRWXU | S_IRWXG | S_IRWXO);
+  // if (status != 0){
+  //   error(1,"Could not create directory '%s' for potential files.\n", dirname);
+  // }
 
   /* Initialise variables and take first Monte Carlo step */
   int weight      = 1;
@@ -131,21 +138,45 @@ void ensemble_generation(double cost_0) {
   /* run until number of moves specified in param file are accepted */
   for (int i=0; i<=g_param.acc_moves;i++)
     {
+
+      if (i != 0) {
+        /* Write weight from of previous parameter set - i.e. how many trials before this new parameter set was accepted */
+        fprintf(outfile,"%-10d 1          %-10d %-10.2f\n", weight, pot_attempts, acc_prob); 
+      }
+      
+      if (i == g_param.acc_moves) {
+        /* For the final configuration (i = (g_param.acc_moves - 1) print the remaining weight calculated and then exit */
+        continue;
+      }
+
       double cost = generate_mc_sample(hessian, v_0, cost, cost_0, eigenvalues, weight_ptr, outfile);
 
       pot_attempts += weight;
       acc_prob = (((double)i+1.0))/(double)pot_attempts; /* Add one to include the MC step outside loop */
 
       /* Write accepted move to file */
+      fprintf(outfile,"%-10d", i+1);
       for(int i=0;i<g_pot.opt_pot.idxlen;i++){
-      fprintf(outfile,"%g\t",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+      fprintf(outfile,"%-10.6g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
       }
-      fprintf(outfile,"%g\t%d\t1\t%d\t%.2f\n", cost, weight, pot_attempts, acc_prob);
+      fprintf(outfile,"%-10.6g ", cost);
+
+      /* Write potential input file for parameter ensemble */
+      char file[255];
+      char end[255];
+      strcpy(file, g_files.output_prefix);
+      sprintf(end,".sloppy_pot_%d",i+1);
+      strcat(file, end);
+      write_pot_table_potfit(file); 
+
+      if (cost < cost_0) {
+        warning("New best fit parameter set found in %s. Old cost = %5.4g, new cost = %5.4g\n",file, cost_0,cost);
+      }
       
     }
 
 fclose(outfile);
-printf("UQ ensemble parameters written to %s\n", filename);
+printf("UQ ensemble parameters written to %s\n", g_files.sloppyfile);
 }
 
 /****************************************************************
@@ -166,7 +197,7 @@ double** calc_hessian(double cost){
   - the cost evaluations per hessian element
   - the size of each parameter perturbation (i.e. 0.0001*parameter)
   - the final hessian elements */
-  double param_perturb_dist[g_pot.opt_pot.idxlen; 
+  double param_perturb_dist[g_pot.opt_pot.idxlen]; 
   double** hessian    = mat_double(g_pot.opt_pot.idxlen, g_pot.opt_pot.idxlen); /* mat_double() defined in powell_lsq.c */
   double two_cost     = 2*cost;
   double perturbation = 0.0001;  
@@ -175,7 +206,7 @@ double** calc_hessian(double cost){
   for (int j=0;j<g_pot.opt_pot.idxlen;j++){
     param_perturb_dist[j] = perturbation * g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
 
-    if (g_pot.opt_pot.table[_pot.opt_pot.idx[j]] == 0){
+    if (g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] == 0){
       param_perturb_dist[j] = perturbation;
       warning("parameter %d is 0. Using set perturbation of %f.\n", j, perturbation);
     }
@@ -195,14 +226,16 @@ double** calc_hessian(double cost){
 
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
        
-    /* print a warning if either cost_plus or cost_minus are less than 10^(-12) */
-    if (cost_plus < VERY_SMALL) || (cost_minus < VERY_SMALL){
-      warning("The change in cost_plus/cost_minus when calculating the hessian is less than 10^(-12). This will affect precision.\nConsider changing the scale of cost perturbation. \n");
-
+    /* print a warning if either cost_plus or cost_minus are less than 10^(-12) or a new minima is found */
+    if ((cost_plus < VERY_SMALL) || (cost_minus < VERY_SMALL)) {
+      warning("The change in cost_plus/cost_minus when calculating the hessian is less than 10^(-12).\n This will affect precision. Consider changing the scale of cost perturbation. \n");
+    } 
+    else if ((cost_plus < cost) || (cost_minus < cost)) {
+      warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_plus = %f, cost_minus = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_plus, cost_minus);
     }
 
     hessian[i][i] = cost_plus - two_cost + cost_minus;
-    hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i])
+    hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i]);
   }
 
   /* For off-diagonal entries:
@@ -236,6 +269,15 @@ double** calc_hessian(double cost){
       /* reset to start */
       g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
       g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] += param_perturb_dist[j];
+
+
+      /* print a warning if either cost_pm or cost_mp are less than 10^(-12) or a new minima is found */
+      if ((cost_pm < VERY_SMALL) || (cost_mp < VERY_SMALL)) {
+        warning("The change in cost_pm/cost_mp when calculating the hessian is less than 10^(-12).\nThis will affect precision. Consider changing the scale of cost perturbation. \n");
+      }
+      else if ((cost_pm < cost) || (cost_mp < cost)) {
+        warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_pm = %f, cost_mp = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_pm, cost_mp);
+      }
       
       hessian[i][j] = cost_2plus + cost_2minus - cost_pm - cost_mp;
       hessian[i][j] /= (4*param_perturb_dist[i]*param_perturb_dist[j]);
@@ -322,7 +364,6 @@ int calc_svd(double** hessian, double** u, double* s){
   #endif
 
 
-
   if (info == 0){
     return lda;
   }else{
@@ -343,13 +384,14 @@ double generate_mc_sample(double** const a, double** const v_0, double cost_befo
 
   /* store old parameters incase proposed move isn't accepted */
   double old_params[g_pot.opt_pot.idxlen];
+  double* cost_ptr = &cost_before;
 
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     old_params[i] = g_pot.opt_pot.table[g_pot.opt_pot.idx[i]];
   }
 
-  int count = 1;
-  int mc_decision = mc_moves(v_0, w, cost_before, cost_0, outfile);
+  int count = 0;
+  int mc_decision = 0; 
 
   /* Keep generating trials for this hessian until a move is accepted
      This saves multiple calculations of the same hessian when a move isn't accepted */
@@ -358,12 +400,12 @@ double generate_mc_sample(double** const a, double** const v_0, double cost_befo
    count++; /* If move not accepted, count current parameters again */
     
     /* reset parameters to initials params */
-    for (int i=0;i<pg_pot.opt_pot.idxlen;i++){
+    for (int i=0;i<g_pot.opt_pot.idxlen;i++){
       g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] = old_params[i];
     }
    
-    /* call function recursively until we accept a move for this set of eigenvalues */
-    mc_decision = mc_moves(v_0, w, cost_before, cost_0, outfile);
+    /* call function continuously until we accept a move for this set of eigenvalues */
+    mc_decision = mc_moves(v_0, w, cost_ptr, cost_0, outfile);
 
   }
   *weight = count;
@@ -378,7 +420,7 @@ double generate_mc_sample(double** const a, double** const v_0, double cost_befo
  *
  *********************************************************/
 
-int mc_moves(double** v_0,double* w, double cost_before, double cost_0, FILE* outfile) {
+int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* outfile) {
   
   double lambda[g_pot.opt_pot.idxlen];
   double R; 
@@ -412,17 +454,19 @@ int mc_moves(double** v_0,double* w, double cost_before, double cost_0, FILE* ou
   
   cost_after = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
-  double cost_diff = cost_after - cost_before;
+  double cost_diff = cost_after - *cost_before;
 
   /* Accept downhill moves outright */
   if (cost_diff < 0){
     *cost_before = cost_after;
 
+#if defined(DEBUG)
     /* Print change in parameters */
     for(int i=0;i<g_pot.opt_pot.idxlen;i++){
       printf("%.4f ",delta[i]);
     }
     printf("\n");
+#endif
 
     return 1;
   }
@@ -435,23 +479,30 @@ int mc_moves(double** v_0,double* w, double cost_before, double cost_0, FILE* ou
   double mc_rand_number = eqdist();
 
   if (mc_rand_number <= probability){
-    cost_before = cost_after;
+    *cost_before = cost_after;
 
+#if defined(DEBUG)
     /* Print change in parameters */
     for(int i=0;i<g_pot.opt_pot.idxlen;i++){
       printf("%.4f ",delta[i]);
     }
     printf("\n");
+#endif
     
     return 1;
   }
 
+
+#if defined(DEBUG)
   /* Print out unsuccessful moves */
+  fprintf(outfile,"-          ");
   for(int i=0;i<g_pot.opt_pot.idxlen;i++){
-    fprintf(outfile,"%g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-  }
-  fprintf(outfile,"%g 1 0 - -\n", cost_after);
-  
+    fprintf(outfile,"%-10.6g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    }
+  fprintf(outfile,"%-10.6g 1          0          -          -\n", cost_after);
+#endif
+
+
   /* If move not accepted, return 0 */
   return 0;
 }

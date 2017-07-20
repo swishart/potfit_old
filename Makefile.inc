@@ -116,6 +116,7 @@ SYSTEM = x86_64-gcc
 
 #MKLDIR      = /opt/intel/composer_xe_2015.1.133/mkl
 MKLDIR      = /opt/intel/mkl
+MKLROOT     = ${MKLDIR}
 ACML4DIR    = /opt/acml4.4.0/gfortran64
 ACML5DIR    = /opt/acml/gfortran64
 LIBMDIR     = /opt/acml/libm
@@ -133,26 +134,28 @@ uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 #uname_P := $(shell sh -c 'uname -p 2>/dev/null || echo not')
 #uname_V := $(shell sh -c 'uname -v 2>/dev/null || echo not')
 
-ifeq (${uname_S},Darwin)
-  TARGET = MACOS
-else
-  TARGET = LINUX
-endif
+# ifeq (${uname_S},Darwin)
+   TARGET = MACOS
+# else
+#   TARGET = LINUX
+# endif
 
-ifneq (,$(strip $(findstring acml4,${MAKETARGET})))
-  MATH_LIB = ACML4
-else ifneq (,$(strip $(findstring acml5,${MAKETARGET})))
-  MATH_LIB = ACML5
-else ifneq (,$(strip $(findstring mkl,${MAKETARGET})))
-  MATH_LIB = MKL
-else
-  ifeq (${TARGET},MACOS)
-    # accelerate is the default for Mac OS
-    MATH_LIB = __ACCELERATE__
-  else
-    MATH_LIB = MKL
-  endif
-endif
+# ifneq (,$(strip $(findstring acml4,${MAKETARGET})))
+#   MATH_LIB = ACML4
+# else ifneq (,$(strip $(findstring acml5,${MAKETARGET})))
+#   MATH_LIB = ACML5
+# else ifneq (,$(strip $(findstring mkl,${MAKETARGET})))
+#   MATH_LIB = MKL
+# else
+#   ifeq (${TARGET},MACOS)
+#     # accelerate is the default for Mac OS
+#     MATH_LIB = __ACCELERATE__
+#   else
+#     MATH_LIB = MKL
+#   endif
+# endif 
+
+MATH_LIB = MKL
 
 ############################################################################
 #
@@ -195,35 +198,37 @@ endif # x86_64-icc
 ifeq (x86_64-gcc,${SYSTEM})
   # compiler
   CC_SERIAL     = gcc
-  CC_MPI        = mpicc-openmpi-mp
+  CC_MPI        = mpicc
   OMPI_CC       = gcc
   OMPI_CLINKER  = gcc
 
   # general optimization flags
-  OPT_FLAGS     += -m64 -O3 -march=native -std=c99
+  OPT_FLAGS     += -m64 -O3 -I${MKLROOT}/include -std=c99
 
   # profiling and debug flags
   PROF_FLAGS    += -m64 -g3 -pg
   PROF_LIBS     += -m64 -g3 -pg
-  DEBUG_FLAGS   += -m64 -g3 -Wall -pedantic -std=c99
+  DEBUG_FLAGS   += -m64 -g3 -Wall -std=c99
   ASAN_FLAGS    += -g -fsanitize=address -fno-omit-frame-pointer
   ASAN_LFLAGS   = -g -fsanitize=address
 
-ifeq (${MATH_LIB},__ACCELERATE__)
-  OPT_FLAGS    += -Wa,-q
-  LIBS += -framework Accelerate 
-else ifeq (${MATH_LIB},MKL)
+#ifeq (${MATH_LIB},__ACCELERATE__)
+#  OPT_FLAGS    += -Wa,-q
+#  LIBS += -framework Accelerate 
+#else ifeq (${MATH_LIB},MKL)
   CINCLUDE      += -I${MKLDIR}/include
-  LIBS          += -Wl,--start-group -lmkl_intel_lp64 -lmkl_sequential -lmkl_core \
-                   -Wl,--end-group -lpthread -Wl,--as-needed
-else ifeq (${MATH_LIB},ACML4)
-  CINCLUDE      += -I${ACML4DIR}/include
-  LIBS          += -L${ACML4PATH} -lpthread -lacml -lacml_mv -Wl,--as-needed
-else ifeq (${MATH_LIB},ACML5)
-  LIBMPATH      = ${LIBMDIR}/lib/dynamic
-  CINCLUDE      += -I${ACML5DIR}/include -I${LIBMDIR}/include
-  LIBS          += -L${ACML5PATH} -L${LIBMPATH} -lpthread -lacml -lamdlibm -Wl,--as-needed
-endif
+#  LIBS          += -Wl,--start-group -lmkl_intel_lp64 -lmkl_sequential -lmkl_core \
+#                   -Wl,--end-group -lpthread -Wl,--as-needed
+  LIBS = ${MKLROOT}/lib/libmkl_intel_lp64.a ${MKLROOT}/lib/libmkl_core.a ${MKLROOT}/lib/libmkl_sequential.a -lpthread -lm
+
+#else ifeq (${MATH_LIB},ACML4)
+#  CINCLUDE      += -I${ACML4DIR}/include
+#  LIBS          += -L${ACML4PATH} -lpthread -lacml -lacml_mv -Wl,--as-needed
+# else ifeq (${MATH_LIB},ACML5)
+#   LIBMPATH      = ${LIBMDIR}/lib/dynamic
+#   CINCLUDE      += -I${ACML5DIR}/include -I${LIBMDIR}/include
+#   LIBS          += -L${ACML5PATH} -L${LIBMPATH} -lpthread -lacml -lamdlibm -Wl,--as-needed
+# endif
 
 endif # x86_64-gcc
 
