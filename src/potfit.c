@@ -145,15 +145,6 @@ int main(int argc, char** argv)
     double tot = calc_forces(g_pot.calc_pot.table, g_calc.force, 0);
 #endif  // APOT
 
-#if defined(UQ)
-    for (int i=0;i<g_pot.opt_pot.idxlen;i++) {
-      printf("Parameter  %d = %f ", i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-    }
-    printf("\n");
-    
-    ensemble_generation(tot);
-#endif //UQ
-
     write_pot_table_potfit(g_files.endpot);
 
     {
@@ -199,6 +190,15 @@ int main(int argc, char** argv)
 
     // write the error files for forces, energies, stresses, ...
     write_errors(g_calc.force, tot);
+
+#if defined(UQ)
+    for (int i=0;i<g_pot.opt_pot.idxlen;i++) {
+      printf("Parameter  %d = %f ", i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+    }
+    printf("\n");
+      
+    ensemble_generation(tot);
+#endif //UQ
 
     /* calculate total runtime */
     if (g_param.opt && g_mpi.myid == 0 && g_calc.ndim > 0) {
