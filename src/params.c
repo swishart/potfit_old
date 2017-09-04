@@ -271,7 +271,7 @@ void read_parameter_file(char const* param_file)
      }
 
      else if (strcasecmp(token, "acceptance_rescaling") == 0) {
-       get_param_double("acceptance_rescaling", &g_param.acceptance_rescaling, line, param_file, 0.0000000000001, 1);
+       get_param_double("acceptance_rescaling", &g_param.acceptance_rescaling, line, param_file, 0.0000000000001, DBL_MAX);
      }
 
      else if (strcasecmp(token, "acc_moves") == 0){
