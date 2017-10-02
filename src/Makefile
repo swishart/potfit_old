@@ -425,6 +425,10 @@ ifneq (,$(findstring uq,${MAKETARGET}))
   CFLAGS += -DUQ
 endif
 
+ifneq (,$(findstring uq,${MAKETARGET}))
+  CFLAGS += -DNO_SLOPPY
+endif
+
 ifneq (,$(findstring minstep,${MAKETARGET}))
   CFLAGS += -DMINSTEP
 endif

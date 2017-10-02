@@ -162,6 +162,7 @@ void ensemble_generation(double cost_0) {
       fprintf(outfile,"%-10.6g ", cost);
 
       /* Write potential input file for parameter ensemble */
+#if !defined(NO_SLOPPY)
       char file[255];
       char end[255];
       strcpy(file, g_files.output_prefix);
@@ -172,6 +173,14 @@ void ensemble_generation(double cost_0) {
       if (cost < cost_0) {
         warning("New best fit parameter set found in %s. Old cost = %5.4g, new cost = %5.4g\n",file, cost_0,cost);
       }
+#else 
+      if (cost < cost_0) {
+        warning("New best fit parameter set found for potential %d. Old cost = %5.4g, new cost = %5.4g\n",i+1, cost_0,cost);
+      }
+#endif
+
+
+
       
     }
 
