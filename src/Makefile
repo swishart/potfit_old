@@ -153,6 +153,14 @@ ifneq (,$(strip $(findstring pair,${MAKETARGET})))
   POTFITSRC	+= force_pair.c
 endif
 
+ifneq (,$(strip $(findstring ang,${MAKETARGET})))
+  ifneq (,$(strip $(findstring coulomb,${MAKETARGET})))
+    POTFITSRC	+= force_ang_elstat.c
+  else
+    POTFITSRC	+= force_ang.c
+  endif
+endif
+
 ifneq (,$(strip $(findstring eam,${MAKETARGET})))
   ifneq (,$(strip $(findstring meam,${MAKETARGET})))
     POTFITSRC	+= force_meam.c
@@ -166,8 +174,10 @@ ifneq (,$(strip $(findstring eam,${MAKETARGET})))
 endif
 
 ifneq (,$(strip $(findstring coulomb,${MAKETARGET})))
-  ifeq (,$(strip $(findstring eam,${MAKETARGET})))
-    POTFITSRC	+= force_elstat.c
+  ifeq (,$(strip $(findstring ang,${MAKETARGET})))
+    ifeq (,$(strip $(findstring eam,${MAKETARGET})))
+      POTFITSRC	+= force_elstat.c
+    endif
   endif
 endif
 
@@ -247,6 +257,15 @@ ifneq (,$(findstring pair,${MAKETARGET}))
   INTERACTION = 1
 endif
 
+# angular potentials (ANG)
+ifneq (,$(strip $(findstring ang,${MAKETARGET})))
+  ifneq (,$(findstring 1,${INTERACTION}))
+    ERROR += "More than one potential model specified!\n"
+  endif
+  CFLAGS += -DANG
+  INTERACTION = 1
+endif
+
 # embedded atom method (EAM) potentials
 ifneq (,$(strip $(findstring eam,${MAKETARGET})))
   ifneq (,$(findstring 1,${INTERACTION}))
@@ -264,9 +283,11 @@ endif
 
 # COULOMB
 ifneq (,$(strip $(findstring coulomb,${MAKETARGET})))
-  ifeq (,$(strip $(findstring eam,${MAKETARGET})))
-    ifneq (,$(findstring 1,${INTERACTION}))
-      ERROR += "More than one potential model specified!\n"
+  ifeq (,$(strip $(findstring ang,${MAKETARGET})))
+    ifeq (,$(strip $(findstring eam,${MAKETARGET})))
+      ifneq (,$(findstring 1,${INTERACTION}))
+        ERROR += "More than one potential model specified!\n"
+      endif
     endif
   endif
   ifeq (,$(strip $(findstring apot,${MAKETARGET})))
@@ -464,10 +485,18 @@ ifneq (,$(findstring kim,${MAKETARGET}))
   endif
 endif
 
-CFLAGS += -D${TARGET} -D${MATH_LIB} 
+CFLAGS += -D${TARGET} -D${MATH_LIB}
 
 # Substitute .o for .c to get the names of the object files
 OBJECTS := $(subst .c,.o,${SOURCES})
+
+# Print out information *before* make
+ifeq (,$(findstring clean,${MAKECMDGOALS}))
+  $(info Compiling $(MAKETARGET) with options)
+  $(info CC=$(CC))
+  $(info CFLAGS=$(CFLAGS))
+  $(info LIBS=$(LIBS))
+endif
 
 ###########################################################################
 #
@@ -516,8 +545,6 @@ ifneq (,${BIN_DIR})
 	@mv $@ ../${BIN_DIR}
   endif
 endif
-	@echo -e "\nCompiled with options"
-	@echo -e "CC=${CC} \nCFLAGS=${CFLAGS} \nLIBS=${LIBS}\n"
 	@echo -e "Building $@ was successful."
 
 ###########################################################################

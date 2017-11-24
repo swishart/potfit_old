@@ -10,8 +10,8 @@ from subprocess import call
 # arrays for supported interactions
 tab_interactions = ['pair', 'eam', 'tbeam', 'adp', 'meam']
 apot_interactions = ['pair', 'ang', 'eam', 'tbeam', 'adp', 'meam', 'coulomb', 'dipole',
-                     'stiweb', 'tersoff', 'tersoffmod', 'coulomb_ang', 'coulomb_eam', 'dipole_eam']
-kim_interactions = ['dummy']
+                     'stiweb', 'tersoff', 'tersoffmod', 'ang_elstat', 'eam_coulomb', 'eam_dipole']
+kim_interactions = ['kim']
 
 # arrays for supported options
 tab_options = ['evo', 'mpi', 'stress', 'nopunish',
@@ -29,7 +29,7 @@ special_tab_options = []
 
 special_apot_options = [
     ['coulomb', ['dsf']],
-    ['coulomb_eam', ['dsf']],
+    ['eam_coulomb', ['dsf']],
 ]
 
 special_kim_options = []
@@ -69,7 +69,8 @@ def parse_arguments():
 
 
 def get_working_arrays(args):
-    string = 'potfit'
+    cmd = []
+    target_name = 'potfit'
 
     if hasattr(args, 'tab'):
         if (args.tab == 'all'):
@@ -77,7 +78,8 @@ def get_working_arrays(args):
         else:
             interactions = [args.tab]
         options = tab_options
-        string += '_tab'
+        cmd.extend(['-m', 'tab'])
+        target_name += '_tab'
         special_options = special_tab_options
     elif hasattr(args, 'apot'):
         if (args.apot == 'all'):
@@ -85,24 +87,27 @@ def get_working_arrays(args):
         else:
             interactions = [args.apot]
         options = apot_options
-        string += '_apot'
+        cmd.extend(['-m', 'apot'])
+        target_name += '_apot'
         special_options = special_apot_options
     elif hasattr(args, 'kim'):
         # kim only supports 'all'
         interactions = kim_interactions
         options = kim_options
-        string += '_kim'
+        target_name += '_apot'
         special_options = special_kim_options
     else:
         raise RuntimeWarning('No interaction type defined!')
 
     if args.acml:
-        string += '_acml5'
+        cmd.extend(['-l', 'acml'])
+        target_name += '_acml'
 
     if args.debug:
-        string += '_debug'
+        cmd.append('--debug')
+        target_name += '_debug'
 
-    return [interactions, options, string, special_options]
+    return [interactions, options, cmd, target_name, special_options]
 
 
 def all_subsets(subset):
@@ -133,11 +138,9 @@ def options_are_supported(subset, disable_array):
 
 
 def build_targets(args):
-    interactions, options, potfit_string, special_options = get_working_arrays(
-        args)
+    interactions, options, cmd, target, special_options = get_working_arrays(args)
     num_targets = get_number_of_targets(interactions, options, special_options)
-    print("Building {} possible targets for {}.".format(
-        num_targets, potfit_string))
+    print("Building {} possible targets for {}.".format(num_targets, target))
 
     count = 0
     for interaction in interactions:
@@ -153,18 +156,23 @@ def build_targets(args):
             if args.count != -1 and (count - args.start) >= args.count:
                 print("\nMaximum build count ({}) reached.".format(args.count))
                 return
-            target = potfit_string + '_' + interaction
+            cmds = cmd + ['-i', interaction]
+            target_str = target + '_' + interaction
             if len(build_string):
-                target += '_' + '_'.join(build_string)
+                cmds.extend(['--enable-{}'.format(x) for x in build_string])
+                target_str += '_' + '_'.join(build_string)
             if options_are_supported(build_string, disable):
-                print("\nBuilding target {} ({}/{})".format(target, count, num_targets))
-                call(['make', 'clean'])
-                retcode = call(['make', '-j' + str(args.nproc), target])
+                print("\nBuilding target {} ({}/{})".format(target_str, count, num_targets))
+                call(['./waf', 'clean'])
+                retcode = call(['./waf', 'configure', *cmds, '-j', str(args.nproc)])
+                if retcode:
+                    sys.exit(1)
+                retcode = call(['./waf'])
                 if retcode:
                     sys.exit(1)
             else:
                 print(
-                    "\nTarget {} is disabled ({}/{})".format(target, count, num_targets))
+                    "\nTarget {} is disabled ({}/{})".format(target_str, count, num_targets))
     return
 
 
