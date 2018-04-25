@@ -29,7 +29,7 @@
 
 void ensemble_generation(double);
 
-double** calc_hessian(double);
+double** calc_hessian(double, int);
 int calc_h0_eigenvectors(double**, double, double, double**, double*);
 int calc_svd(double**, double**, double*);
 double generate_mc_sample(double** const, double** const, double, double, double*, int*, FILE*);

@@ -41,10 +41,14 @@
 
 #include "uq.h"
 #include "force.h"
+#include "errors.h"
 #include "random.h"
 #include "potential_output.h"
+#include "potential_input.h"
+
 
 #define VERY_SMALL 1.E-12
+#define VERY_LARGE 1.E12
 
 #if defined(UQ)&&(APOT) /* Only for analytic potentials at the moment */
 
@@ -65,7 +69,7 @@ void ensemble_generation(double cost_0) {
   double acc_prob       = 0.00;
   
   /* Calculate the best fit hessian */
-  double** hessian = calc_hessian(cost_0);
+  double** hessian = calc_hessian(cost_0, 1);
   
   int m     = 0;
   double vl = -1; // Initial lower bound for eigenvalues - this range is adjusted until all are found
@@ -194,7 +198,7 @@ printf("UQ ensemble parameters written to %s\n", g_files.sloppyfile);
  *
  ****************************************************************/
 
-double** calc_hessian(double cost){
+double** calc_hessian(double cost, int counter){
 /*  Implementing equation 5.7.10 from Numerical recipes in C
   
   Create the Hessian of analytic potential parameters
@@ -208,13 +212,31 @@ double** calc_hessian(double cost){
   - the final hessian elements */
   double param_perturb_dist[g_pot.opt_pot.idxlen]; 
   double** hessian    = mat_double(g_pot.opt_pot.idxlen, g_pot.opt_pot.idxlen); /* mat_double() defined in powell_lsq.c */
-  double two_cost     = 2*cost;
-  double perturbation = 0.0001;  
+  double two_cost     = 2.0 * cost;
+  //  double perturbation = 0.0001;  
+  double perturbation = 2.0 / g_pot.opt_pot.idxlen;
+  int counter_max = 10;
+  double new_cost_param_values[g_pot.opt_pot.idxlen+1];
+  
+  /* Check that we haven't been through this thing 10 times, if so error */
+  if( counter == counter_max ){
+    error(1, "Too many recalculations of the hessian implies the potential is poorly fit.\n It is advised to rerun parameter optimisation and use the true minimum.\n");
+  }
+
+  /* Initialise values for possible better fit found */
+  for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+    new_cost_param_values[j] = 0;
+  }
+  new_cost_param_values[g_pot.opt_pot.idxlen+1] = VERY_LARGE;
+
+//double perturbation = floor(cost/g_pot.opt_pot.idxlen);
+  printf("perturbation is %f\n", perturbation);
+  fflush(stdout);
 
   /* Pre-calculate each parameter perturbation */
   for (int j=0;j<g_pot.opt_pot.idxlen;j++){
     param_perturb_dist[j] = perturbation * g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
-
+    
     if (g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] == 0){
       param_perturb_dist[j] = perturbation;
       warning("parameter %d is 0. Using set perturbation of %f.\n", j, perturbation);
@@ -230,17 +252,37 @@ double** calc_hessian(double cost){
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
     cost_plus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
+    if ((cost_plus < cost) && (cost_plus < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
+      //      warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_plus = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_plus);
+
+      /* If new minima is found, store these values */
+      for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+	new_cost_param_values[j] = g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+      }
+      new_cost_param_values[g_pot.opt_pot.idxlen+1] = cost_plus;
+
+    }
+
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] -= 2*param_perturb_dist[i];
     cost_minus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
+    if ((cost_minus < cost) && (cost_minus < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
+      //  warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_minus = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_minus);
+
+      /* If new minima is found, store these values */
+      for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+        new_cost_param_values[j] = g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+      }
+      new_cost_param_values[g_pot.opt_pot.idxlen+1] = cost_minus;
+
+    }
+
+    /* Reset original param values without perturbation */
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
        
     /* print a warning if either cost_plus or cost_minus are less than 10^(-12) or a new minima is found */
     if ((cost_plus < VERY_SMALL) || (cost_minus < VERY_SMALL)) {
       warning("The change in cost_plus/cost_minus when calculating the hessian is less than 10^(-12).\n This will affect precision. Consider changing the scale of cost perturbation. \n");
-    } 
-    else if ((cost_plus < cost) || (cost_minus < cost)) {
-      warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_plus = %f, cost_minus = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_plus, cost_minus);
     }
 
     hessian[i][i] = cost_plus - two_cost + cost_minus;
@@ -265,11 +307,32 @@ double** calc_hessian(double cost){
       /* c_(i+1)(j-1) */
       g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] -= 2*param_perturb_dist[j];
       cost_pm = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
-      
+
+      if ((cost_pm < cost) && (cost_pm < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
+	//warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_pm = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_pm);
+
+	/* If new minima is found, store these values */
+	for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+	  new_cost_param_values[j] = g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+	}
+	new_cost_param_values[g_pot.opt_pot.idxlen+1] = cost_pm;
+      }
+
       /* c_(i-1)(j+1) */
       g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] -= 2*param_perturb_dist[i];
       g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] += 2*param_perturb_dist[j];
       cost_mp = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
+
+      if ((cost_mp < cost) && (cost_mp < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
+        //warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_mp = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_mp);
+
+        /* If new minima is found, store these values */
+        for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+          new_cost_param_values[j] = g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+        }
+        new_cost_param_values[g_pot.opt_pot.idxlen+1] = cost_mp;
+
+      }
 
       /* c_(i-1)(j-1) */
       g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] -= 2*param_perturb_dist[j];
@@ -282,18 +345,61 @@ double** calc_hessian(double cost){
 
       /* print a warning if either cost_pm or cost_mp are less than 10^(-12) or a new minima is found */
       if ((cost_pm < VERY_SMALL) || (cost_mp < VERY_SMALL)) {
-        warning("The change in cost_pm/cost_mp when calculating the hessian is less than 10^(-12).\nThis will affect precision. Consider changing the scale of cost perturbation. \n");
-      }
-      else if ((cost_pm < cost) || (cost_mp < cost)) {
-        warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_pm = %f, cost_mp = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_pm, cost_mp);
+	 warning("The change in cost_pm/cost_mp when calculating the hessian is less than 10^(-12).\nThis will affect precision. Consider changing the scale of cost perturbation. \n");
       }
       
       hessian[i][j] = cost_2plus + cost_2minus - cost_pm - cost_mp;
       hessian[i][j] /= (4*param_perturb_dist[i]*param_perturb_dist[j]);
 
-      hessian[j][i] = hessian[i][j];
+      hessian[j][i] = hessian[i][j];  
     }
   }
+
+  /************* IF A NEW COST VALUE IF FOUND ****************/
+  /* If new cost value is found, return parameters */
+  if(new_cost_param_values[g_pot.opt_pot.idxlen+1] != VERY_LARGE){
+    warning("A new cost minimum has been found.\nOriginal cost = %f,\t New cost = %f.\nCalculation restarting with new best fit potential values.\n\n",cost, new_cost_param_values[g_pot.opt_pot.idxlen+1]);
+
+    printf("NEW COST MINIMA VALUES:\n");
+    for(int j=0;j<g_pot.opt_pot.idxlen;j++){
+      printf("Param %d = %.8lf\n", j, new_cost_param_values[j]);
+    }
+    printf("Cost = %f\n", new_cost_param_values[g_pot.opt_pot.idxlen+1]);
+    fflush(stdout);
+
+
+    /* Move old potential to temp file */
+    if (g_files.tempfile && strlen(g_files.tempfile)) {
+#if defined(APOT)
+      update_apot_table(g_pot.opt_pot.table);
+#endif  // APOT
+      write_pot_table_potfit(g_files.tempfile);
+    }
+
+    /* Set new cost potential parameters as the best fit potential  */
+    for(int j=0;j<g_pot.opt_pot.idxlen;j++){
+      g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] = new_cost_param_values[j];  
+    }
+
+    /* Write out new end potential */
+#if defined(APOT)
+    update_apot_table(g_pot.opt_pot.table);
+#endif  // APOT
+    write_pot_table_potfit(g_files.endpot);
+  
+    // will not work with MPI
+#if defined(PDIST) && !defined(MPI)
+    write_pairdist(&g_pot.opt_pot, g_files.distfile);
+#endif  // PDIST && !MPI
+
+    // write the error files for forces, energies, stresses, ...
+    write_errors(g_calc.force, new_cost_param_values[g_pot.opt_pot.idxlen+1]);
+
+    /* Rerun hessian calculation with new cost minima */
+    hessian = calc_hessian(new_cost_param_values[g_pot.opt_pot.idxlen+1], counter+1);
+  }
+  /************* IF A NEW COST VALUE IF FOUND - END *************/
+
   return hessian;
 }
 
@@ -481,14 +587,17 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
   }
   
   /* Monte Carlo step (seeded from srand(time(NULL)) in generate_mc_sample() )
-     Acceptance probability = 0.8
-     generate uniform random number [0,1], if greater than 0.8 then accept change
+     generate uniform random number [0,1], if less than probability then accept change
      if step accepted, move new cost to cost_before for next cycle */
   double probability = exp(-(g_pot.opt_pot.idxlen*(cost_diff))/(2*cost_0));
+
   double mc_rand_number = eqdist();
 
   if (mc_rand_number <= probability){
     *cost_before = cost_after;
+
+    printf("prob is %f, random_number is %f, cost_diff is %f\n", probability, mc_rand_number, cost_diff);
+    fflush(stdout);
 
 #if defined(DEBUG)
     /* Print change in parameters */
