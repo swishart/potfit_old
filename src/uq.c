@@ -596,9 +596,6 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
   if (mc_rand_number <= probability){
     *cost_before = cost_after;
 
-    printf("prob is %f, random_number is %f, cost_diff is %f\n", probability, mc_rand_number, cost_diff);
-    fflush(stdout);
-
 #if defined(DEBUG)
     /* Print change in parameters */
     for(int i=0;i<g_pot.opt_pot.idxlen;i++){
