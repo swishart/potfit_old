@@ -208,6 +208,60 @@ printf("UQ ensemble parameters written to %s\n", g_files.sloppyfile);
 
 /****************************************************************
  *
+ *    Bracketing function for hessian finite difference 
+ *    perturbation range
+ *
+ ****************************************************************/
+void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, double pert_change, int index){
+
+  double param_perturb_dist[g_pot.opt_pot.idxlen];
+
+  while((ub[index] / lb[index]) > pert_change){
+
+    /*  Calculate the parameter perturbation */
+    for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+      param_perturb_dist[j] = pert[j] * g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+      
+      if (g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] == 0){
+	param_perturb_dist[j] = lb[j];
+	warning("parameter %d is 0. Using set perturbation of %f.\n", j, lb[j]);
+      }
+    }
+    
+    /* Perturb by adding pert value */
+    g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] += param_perturb_dist[index];
+    double cost_pert_guess_plus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
+    /* Perturb by subtracting pert value */
+    g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] -= 2 * param_perturb_dist[index];
+    double cost_pert_guess_minus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
+    /* reset values */
+    g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] += param_perturb_dist[index];
+    
+    if((cost_pert_guess_plus >= cost_aim) || (cost_pert_guess_minus >= cost_aim)){
+      ub[index] = pert[index];
+      pert[index] /= pert_change;
+    }
+    else if((cost_pert_guess_plus < cost_aim) || (cost_pert_guess_minus < cost_aim)){
+      lb[index] = pert[index];
+      pert[index] *= pert_change;
+    }
+
+
+#if defined(DEBUG)
+    printf("testing parameter %d, pert value %.8lf, cost_plus %lf cost_minus %lf cost_to_temp %lf\n", index, pert[index], cost_pert_guess_plus,cost_pert_guess_minus, cost_aim);
+#endif    
+
+  } /* while loop */
+
+  /* Set optimal pertubation value to be halfway between pert bounds */
+  pert[index] = (ub[index] - lb[index]) / 2.0;
+  
+  return;
+}
+
+
+/****************************************************************
+ *
  *    Calculate the best fit potential hessian
  *
  ****************************************************************/
@@ -227,8 +281,6 @@ double** calc_hessian(double cost, int counter){
   double param_perturb_dist[g_pot.opt_pot.idxlen]; 
   double** hessian    = mat_double(g_pot.opt_pot.idxlen, g_pot.opt_pot.idxlen); /* mat_double() defined in powell_lsq.c */
   double two_cost     = 2.0 * cost;
-  //  double perturbation = 0.0001;  
-  //  double perturbation = 2.0 / g_pot.opt_pot.idxlen;
   int counter_max = 10;
   double new_cost_param_values[g_pot.opt_pot.idxlen+1];
   
@@ -243,132 +295,27 @@ double** calc_hessian(double cost, int counter){
   }
   new_cost_param_values[g_pot.opt_pot.idxlen+1] = VERY_LARGE;
 
-  /*************************TESTING PERT_VALUE **********************/
   /* FIND PERTURBATION VALUES FOR HESSIAN CURVATURE CALCULATION  */
-  double cost_to_temp = cost + (2 * cost / g_pot.opt_pot.idxlen);
+  double cost_aim = cost + (2 * cost / g_pot.opt_pot.idxlen);
   double lb[g_pot.opt_pot.idxlen];
   double ub[g_pot.opt_pot.idxlen];
   double pert[g_pot.opt_pot.idxlen];
 
-  /* Start with the same initial perturbation and for all params */
+  /* Start with the same initial perturbation and for all params and set max/min pert values */
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      /* Fill array of initial perturbation guesses and bounds */
       pert[j] = 0.0001;
       lb[j] = 0.000001;
       ub[j] = 10.0;
     }
   
-    // BEGIN THE PARMETER LOOP
+    /* Find the correct perturbation value for each parameter */
     for (int i=0;i<g_pot.opt_pot.idxlen;i++){
-      /*      printf("hello\n");
-      for (int i=0;i<g_pot.opt_pot.idxlen;i++) {
-	printf("Parameter  %d = %f ", i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
-      }
-      printf("\n");
-      fflush(stdout);
-      */
 
-      /* Find initial magnitude of perturbation */
-      while((ub[i] / lb[i]) > 10.0){
-
-	// Calculate the parameter perturbation
-	for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-	  param_perturb_dist[i] = pert[i] * g_pot.opt_pot.table[g_pot.opt_pot.idx[i]];
-
-	  /*	  if (g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] == 0){
-	    param_perturb_dist[j] = perturbation;
-	    warning("parameter %d is 0. Using set perturbation of %f.\n", j, perturbation);
-	    }*/
-	}
-
-	g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
-	double cost_pert_guess_plus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
-	g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] -= 2 * param_perturb_dist[i];
-	double cost_pert_guess_minus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
-	// reset values
-	g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];;
-
-	if((cost_pert_guess_plus >= cost_to_temp) || (cost_pert_guess_minus >= cost_to_temp)){
-	  ub[i] = pert[i];
-	  pert[i] /= 10.0;
-	  // printf("hello1 ub = %.8lf\n", ub[i]);
-	  //fflush(stdout);
-	}
-	else if((cost_pert_guess_plus < cost_to_temp) || (cost_pert_guess_minus < cost_to_temp)){
-	  lb[i] = pert[i];
-	  pert[i] *= 10.0;
-	  //printf("hello2, lb = %.8lf\n", lb[i]);
-	  //fflush(stdout);
-	  }
+	hess_bracketing(lb, ub, cost_aim, pert, 10.0, i);
+	hess_bracketing(lb, ub, cost_aim, pert, 2.0, i);
 	
-
-	//printf("testing parameter %d, pert value %.8lf, cost_plus %lf cost_minus %lf cost_to_temp %lf\n", i, pert[i], cost_pert_guess_plus,cost_pert_guess_minus, cost_to_temp);
-	//fflush(stdout);
-
-      } // while loop
-
-      // pert value at right magnitude but to be refined
-      pert[i] = (ub[i] - lb[i]) / 2.0;
-
-      /* refine pert value to be within 2 */
-      while((ub[i] / lb[i]) > 2.0){
-
-        // Calculate the parameter perturbation
-        for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-          param_perturb_dist[i] = pert[i] * g_pot.opt_pot.table[g_pot.opt_pot.idx[i]];
-
-          /*      if (g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] == 0){
-            param_perturb_dist[j] = perturbation;
-            warning("parameter %d is 0. Using set perturbation of %f.\n", j, perturbation);
-            }*/
-        }
-
-        g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];
-        double cost_pert_guess_plus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
-        g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] -= 2 * param_perturb_dist[i];
-        double cost_pert_guess_minus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
-        // reset values
-        g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += param_perturb_dist[i];;
-
-        if((cost_pert_guess_plus >= cost_to_temp) || (cost_pert_guess_minus >= cost_to_temp)){
-          ub[i] = pert[i];
-          pert[i] /= 2.0;
-          //printf("hello1 ub = %.8lf\n", ub[i]);
-          //fflush(stdout);
-        }
-        else if((cost_pert_guess_plus < cost_to_temp) || (cost_pert_guess_minus < cost_to_temp)){
-          lb[i] = pert[i];
-          pert[i] *= 2.0;
-          //printf("hello2, lb = %.8lf\n", lb[i]);
-          //fflush(stdout);
-	}
-
-
-	//printf("testing parameter %d, pert value %.8lf, cost_plus %lf cost_minus %lf cost_to_temp %lf\n", i, pert[i], cost_pert_guess_plus,cost_pert_guess_minus, cost_to_temp);
-        //fflush(stdout);
-
-      } // while loop
-
-
-
-
-      // fflush(stdout);
-      
-      // if pert value is becoming increasingly small
-
-      // after finding the correct range for pert, set pert to midpoint 
-      pert[i] = (ub[i] - lb[i]) / 2.0;
       printf("FINAL PERT VALUE %.8lf for param %d\n", pert[i], i);
-
-    } // parameter loop
-    fflush(stdout);
-
-    //    error(1, "TESTING HESSIAN PERTUB LENGTH EXIT EARLY!");
-
-
-
-  /*************************TESTING PERT_VALUE **********************/
-
+    } /* parameter loop */
 
   /* Pre-calculate each parameter perturbation */
   for (int j=0;j<g_pot.opt_pot.idxlen;j++){
@@ -391,7 +338,6 @@ double** calc_hessian(double cost, int counter){
     cost_plus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
     if ((cost_plus < cost) && (cost_plus < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
-      //      warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_plus = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_plus);
 
       /* If new minima is found, store these values */
       for (int j=0;j<g_pot.opt_pot.idxlen;j++){
@@ -405,7 +351,6 @@ double** calc_hessian(double cost, int counter){
     cost_minus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
     if ((cost_minus < cost) && (cost_minus < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
-      //  warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_minus = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_minus);
 
       /* If new minima is found, store these values */
       for (int j=0;j<g_pot.opt_pot.idxlen;j++){
@@ -447,7 +392,6 @@ double** calc_hessian(double cost, int counter){
       cost_pm = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
       if ((cost_pm < cost) && (cost_pm < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
-	//warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_pm = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_pm);
 
 	/* If new minima is found, store these values */
 	for (int j=0;j<g_pot.opt_pot.idxlen;j++){
@@ -462,7 +406,6 @@ double** calc_hessian(double cost, int counter){
       cost_mp = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
 
       if ((cost_mp < cost) && (cost_mp < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
-        //warning("A new cost minimum has been found.\nOriginal cost = %f,\t New: cost_mp = %f.\nCalculation continuing although it is advised to rerun parameter optimisation and use the true minimum.\n",cost, cost_mp);
 
         /* If new minima is found, store these values */
         for (int j=0;j<g_pot.opt_pot.idxlen;j++){
@@ -493,7 +436,6 @@ double** calc_hessian(double cost, int counter){
     }
   }
 
-  /************* IF A NEW COST VALUE IF FOUND ****************/
   /* If new cost value is found, return parameters */
   if(new_cost_param_values[g_pot.opt_pot.idxlen+1] != VERY_LARGE){
     warning("A new cost minimum has been found.\nOriginal cost = %f,\t New cost = %f.\nCalculation restarting with new best fit potential values.\n\n",cost, new_cost_param_values[g_pot.opt_pot.idxlen+1]);
@@ -530,13 +472,12 @@ double** calc_hessian(double cost, int counter){
     write_pairdist(&g_pot.opt_pot, g_files.distfile);
 #endif  // PDIST && !MPI
 
-    // write the error files for forces, energies, stresses, ...
+    /* write the error files for forces, energies, stresses, ... */
     write_errors(g_calc.force, new_cost_param_values[g_pot.opt_pot.idxlen+1]);
 
     /* Rerun hessian calculation with new cost minima */
     hessian = calc_hessian(new_cost_param_values[g_pot.opt_pot.idxlen+1], counter+1);
-  }
-  /************* IF A NEW COST VALUE IF FOUND - END *************/
+  } /* If a new cost is found */
 
   return hessian;
 }

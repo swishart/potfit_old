@@ -29,6 +29,7 @@
 
 void ensemble_generation(double);
 
+void hess_bracketing(double*, double*, double, double*, double, int);
 double** calc_hessian(double, int);
 int calc_h0_eigenvectors(double**, double, double, double**, double*);
 int calc_svd(double**, double**, double*);
