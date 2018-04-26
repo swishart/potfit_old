@@ -70,7 +70,7 @@ void ensemble_generation(double cost_0) {
   
   /* Calculate the best fit hessian */
   double** hessian = calc_hessian(cost_0, 1);
-  printf("Hessian calulated, finding it's eigenvalues\n");
+  printf("Hessian calulated, finding it's eigenvalues.\n");
   fflush(stdout);
 
   /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
@@ -149,6 +149,9 @@ void ensemble_generation(double cost_0) {
   //   error(1,"Could not create directory '%s' for potential files.\n", dirname);
   // }
 
+  printf("Beginning MCMC ensemble generation.\n");
+  fflush(stdout);
+
   /* Initialise variables and take first Monte Carlo step */
   int weight      = 1;
   int* weight_ptr = &weight;
@@ -175,7 +178,7 @@ void ensemble_generation(double cost_0) {
       /* Write accepted move to file */
       fprintf(outfile,"%-10d", i+1);
       for(int i=0;i<g_pot.opt_pot.idxlen;i++){
-      fprintf(outfile,"%-10.6g ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+      fprintf(outfile,"%-10.8lf ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
       }
       fprintf(outfile,"%.8lf ", cost);
 
