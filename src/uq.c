@@ -142,6 +142,14 @@ void ensemble_generation(double cost_0) {
   }
   fprintf(outfile, "Cost       Weight     Accepted   Attempts   Acceptance Probability\n");
 
+  /* Write iitial cost to file */
+  fprintf(outfile,"%-10d", pot_attempts);
+  for(int i=0;i<g_pot.opt_pot.idxlen;i++){
+    fprintf(outfile,"%-10.8lf ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+  }
+  fprintf(outfile,"%.8lf ", cost_0);
+
+
   // /* Create directory to store parameter files */ -SW 
   // int status;
   // status = mkdir(g_files.output_prefix, S_IRWXU | S_IRWXG | S_IRWXO);
@@ -152,6 +160,25 @@ void ensemble_generation(double cost_0) {
   printf("Beginning MCMC ensemble generation.\n");
   fflush(stdout);
 
+
+  /********************* HACK **********************************/
+  // Set parameters to last MC hessian step
+
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[0]] = 0.11527815;
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[1]] = 2.28234318;
+ // g_pot.opt_pot.table[g_pot.opt_pot.idx[2]] = 2.35062762;
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[3]] = -1.76583638;
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[4]] = 2.77730831;
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[5]] = 1.56581032;
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[6]] = 3.80851537;
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[7]] = -4.41252885;
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[8]] = 3.40804570;
+ //  g_pot.opt_pot.table[g_pot.opt_pot.idx[9]] = 0.04679127;
+
+  /********************* HACK **********************************/
+
+
+
   /* Initialise variables and take first Monte Carlo step */
   int weight      = 1;
   int* weight_ptr = &weight;
@@ -159,14 +186,14 @@ void ensemble_generation(double cost_0) {
   /* run until number of moves specified in param file are accepted */
   for (int i=0; i<=g_param.acc_moves;i++)
     {
-
-      if (i != 0) {
-        /* Write weight from of previous parameter set - i.e. how many trials before this new parameter set was accepted */
-        fprintf(outfile,"%-10d 1          %-10d %-10.2f\n", weight, pot_attempts, acc_prob); 
-      }
       
       if (i == g_param.acc_moves) {
+
+        pot_attempts += weight;
+        acc_prob = (((double)i+1.0))/(double)pot_attempts; /* Add one to include the MC step outside loop */
+
         /* For the final configuration (i = (g_param.acc_moves - 1) print the remaining weight calculated and then exit */
+        fprintf(outfile,"%-10d 1          %-10d %-10.2f\n", weight, pot_attempts, acc_prob); 
         continue;
       }
 
@@ -174,6 +201,9 @@ void ensemble_generation(double cost_0) {
 
       pot_attempts += weight;
       acc_prob = (((double)i+1.0))/(double)pot_attempts; /* Add one to include the MC step outside loop */
+
+      /* Write weight from best cost set - i.e. how many trials before this new parameter set was accepted */
+      fprintf(outfile,"%-10d 1          %-10d %-10.2f\n", weight, pot_attempts, acc_prob); 
 
       /* Write accepted move to file */
       fprintf(outfile,"%-10d", i+1);
