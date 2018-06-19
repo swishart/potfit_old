@@ -95,7 +95,7 @@ void ensemble_generation(double cost_0) {
   double eigenvalues[g_pot.opt_pot.idxlen];
 
   /* Enter loop to find eigenvalues, increasing the range by a factor of ten each until all eigenvalues are found. 
-     If after 5 iterations the eigenvalues have not be found, revert to signular value decomposition */
+     If after 10 iterations the eigenvalues have not be found, revert to signular value decomposition */
   while (m < g_pot.opt_pot.idxlen) {
 
     vl *= 10;
@@ -103,7 +103,7 @@ void ensemble_generation(double cost_0) {
 
     m = calc_h0_eigenvectors(hessian, vl, vu, v_0, eigenvalues);
     
-    if (count > 5){
+    if (count > 10){
       printf("NOT CONVERGING! Use singular value decomposition.\n");
 
       m = calc_svd(hessian, v_0, eigenvalues);
@@ -142,12 +142,31 @@ void ensemble_generation(double cost_0) {
   }
   fprintf(outfile, "Cost       Weight     Accepted   Attempts   Acceptance Probability\n");
 
-  /* Write iitial cost to file */
+
+  /********************* HACK **********************************/
+  // Set parameters to last MC hessian step
+
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[0]] = 0.35026039;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[1]] = 3.62529643;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[2]] = 2.00591684;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[3]] = -1.68322903;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[4]] = 2.83467641;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[5]] = 1.24743823;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[6]] = 3.72990292;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[7]] = -4.57440289;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[8]] = 3.45354084;
+  // g_pot.opt_pot.table[g_pot.opt_pot.idx[9]] = -0.05370638;
+  // double cost_temp = 927.47472452;
+
+  /********************* HACK **********************************/
+
+
+  /* Write initial cost to file */
   fprintf(outfile,"%-10d", pot_attempts);
   for(int i=0;i<g_pot.opt_pot.idxlen;i++){
     fprintf(outfile,"%-10.8lf ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
-  fprintf(outfile,"%.8lf ", cost_0);
+  fprintf(outfile,"%.8lf ", cost_0); //cost_temp);
 
 
   // /* Create directory to store parameter files */ -SW 
@@ -159,25 +178,6 @@ void ensemble_generation(double cost_0) {
 
   printf("Beginning MCMC ensemble generation.\n");
   fflush(stdout);
-
-
-  /********************* HACK **********************************/
-  // Set parameters to last MC hessian step
-
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[0]] = 0.11527815;
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[1]] = 2.28234318;
- // g_pot.opt_pot.table[g_pot.opt_pot.idx[2]] = 2.35062762;
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[3]] = -1.76583638;
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[4]] = 2.77730831;
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[5]] = 1.56581032;
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[6]] = 3.80851537;
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[7]] = -4.41252885;
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[8]] = 3.40804570;
- //  g_pot.opt_pot.table[g_pot.opt_pot.idx[9]] = 0.04679127;
-
-  /********************* HACK **********************************/
-
-
 
   /* Initialise variables and take first Monte Carlo step */
   int weight      = 1;
