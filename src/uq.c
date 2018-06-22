@@ -78,7 +78,7 @@ void ensemble_generation(double cost_0) {
   fprintf(outfile,"Hessian:\n");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      fprintf(outfile,"%-10.4f ",hessian[i][j]);
+      fprintf(outfile,"%-10.16f ",hessian[i][j]);
     }
     fprintf(outfile,"\n");
   }
@@ -87,8 +87,8 @@ void ensemble_generation(double cost_0) {
 
   int m     = 0;
   double vl = -1; // Initial lower bound for eigenvalues - this range is adjusted until all are found
-  double vu = 1;  // Initial upper bound for eigenvalues
-  int count = 0;
+  double vu = 10000;  // Initial upper bound for eigenvalues
+  int count = 0; //0;
 
   /* Allocate memory for the eigenvectors */
   double** v_0 = mat_double(g_pot.opt_pot.idxlen,g_pot.opt_pot.idxlen);
@@ -98,15 +98,16 @@ void ensemble_generation(double cost_0) {
      If after 10 iterations the eigenvalues have not be found, revert to signular value decomposition */
   while (m < g_pot.opt_pot.idxlen) {
 
-    vl *= 10;
+    vl *= 10; 
     vu *= 10;
 
     m = calc_h0_eigenvectors(hessian, vl, vu, v_0, eigenvalues);
     
-    if (count > 10){
-      printf("NOT CONVERGING! Use singular value decomposition.\n");
+    if (count > 0){
+      printf("WARNING: NOT CONVERGING! Use singular value decomposition.\n");
 
       m = calc_svd(hessian, v_0, eigenvalues);
+      fflush(stdout);
 
       /* Check all eigenvalues have been found, otherwise exit */
       if (m != g_pot.opt_pot.idxlen){
@@ -118,7 +119,7 @@ void ensemble_generation(double cost_0) {
 
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     if (eigenvalues[i] < 0){
-      warning("Negative eigenvalue of %.4f, has the best fit minimum been found?!\nThis implies the best fit potential is not at the miminum!\n", eigenvalues[i]);
+      printf("WARNING: Eigenvalue %d is negative = %.4f, has the best fit minimum been found?!\nThis implies the best fit potential is not at the miminum!\n", i, eigenvalues[i]);
     }
   }
 
@@ -127,9 +128,9 @@ void ensemble_generation(double cost_0) {
   fprintf(outfile,"Eigenvalues and eigenvectors of the best fit hessian:\n");
   fprintf(outfile,"eigenvalue, eigenvector (x, y ,z)\n");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
-    fprintf(outfile,"%-11.4f ",eigenvalues[i]);
+    fprintf(outfile,"%-11.12f ",eigenvalues[i]);
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      fprintf(outfile,"%-10.4f ",v_0[i][j]);
+      fprintf(outfile,"%-10.12f ",v_0[j][i]); // Columns contain eigenvalues
     }
     fprintf(outfile,"\n");
   }
@@ -141,7 +142,7 @@ void ensemble_generation(double cost_0) {
   fprintf(outfile, "Param %-4d ",i+1);
   }
   fprintf(outfile, "Cost       Weight     Accepted   Attempts   Acceptance Probability\n");
-
+  fflush(outfile);
 
   /********************* HACK **********************************/
   // Set parameters to last MC hessian step
@@ -222,11 +223,11 @@ void ensemble_generation(double cost_0) {
       write_pot_table_potfit(file); 
 
       if (cost < cost_0) {
-        warning("New best fit parameter set found in %s. Old cost = %.8lf, new cost = %.8lf\n",file, cost_0,cost);
+        printf("WARNING: New best fit parameter set found in %s. Old cost = %.8lf, new cost = %.8lf\n",file, cost_0,cost);
       }
 #else 
       if (cost < cost_0) {
-        warning("New best fit parameter set found for potential %d. Old cost = %.8lf, new cost = %.8lf\n",i+1, cost_0,cost);
+        printf("WARNING: New best fit parameter set found for potential %d. Old cost = %.8lf, new cost = %.8lf\n",i+1, cost_0,cost);
       }
 #endif
 
@@ -256,8 +257,8 @@ void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, doub
       param_perturb_dist[j] = pert[j] * g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
       
       if (g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] == 0){
-	param_perturb_dist[j] = lb[j];
-	warning("parameter %d is 0. Using set perturbation of %f.\n", j, lb[j]);
+      	 param_perturb_dist[j] = lb[j];
+	       printf("parameter %d is 0. Using set perturbation of %f.\n", j, lb[j]);
       }
     }
     
@@ -337,15 +338,16 @@ double** calc_hessian(double cost, int counter){
   /* Start with the same initial perturbation and for all params and set max/min pert values */
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
       pert[j] = 0.0001;
-      lb[j] = 0.000001;
-      ub[j] = 10.0;
+      lb[j] = VERY_SMALL;
+      ub[j] = 1.0;
     }
   
     /* Find the correct perturbation value for each parameter */
     for (int i=0;i<g_pot.opt_pot.idxlen;i++){
 
-	hess_bracketing(lb, ub, cost_aim, pert, 10.0, i);
-	hess_bracketing(lb, ub, cost_aim, pert, 2.0, i);
+      hess_bracketing(lb, ub, cost_aim, pert, 10.0, i);
+      hess_bracketing(lb, ub, cost_aim, pert, 2.0, i);
+      hess_bracketing(lb, ub, cost_aim, pert, cost_aim/cost, i);
 	
       printf("FINAL PERT VALUE %.8lf for param %d\n", pert[i], i);
     } /* parameter loop */
@@ -357,7 +359,7 @@ double** calc_hessian(double cost, int counter){
     // THIS SHOULD BE HIGHER
     if (g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] == 0){
       param_perturb_dist[j] = pert[j];
-      warning("parameter %d is 0. Using set perturbation of %f.\n", j, pert[j]);
+      printf("parameter %d is 0. Using set perturbation of %f.\n", j, pert[j]);
     }
   }
   
@@ -374,7 +376,7 @@ double** calc_hessian(double cost, int counter){
 
       /* If new minima is found, store these values */
       for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-	new_cost_param_values[j] = g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+	       new_cost_param_values[j] = g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
       }
       new_cost_param_values[g_pot.opt_pot.idxlen+1] = cost_plus;
 
@@ -398,7 +400,7 @@ double** calc_hessian(double cost, int counter){
        
     /* print a warning if either cost_plus or cost_minus are less than 10^(-12) or a new minima is found */
     if ((cost_plus < VERY_SMALL) || (cost_minus < VERY_SMALL)) {
-      warning("The change in cost_plus/cost_minus when calculating the hessian is less than 10^(-12).\n This will affect precision. Consider changing the scale of cost perturbation. \n");
+      printf("WARNING: The change in cost_plus/cost_minus when calculating the hessian is less than 10^(-12).\n This will affect precision. Consider changing the scale of cost perturbation. \n");
     }
 
     hessian[i][i] = cost_plus - two_cost + cost_minus;
@@ -426,11 +428,12 @@ double** calc_hessian(double cost, int counter){
 
       if ((cost_pm < cost) && (cost_pm < new_cost_param_values[g_pot.opt_pot.idxlen+1])) {
 
-	/* If new minima is found, store these values */
-	for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-	  new_cost_param_values[j] = g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
-	}
-	new_cost_param_values[g_pot.opt_pot.idxlen+1] = cost_pm;
+        /* If new minima is found, store these values */
+      	for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+          new_cost_param_values[j] = g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+        }
+        new_cost_param_values[g_pot.opt_pot.idxlen+1] = cost_pm;
+
       }
 
       /* c_(i-1)(j+1) */
@@ -459,7 +462,7 @@ double** calc_hessian(double cost, int counter){
 
       /* print a warning if either cost_pm or cost_mp are less than 10^(-12) or a new minima is found */
       if ((cost_pm < VERY_SMALL) || (cost_mp < VERY_SMALL)) {
-	 warning("The change in cost_pm/cost_mp when calculating the hessian is less than 10^(-12).\nThis will affect precision. Consider changing the scale of cost perturbation. \n");
+	 printf("WARNING: The change in cost_pm/cost_mp when calculating the hessian is less than 10^(-12).\nThis will affect precision. Consider changing the scale of cost perturbation. \n");
       }
       
       hessian[i][j] = cost_2plus + cost_2minus - cost_pm - cost_mp;
@@ -471,7 +474,7 @@ double** calc_hessian(double cost, int counter){
 
   /* If new cost value is found, return parameters */
   if(new_cost_param_values[g_pot.opt_pot.idxlen+1] != VERY_LARGE){
-    warning("A new cost minimum has been found.\nOriginal cost = %f,\t New cost = %f.\nCalculation restarting with new best fit potential values.\n\n",cost, new_cost_param_values[g_pot.opt_pot.idxlen+1]);
+    printf("WARNING: A new cost minimum has been found.\nOriginal cost = %f,\t New cost = %f.\nCalculation restarting with new best fit potential values.\n\n",cost, new_cost_param_values[g_pot.opt_pot.idxlen+1]);
 
     printf("NEW COST MINIMA VALUES:\n");
     for(int j=0;j<g_pot.opt_pot.idxlen;j++){
@@ -524,10 +527,11 @@ double** calc_hessian(double cost, int counter){
 int calc_h0_eigenvectors(double** hessian, double lower_bound, double upper_bound, double** v_0, double* w){
 
   char jobz = 'V'; /* Compute eigenvectors and eigenvalues */
-  char range = 'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
+  char range = 'A';//'V'; /* all eigenvalues in the half-open interval (VL,VU] will be found */
   char uplo = 'U'; /* Upper triangle of A is stored */
   int lda = g_pot.opt_pot.idxlen; /* leading dimension of the array A. lda >= max(1,N) */
-  double abstol = 0.00001; /* 2*DLAMCH('S');  absolute error tolerance for eigenvalues */
+  const char inp = 'S';
+  double abstol = 2 * DLAMCH(&inp); /* 2*DLAMCH('S');  absolute error tolerance for eigenvalues */
   int ldz = g_pot.opt_pot.idxlen; /* Dimension of array z */
   int il = 0;
   int iu = 0;
@@ -551,6 +555,15 @@ int calc_h0_eigenvectors(double** hessian, double lower_bound, double upper_boun
       &abstol, &m, w, &v_0[0][0], &ldz, work, &lwork, iwork, ifail, &info);
   #endif
 
+  if (info == 0){      
+    printf("Eigenvalue calculation completed successfully.\n");
+  }else if (info > 0){
+    printf("%d eigenvectors failed to converge.\n",info);
+    m = g_pot.opt_pot.idxlen - m;
+  }else{
+    error(1,"Illegal argument supplied to eigenvalue decomposition function.\n");
+  }
+  fflush(stdout);
 
   return m;
 }
@@ -564,7 +577,7 @@ int calc_h0_eigenvectors(double** hessian, double lower_bound, double upper_boun
 int calc_svd(double** hessian, double** u, double* s){
 
   char jobu = 'A'; /* Compute left singular vectors */
-  char jobvt = 'A'; /* Compute right singular vectors */
+  char jobvt = 'N'; /* Compute right singular vectors */
   int lda = g_pot.opt_pot.idxlen; /* leading dimension of the array A. lda >= max(1,N) */
   double vl = 0;
   double vu = 0;
@@ -591,12 +604,41 @@ int calc_svd(double** hessian, double** u, double* s){
   #endif
 
 
+ /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
+  printf("------------------------------------------------------\n\n");
+  printf("Eigenvalues and eigenvectors of the best fit hessian for U:\n");
+  printf("eigenvalue, eigenvector (x, y ,z)\n");
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
+    printf("%-11.12f ",s[i]);
+    for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+      printf("%-10.12f ",u[j][i]); // Columns contain eigenvalues
+    }
+    printf("\n");
+  }
+
+  printf("\n------------------------------------------------------\n\n");
+
+  /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
+  printf("------------------------------------------------------\n\n");
+  printf("Eigenvalues and eigenvectors of the best fit hessian for U:\n");
+  printf("eigenvalue, eigenvector (x, y ,z)\n");
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
+    printf("%-11.12f ",s[i]);
+    for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+      printf("%-10.12f ",vt[i][j]); // Columns contain eigenvalues
+    }
+    printf("\n");
+  }
+
+  printf("\n------------------------------------------------------\n\n");
+  fflush(stdout);
+
   if (info == 0){
     return lda;
   }else{
     printf("Finding all eigenvalues by singular value decomposition (SVD) unsuccessful.\n");
   }
-  
+
 }
 
 /********************************************************
