@@ -249,8 +249,8 @@ printf("UQ ensemble parameters written to %s\n", g_files.sloppyfile);
 void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, double pert_change, int index){
 
   double param_perturb_dist[g_pot.opt_pot.idxlen];
-  double ub_cost;
-  double lb_cost;
+  double ub_cost = ub[index];
+  double lb_cost = lb[index];
   double grad;
 
   while((ub[index] / lb[index]) > pert_change){
@@ -274,13 +274,30 @@ void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, doub
     /* reset values */
     g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] += param_perturb_dist[index];
     
-    if((cost_pert_guess_plus >= cost_aim) || (cost_pert_guess_minus >= cost_aim)){
+    if(cost_pert_guess_plus >= cost_aim){
+     
       ub[index] = pert[index];
       pert[index] /= pert_change;
+      ub_cost = cost_pert_guess_plus;
+
+    }else if(cost_pert_guess_minus >= cost_aim){
+     
+      ub[index] = pert[index];
+      pert[index] /= pert_change;
+      ub_cost = cost_pert_guess_minus;
+    
     }
-    else if((cost_pert_guess_plus < cost_aim) || (cost_pert_guess_minus < cost_aim)){
+    else if(cost_pert_guess_plus < cost_aim){
+      
       lb[index] = pert[index];
       pert[index] *= pert_change;
+      lb_cost = cost_pert_guess_plus;
+    
+    }else if(cost_pert_guess_minus < cost_aim){
+      
+      lb[index] = pert[index];
+      pert[index] *= pert_change;
+      lb_cost = cost_pert_guess_minus;
     }
 
 
@@ -293,8 +310,14 @@ void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, doub
   /* Join lb and ub by a line, use the gradient to calculate */
   /* pert value (i.e. x) corresponding rto cost_aim. */
   grad = (ub_cost - lb_cost) / (ub[index] - lb[index]);
-  pert[index] = ((cost_aim - lb_cost) / grad) + lb[index];
-  
+  double ub_pert;
+  double lb_pert;
+  lb_pert = ((cost_aim - lb_cost) / grad) + lb[index];
+  ub_pert = ((cost_aim - ub_cost) / grad) + ub[index];
+
+  /* Take pert as the average of the two values */
+  pert[index] = (lb_pert + ub_pert) / 2.0;
+
   return;
 }
 
@@ -350,8 +373,8 @@ double** calc_hessian(double cost, int counter){
     /* Find the correct perturbation value for each parameter */
     for (int i=0;i<g_pot.opt_pot.idxlen;i++){
 
-      hess_bracketing(lb, ub, cost_aim, pert, 10.0, i);
-      hess_bracketing(lb, ub, cost_aim, pert, 2.0, i);
+     // hess_bracketing(lb, ub, cost_aim, pert, 10.0, i);
+      //hess_bracketing(lb, ub, cost_aim, pert, 2.0, i);
       hess_bracketing(lb, ub, cost_aim, pert, cost_aim/cost, i);
 	
       printf("FINAL PERT VALUE %.8lf for param %d\n", pert[i], i);
