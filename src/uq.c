@@ -249,6 +249,9 @@ printf("UQ ensemble parameters written to %s\n", g_files.sloppyfile);
 void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, double pert_change, int index){
 
   double param_perturb_dist[g_pot.opt_pot.idxlen];
+  double ub_cost;
+  double lb_cost;
+  double grad;
 
   while((ub[index] / lb[index]) > pert_change){
 
@@ -287,8 +290,10 @@ void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, doub
 
   } /* while loop */
 
-  /* Set optimal pertubation value to be halfway between pert bounds */
-  pert[index] = (ub[index] - lb[index]) / 2.0;
+  /* Join lb and ub by a line, use the gradient to calculate */
+  /* pert value (i.e. x) corresponding rto cost_aim. */
+  grad = (ub_cost - lb_cost) / (ub[i] - lb[i]);
+  pert[index] = ((cost_aim - lb_cost) / grad) + lb[i];
   
   return;
 }
