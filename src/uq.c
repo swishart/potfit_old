@@ -292,8 +292,8 @@ void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, doub
 
   /* Join lb and ub by a line, use the gradient to calculate */
   /* pert value (i.e. x) corresponding rto cost_aim. */
-  grad = (ub_cost - lb_cost) / (ub[i] - lb[i]);
-  pert[index] = ((cost_aim - lb_cost) / grad) + lb[i];
+  grad = (ub_cost - lb_cost) / (ub[index] - lb[index]);
+  pert[index] = ((cost_aim - lb_cost) / grad) + lb[index];
   
   return;
 }
