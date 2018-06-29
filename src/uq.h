@@ -29,7 +29,10 @@
 
 void ensemble_generation(double);
 
-void hess_bracketing(double*, double*, double, double*, double, int);
+
+double single_param_pert_cost(double, int);
+void subsection_pert(double*, double*, int, double);
+double hess_bracketing(double, int);
 double** calc_hessian(double, int);
 int calc_h0_eigenvectors(double**, double, double, double**, double*);
 int calc_svd(double**, double**, double*);

@@ -43,6 +43,7 @@
 #include "force.h"
 #include "errors.h"
 #include "random.h"
+#include "memory.h"
 #include "potential_output.h"
 #include "potential_input.h"
 
@@ -240,85 +241,253 @@ fclose(outfile);
 printf("UQ ensemble parameters written to %s\n", g_files.sloppyfile);
 }
 
+
 /****************************************************************
  *
  *    Bracketing function for hessian finite difference 
- *    perturbation range
+ *    perturbation range - finds perturbation value
  *
  ****************************************************************/
-void hess_bracketing(double* lb, double* ub, double cost_aim, double* pert, double pert_change, int index){
+double hess_bracketing(double cost_aim, int index){
 
-  double param_perturb_dist[g_pot.opt_pot.idxlen];
-  double ub_cost = ub[index];
-  double lb_cost = lb[index];
-  double grad;
+  /* SET INITIAL PERT ORDER OF MAGNITUDE */
 
-  while((ub[index] / lb[index]) > pert_change){
+  double ub; /* Upper bound to be set */
+  double pert = 0.000001; /* Initial pert guess */
+  double lb; /* Lower bound to be set */
+  double pos_cost = single_param_pert_cost(pert, index); /* Set initial pert cost */
+  double neg_cost = single_param_pert_cost(-pert, index); /* Set initial pert cost */
+  double pos_range;
+  double neg_range;
 
-    /*  Calculate the parameter perturbation */
-    for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      param_perturb_dist[j] = pert[j] * g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
-      
-      if (g_pot.opt_pot.table[g_pot.opt_pot.idx[j]] == 0){
-      	 param_perturb_dist[j] = lb[j];
-	       printf("parameter %d is 0. Using set perturbation of %f.\n", j, lb[j]);
-      }
-    }
-    
-    /* Perturb by adding pert value */
-    g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] += param_perturb_dist[index];
-    double cost_pert_guess_plus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
-    /* Perturb by subtracting pert value */
-    g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] -= 2 * param_perturb_dist[index];
-    double cost_pert_guess_minus = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
-    /* reset values */
-    g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] += param_perturb_dist[index];
-    
-    if(cost_pert_guess_plus >= cost_aim){
-     
-      ub[index] = pert[index];
-      pert[index] /= pert_change;
-      ub_cost = cost_pert_guess_plus;
+  /* If the initial guess is too large reduce the perturbation to set lb */
+  while ((pos_cost > cost_aim)||(neg_cost > cost_aim)){
+    ub = pert;
+    pert /= 10;
+    pos_cost = single_param_pert_cost(pert, index);
+    neg_cost = single_param_pert_cost(-pert, index);
+  }
+  lb = pert;
+#if defined(DEBUG)
+      printf("INITIAL lB IS %g, pos_cost = %.6g, neg_cost = %.6g\n", lb, pos_cost, neg_cost);
+#endif
 
-    }else if(cost_pert_guess_minus >= cost_aim){
-     
-      ub[index] = pert[index];
-      pert[index] /= pert_change;
-      ub_cost = cost_pert_guess_minus;
+  /* Set upper bound order of magnitude */
+
     
-    }
-    else if(cost_pert_guess_plus < cost_aim){
-      
-      lb[index] = pert[index];
-      pert[index] *= pert_change;
-      lb_cost = cost_pert_guess_plus;
+  while ((pos_cost < cost_aim)||(neg_cost < cost_aim)){  
     
-    }else if(cost_pert_guess_minus < cost_aim){
-      
-      lb[index] = pert[index];
-      pert[index] *= pert_change;
-      lb_cost = cost_pert_guess_minus;
-    }
+    /* Fill as cost(lb) */
+    pos_range = pos_cost;
+    neg_range = neg_cost;
+
+    lb = pert;
+#if defined(DEBUG)
+    printf("INITIAL LB IS %g, pos_cost = %g, neg_cost = %g\n", lb, pos_cost, neg_cost);
+#endif
+    pert *= 10;
+    pos_cost = single_param_pert_cost(pert, index);
+    neg_cost = single_param_pert_cost(-pert, index);
+
+  }
+  ub = pert;
+
+  /* Equivalent to cost(ub) - cost(lb) */
+  pos_range = pos_cost - pos_range;
+  neg_range = neg_cost - neg_range;
+
+#if defined(DEBUG)
+    printf("neg range = %g, pos range = %g\n", neg_range, pos_range);
+#endif
+
+
+  /* If the negative direction is steeper, investigate this direction */
+  if (neg_range < pos_range){
+    pert = -pert;
+    lb = -lb;
+    ub = -ub;
+    printf(" Negative direction is steeper, adjusting pert direction.\n");
+    fflush(stdout);
+  }
 
 
 #if defined(DEBUG)
-    printf("testing parameter %d, pert value %.8lf, cost_plus %lf cost_minus %lf cost_to_temp %lf\n", index, pert[index], cost_pert_guess_plus,cost_pert_guess_minus, cost_aim);
-#endif    
+  if (ub >= 0){
+    printf("INITIAL UB IS %g pos_cost = %g\n", ub, pos_cost);
+  }else{
+    printf("INITIAL UB IS %g neg_cost = %g\n", ub, neg_cost);
+  }
+  fflush(stdout);
+#endif
 
-  } /* while loop */
+  /* If the bounds are somehow muddled up, swap them */
+  if (fabs(ub) < fabs(lb))  {
+    double temp;
+    temp = lb;
+    lb = ub;
+    ub = temp;
+  }
 
+  /* SUBDIVIDE INTERVAL INTO 10 AND EVALUATE SECTIONS */
+  /* REPEAT UNTIL RANGE IS WITHIN 5% OF COST_AIM VALUE */
+  /* The opposite direction is also checked/used if steeper */
+  double lb_neg = -fabs(lb), ub_neg = -fabs(ub);
+  double lb_pos = fabs(lb), ub_pos = fabs(ub);
+
+  subsection_pert(&lb_neg, &ub_neg, index, cost_aim);
+  subsection_pert(&lb_pos, &ub_pos, index, cost_aim);
+
+  if (fabs(lb_neg) < lb_pos){
+    lb = lb_neg;
+    ub = ub_neg;
+  }else{
+    lb = lb_pos;
+    ub = ub_pos;
+  }
+
+
+#if defined(DEBUG)
+  printf("FINAL RANGE = [%g,%g]\n", lb,ub);
+  fflush(stdout);
+#endif
+
+  /* FIT A LINE TO THE RANGE TO FIND THE CORRESPONDING PERT VALUE */
   /* Join lb and ub by a line, use the gradient to calculate */
-  /* pert value (i.e. x) corresponding rto cost_aim. */
-  grad = (ub_cost - lb_cost) / (ub[index] - lb[index]);
-  double ub_pert;
-  double lb_pert;
-  lb_pert = ((cost_aim - lb_cost) / grad) + lb[index];
-  ub_pert = ((cost_aim - ub_cost) / grad) + ub[index];
+  /* pert value (i.e. x) corresponding to cost_aim. */
+    
+  /* Calculate the costs for the bounds */
+  double lb_cost = single_param_pert_cost(lb, index);
+  double ub_cost = single_param_pert_cost(ub, index);
 
-  /* Take pert as the average of the two values */
-  pert[index] = (lb_pert + ub_pert) / 2.0;
+  double grad = (ub_cost - lb_cost) / (ub - lb);
+  double lb_pert = ((cost_aim - lb_cost) / grad) + lb;
+  double ub_pert = ((cost_aim - ub_cost) / grad) + ub;
 
-  return;
+  /* Take pert as the average of the two values, although they should be the same */
+  /* Always return the absolute value of perturbation so as not to confuse finite difference algorithm */
+  double perturbation = fabs(lb_pert + ub_pert) / 2.0;
+
+#if defined(DEBUG)
+  printf("grad = %g lb_pert = %g ub_pert = %g pert[%d] = %g\n", grad, lb_pert, ub_pert,index, perturbation);
+#endif
+
+  return perturbation;
+
+}
+
+
+/****************************************************************
+ *
+ *    Subdivide perturbations bracketing cost_T 
+ *    to find smaller range.
+ *
+ ****************************************************************/
+
+void subsection_pert(double* lb, double* ub, int index, double cost_aim){
+
+  /* SUBDIVIDE INTERVAL INTO 10 AND EVALUATE SECTIONS */
+  double range[11];
+  double cost_range[11];
+  double percentage_aim; 
+
+  /* Enter ub, lb and their costs as already known */
+  range[0]  = *lb;
+  range[10] = *ub;
+  cost_range[0]  = single_param_pert_cost(*lb, index);
+  cost_range[10] = single_param_pert_cost(*ub, index);
+
+
+  /* Check the costs bracket the cost_aim as expected, intuitive (righthand, positive) x-direction is pos = 1.*/
+  if ((cost_range[0] > cost_aim)||(cost_range[10] < cost_aim)){
+    /* This could be because it's the negative x-direction which is steeper, so check */
+    *lb *= (-1);
+    *ub *= (-1);
+    cost_range[0]  = single_param_pert_cost(*lb, index);
+    cost_range[10] = single_param_pert_cost(*ub, index);
+
+    /* If changing pert signs fixed it, continue with new values */
+    /* However if the same thing happens, something else is wrong - abort. */
+    if ((cost_range[0] > cost_aim)||(cost_range[10] < cost_aim)){
+      printf("WARNING: Cost_aim = %g, is not bracketed in range [%g,%g],\n Cost_lb = %g, cost_ub = %g\n", cost_aim, *lb, *ub, cost_range[0], cost_range[10]);
+      error(1, "Bracketing of parameter perturbation failed.\n");
+    }
+  }
+
+#if defined(DEBUG)
+  printf("subsection: [%g, %g] = cost[%g,%g], cost_aim = %g\n", range[0], range[10], cost_range[0],cost_range[10], cost_aim);
+#endif
+
+  /* Fill remaining range with values and costs */
+  for (int i=1;i<10;i++){
+    range[i] = range[0] + ( i * 0.1 * (range[10] - range[0]) );
+    cost_range[i] = single_param_pert_cost(range[i], index);
+
+    /* When cost becomes greater than cost aim, break */
+    if (cost_range[i] >= cost_aim){
+
+#if defined(DEBUG)
+      printf("Range is lb = %g ub = %g, cost_range = [%g, %g], percentage of cost_aim = %g%%\n", range[i-1], range[i], cost_range[i-1], cost_range[i], (100 * (cost_range[i] - cost_range[i-1])) / cost_aim );
+      fflush(stdout);
+#endif
+
+      *lb = range[i-1];
+      *ub = range[i];
+      break;
+    }else if (i == 9){
+      /* Else the change is in the last section */
+      
+#if defined(DEBUG)
+      printf("FINAL SECTION: Range is lb = %g ub = %g, cost_range = [%g, %g], percentage of cost_aim = %g%%\n", range[i], range[i+1],cost_range[i-1], cost_range[i], (100 * (cost_range[10] - cost_range[9])) / cost_aim );
+      fflush(stdout);  
+#endif
+
+      *lb = range[i];
+    }
+  }
+
+  /* ITERATE TO FIND SECTION BOUNDS TO WITHIN 5% OF COST_AIM */
+  percentage_aim = (cost_range[10] - cost_range[0]) / cost_aim;
+
+#if defined(DEBUG)
+  printf("percentage_aim = %g\n", percentage_aim);
+#endif
+
+  /* If the range is within 5% of the cost_aim value, return and move to checking the negative x-direction */
+  if (percentage_aim <= 0.05){
+    return;
+  }else{
+    /* Is range is still too large, subdivide into 10 again and repeat */
+    subsection_pert(lb, ub, index, cost_aim);
+  }  
+
+}
+
+/****************************************************************
+ *
+ *    Perturb parameter[index] by perturbation
+ *
+ ****************************************************************/
+
+double single_param_pert_cost(double pert, int index){
+
+  double best_fit_params[g_pot.opt_pot.idxlen];
+  double cost;
+
+ /* copy best fit param values for reference */
+  for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+    best_fit_params[j] =  g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
+  }
+
+  /* Perturb parameter by perturbation  */
+  g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] += (best_fit_params[index] * pert);
+
+  /* Calculate the lb perturbation cost */
+  cost = calc_forces(g_pot.opt_pot.table, g_calc.force, 0);
+
+  /* Return to best fit params */
+  g_pot.opt_pot.table[g_pot.opt_pot.idx[index]] = best_fit_params[index];
+
+  return cost;
 }
 
 
@@ -358,26 +527,31 @@ double** calc_hessian(double cost, int counter){
   new_cost_param_values[g_pot.opt_pot.idxlen+1] = VERY_LARGE;
 
   /* FIND PERTURBATION VALUES FOR HESSIAN CURVATURE CALCULATION  */
-  double cost_aim = cost + (2 * cost / g_pot.opt_pot.idxlen);
-  double lb[g_pot.opt_pot.idxlen];
-  double ub[g_pot.opt_pot.idxlen];
+
+  /**************** HACK ***************/
+  // double temp_scale = 1;
+  // double cost_aim = cost + ((2 * cost * temp_scale) / g_pot.opt_pot.idxlen);
+  /*************************************/
+  double cost_aim = cost + ((2 * cost) / g_pot.opt_pot.idxlen);
   double pert[g_pot.opt_pot.idxlen];
 
   /* Start with the same initial perturbation and for all params and set max/min pert values */
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      pert[j] = 0.0001;
-      lb[j] = VERY_SMALL;
-      ub[j] = 1.0;
+      pert[j] = 0.0001; /* Default incase of bug */
     }
   
     /* Find the correct perturbation value for each parameter */
     for (int i=0;i<g_pot.opt_pot.idxlen;i++){
 
-     // hess_bracketing(lb, ub, cost_aim, pert, 10.0, i);
-      //hess_bracketing(lb, ub, cost_aim, pert, 2.0, i);
-      hess_bracketing(lb, ub, cost_aim, pert, cost_aim/cost, i);
+      printf("Cost aim = %g\n", cost_aim);
+      fflush(stdout);
+      pert[i] = hess_bracketing(cost_aim, i);
+
+      /**************** HACK ***************/
+      //pert[i] *= 0.01;
+      /*************************************/
 	
-      printf("FINAL PERT VALUE %.8lf for param %d\n", pert[i], i);
+      printf("FINAL PERT VALUE %.8lf for param %d = %g (percentage of param = %g%%)\n", pert[i], i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]], fabs((pert[i] * 100) / g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]));
     } /* parameter loop */
 
   /* Pre-calculate each parameter perturbation */
@@ -391,6 +565,7 @@ double** calc_hessian(double cost, int counter){
     }
   }
   
+  printf("i i cost_plus cost_minus\n");
   /* For diagonal entries, use (c_(i+1) - 2*cost + c_(i-1))/(param_perturb_dist[i]^2) */
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     
@@ -433,10 +608,19 @@ double** calc_hessian(double cost, int counter){
 
     hessian[i][i] = cost_plus - two_cost + cost_minus;
     hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i]);
+
+    if ((cost_plus > cost_aim) || (cost_minus > cost_aim)){
+      printf("%d %d %g %g *\n",i, i, cost_plus, cost_minus);
+    }else{
+      printf("%d %d %g %g\n",i, i, cost_plus, cost_minus);
+    }
+    fflush(stdout);
   }
 
   /* For off-diagonal entries:
      Use [c_(i+1)(j+1)-c_(i+1)(j-1)-c_(i-1)(j+1)+c_(i-1)(j-1)]/(param_perturb_dist[i]*param_perturb_dist[j]*4) */
+
+  printf("i j cost_2plus cost_2minus cost_pm cost_mp\n");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     for (int j=(i+1);j<g_pot.opt_pot.idxlen;j++){
 
@@ -497,6 +681,14 @@ double** calc_hessian(double cost, int counter){
       hessian[i][j] /= (4*param_perturb_dist[i]*param_perturb_dist[j]);
 
       hessian[j][i] = hessian[i][j];  
+
+      if ((cost_2plus > cost_aim) || (cost_2minus > cost_aim) || (cost_pm > cost_aim) || (cost_mp > cost_aim)){
+        printf("%d %d %g %g %g %g *\n",i, j, cost_2plus, cost_2minus, cost_pm, cost_mp);
+      }else{
+        printf("%d %d %g %g %g %g\n",i, j, cost_2plus, cost_2minus, cost_pm, cost_mp);
+      }
+      fflush(stdout);
+
     }
   }
 
@@ -570,7 +762,7 @@ int calc_h0_eigenvectors(double** hessian, double lower_bound, double upper_boun
   double work[lwork];
   int ifail[g_pot.opt_pot.idxlen]; /* contains indices of unconverged eigenvectors if info > 0  */
   int info = 0;
-  int i;
+  
   
   #if defined(MKL)
     dsyevx_(&jobz, &range, &uplo, &g_pot.opt_pot.idxlen, &hessian[0][0], &lda, &lower_bound, &upper_bound, &il, &iu, 
