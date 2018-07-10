@@ -259,6 +259,8 @@ double hess_bracketing(double cost_aim, int index){
   double neg_cost = single_param_pert_cost(-pert, index); /* Set initial pert cost */
   double pos_range;
   double neg_range;
+  double pos_lb_cost;
+  double neg_lb_cost;
 
   /* If the initial guess is too large reduce the perturbation to set lb */
   while ((pos_cost > cost_aim)||(neg_cost > cost_aim)){
@@ -275,15 +277,15 @@ double hess_bracketing(double cost_aim, int index){
   /* Set upper bound order of magnitude */
 
     
-  while ((pos_cost < cost_aim)||(neg_cost < cost_aim)){  
+  while ((pos_cost < cost_aim)&&(neg_cost < cost_aim)){  
     
     /* Fill as cost(lb) */
-    pos_range = pos_cost;
-    neg_range = neg_cost;
+    pos_lb_cost = pos_cost;
+    neg_lb_cost = neg_cost;
 
     lb = pert;
 #if defined(DEBUG)
-    printf("INITIAL LB IS %g, pos_cost = %g, neg_cost = %g\n", lb, pos_cost, neg_cost);
+    printf("INITIAL LB IS %g, pos_cost = %g, neg_cost = %g\n", lb, pos_lb_cost, neg_lb_cost);
 #endif
     pert *= 10;
     pos_cost = single_param_pert_cost(pert, index);
@@ -292,12 +294,16 @@ double hess_bracketing(double cost_aim, int index){
   }
   ub = pert;
 
+#if defined(DEBUG)
+    printf("INITIAL UB IS %g, pos_cost = %g, neg_cost = %g\n", ub, pos_cost, neg_cost);
+#endif
+
   /* Equivalent to cost(ub) - cost(lb) */
-  pos_range = pos_cost - pos_range;
-  neg_range = neg_cost - neg_range;
+  pos_range = pos_cost - pos_lb_cost;
+  neg_range = neg_cost - neg_lb_cost;
 
 #if defined(DEBUG)
-    printf("neg range = %g, pos range = %g\n", neg_range, pos_range);
+    printf("pos range = %g, neg range = %g\n", pos_range, neg_range);
 #endif
 
 
@@ -418,7 +424,7 @@ void subsection_pert(double* lb, double* ub, int index, double cost_aim){
 #endif
 
   /* Fill remaining range with values and costs */
-  for (int i=1;i<10;i++){
+  for (int i=1;i<11;i++){
     range[i] = range[0] + ( i * 0.1 * (range[10] - range[0]) );
     cost_range[i] = single_param_pert_cost(range[i], index);
 
@@ -433,11 +439,11 @@ void subsection_pert(double* lb, double* ub, int index, double cost_aim){
       *lb = range[i-1];
       *ub = range[i];
       break;
-    }else if (i == 9){
+    }else if (i == 10){
       /* Else the change is in the last section */
       
 #if defined(DEBUG)
-      printf("FINAL SECTION: Range is lb = %g ub = %g, cost_range = [%g, %g], percentage of cost_aim = %g%%\n", range[i], range[i+1],cost_range[i-1], cost_range[i], (100 * (cost_range[10] - cost_range[9])) / cost_aim );
+      printf("FINAL SECTION: Range is lb = %g ub = %g, cost_range = [%g, %g], percentage of cost_aim = %g%%\n", range[i], range[i+1],cost_range[i-1], cost_range[i], (100 * (cost_range[i] - cost_range[i-1])) / cost_aim );
       fflush(stdout);  
 #endif
 
@@ -537,7 +543,7 @@ double** calc_hessian(double cost, int counter){
 
   /* Start with the same initial perturbation and for all params and set max/min pert values */
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      pert[j] = 0.0001; /* Default incase of bug */
+      pert[j] = 0.01; /* Default incase of bug */
     }
   
     /* Find the correct perturbation value for each parameter */
@@ -547,14 +553,22 @@ double** calc_hessian(double cost, int counter){
       fflush(stdout);
       pert[i] = hess_bracketing(cost_aim, i);
 
+      // Dont allow perturbations more than tha value of the parameter 
+      if (pert[i] > 1.0) {
+        pert[i] = 1.0;
+      }
+
+     // SET PERT TO HALF VALUE FOR FINITE DIFFERENCE
+      pert[i] *= 0.5;
+
       /**************** HACK ***************/
-      //pert[i] *= 0.01;
+      //pert[i] = 0.01;
       /*************************************/
 	
       printf("FINAL PERT VALUE %.8lf for param %d = %g (percentage of param = %g%%)\n", pert[i], i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]], fabs((pert[i] * 100) / g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]));
     } /* parameter loop */
 
-  /* Pre-calculate each parameter perturbation */
+  /* Pre-calculate each parameter perturbation for diagonal entries */
   for (int j=0;j<g_pot.opt_pot.idxlen;j++){
     param_perturb_dist[j] = pert[j] * g_pot.opt_pot.table[g_pot.opt_pot.idx[j]];
     
@@ -565,7 +579,7 @@ double** calc_hessian(double cost, int counter){
     }
   }
   
-  printf("i i cost_plus cost_minus\n");
+  printf("i i cost_plus cost_minus diff\n");
   /* For diagonal entries, use (c_(i+1) - 2*cost + c_(i-1))/(param_perturb_dist[i]^2) */
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     
@@ -610,9 +624,9 @@ double** calc_hessian(double cost, int counter){
     hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i]);
 
     if ((cost_plus > cost_aim) || (cost_minus > cost_aim)){
-      printf("%d %d %g %g *\n",i, i, cost_plus, cost_minus);
+      printf("%d %d %.3f %.3f * %.3f\n",i, i, cost_plus, cost_minus, fabs(cost_plus - cost_minus));
     }else{
-      printf("%d %d %g %g\n",i, i, cost_plus, cost_minus);
+      printf("%d %d %.3f %.3f   %.3f\n",i, i, cost_plus, cost_minus, fabs(cost_plus - cost_minus));
     }
     fflush(stdout);
   }
@@ -620,7 +634,7 @@ double** calc_hessian(double cost, int counter){
   /* For off-diagonal entries:
      Use [c_(i+1)(j+1)-c_(i+1)(j-1)-c_(i-1)(j+1)+c_(i-1)(j-1)]/(param_perturb_dist[i]*param_perturb_dist[j]*4) */
 
-  printf("i j cost_2plus cost_2minus cost_pm cost_mp\n");
+  printf("i j cost_2plus cost_2minus cost_pm cost_mp cost_2diff cost_pm_mp_diff\n");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     for (int j=(i+1);j<g_pot.opt_pot.idxlen;j++){
 
@@ -683,9 +697,9 @@ double** calc_hessian(double cost, int counter){
       hessian[j][i] = hessian[i][j];  
 
       if ((cost_2plus > cost_aim) || (cost_2minus > cost_aim) || (cost_pm > cost_aim) || (cost_mp > cost_aim)){
-        printf("%d %d %g %g %g %g *\n",i, j, cost_2plus, cost_2minus, cost_pm, cost_mp);
+        printf("%d %d %.3f %.3f %.3f %.3f * %.3f %.3f\n",i, j, cost_2plus, cost_2minus, cost_pm, cost_mp, fabs(cost_2plus - cost_2minus), fabs(cost_pm - cost_mp));
       }else{
-        printf("%d %d %g %g %g %g\n",i, j, cost_2plus, cost_2minus, cost_pm, cost_mp);
+        printf("%d %d %.3f %.3f %.3f %.3f   %.3f %.3f\n",i, j, cost_2plus, cost_2minus, cost_pm, cost_mp, fabs(cost_2plus - cost_2minus), fabs(cost_pm - cost_mp));
       }
       fflush(stdout);
 
