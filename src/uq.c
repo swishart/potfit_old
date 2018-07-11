@@ -131,7 +131,7 @@ void ensemble_generation(double cost_0) {
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     fprintf(outfile,"%-11.12f ",eigenvalues[i]);
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      fprintf(outfile,"%-10.12f ",v_0[j][i]); // Columns contain eigenvalues
+      fprintf(outfile,"%-10.12f ",v_0[j][i]); // Columns contain eigenvectors
     }
     fprintf(outfile,"\n");
   }
@@ -248,83 +248,86 @@ printf("UQ ensemble parameters written to %s\n", g_files.sloppyfile);
  *    perturbation range - finds perturbation value
  *
  ****************************************************************/
-double hess_bracketing(double cost_aim, int index){
+double hess_bracketing(double cost_aim, int index, int dir){
 
   /* SET INITIAL PERT ORDER OF MAGNITUDE */
 
   double ub; /* Upper bound to be set */
-  double pert = 0.000001; /* Initial pert guess */
+  double pert;
+  if (dir == 1){
+    pert = -0.000001; /* Initial pert guess */
+#if defined(DEBUG)
+    printf("Calculating negative perturbation direction.\n");
+#endif
+  }else{
+    pert = 0.000001; /* Initial pert guess */
+#if defined(DEBUG)
+    printf("Calculating positive perturbation direction.\n");
+#endif
+  }
   double lb; /* Lower bound to be set */
-  double pos_cost = single_param_pert_cost(pert, index); /* Set initial pert cost */
-  double neg_cost = single_param_pert_cost(-pert, index); /* Set initial pert cost */
-  double pos_range;
-  double neg_range;
-  double pos_lb_cost;
-  double neg_lb_cost;
+  double pert_cost = single_param_pert_cost(pert, index); /* Set initial pert cost */
+  double lb_cost_r;
+  double pert_range;
 
   /* If the initial guess is too large reduce the perturbation to set lb */
-  while ((pos_cost > cost_aim)||(neg_cost > cost_aim)){
+  while (pert_cost > cost_aim){
     ub = pert;
     pert /= 10;
-    pos_cost = single_param_pert_cost(pert, index);
-    neg_cost = single_param_pert_cost(-pert, index);
+    pert_cost = single_param_pert_cost(pert, index);
   }
   lb = pert;
 #if defined(DEBUG)
-      printf("INITIAL lB IS %g, pos_cost = %.6g, neg_cost = %.6g\n", lb, pos_cost, neg_cost);
+      printf("INITIAL lB IS %g, pert_cost = %.6g, cost_aim = %.6g\n", lb, pert_cost, cost_aim);
 #endif
 
   /* Set upper bound order of magnitude */
 
     
-  while ((pos_cost < cost_aim)&&(neg_cost < cost_aim)){  
+  while (pert_cost < cost_aim){  
     
     /* Fill as cost(lb) */
-    pos_lb_cost = pos_cost;
-    neg_lb_cost = neg_cost;
+    lb_cost_r = pert_cost;
 
     lb = pert;
 #if defined(DEBUG)
-    printf("INITIAL LB IS %g, pos_cost = %g, neg_cost = %g\n", lb, pos_lb_cost, neg_lb_cost);
+      printf("INITIAL lB IS %g, pert_cost = %.6g, cost_aim = %.6g\n", lb, pert_cost, cost_aim);
 #endif
     pert *= 10;
-    pos_cost = single_param_pert_cost(pert, index);
-    neg_cost = single_param_pert_cost(-pert, index);
-
+    pert_cost = single_param_pert_cost(pert, index);
   }
   ub = pert;
 
 #if defined(DEBUG)
-    printf("INITIAL UB IS %g, pos_cost = %g, neg_cost = %g\n", ub, pos_cost, neg_cost);
+      printf("INITIAL UB IS %g, pert_cost = %.6g, cost_aim = %.6g\n", ub, pert_cost, cost_aim);
 #endif
 
   /* Equivalent to cost(ub) - cost(lb) */
-  pos_range = pos_cost - pos_lb_cost;
-  neg_range = neg_cost - neg_lb_cost;
+  pert_range = pert_cost - lb_cost_r;
 
 #if defined(DEBUG)
-    printf("pos range = %g, neg range = %g\n", pos_range, neg_range);
+    printf("pert range = %g\n", pert_range);
 #endif
 
 
-  /* If the negative direction is steeper, investigate this direction */
-  if (neg_range < pos_range){
-    pert = -pert;
-    lb = -lb;
-    ub = -ub;
-    printf(" Negative direction is steeper, adjusting pert direction.\n");
-    fflush(stdout);
-  }
+  // /* If the negative direction is steeper, investigate this direction */
+  // if (neg_range < pos_range){
+  //   pert = -pert;
+  //   lb = -lb;
+  //   ub = -ub;
+  //   printf(" Negative direction is steeper, adjusting pert direction.\n");
+  //   fflush(stdout);
+  // }
 
 
-#if defined(DEBUG)
-  if (ub >= 0){
-    printf("INITIAL UB IS %g pos_cost = %g\n", ub, pos_cost);
-  }else{
-    printf("INITIAL UB IS %g neg_cost = %g\n", ub, neg_cost);
-  }
-  fflush(stdout);
-#endif
+// #if defined(DEBUG)
+//   // if (ub >= 0){
+//     printf("INITIAL UB IS %g pert_cost = %g\n", ub, pos_cost);
+//   // }else{
+//   //   printf("INITIAL UB IS %g neg_cost = %g\n", ub, neg_cost);
+//   // }
+//   fflush(stdout);
+// #endif
 
   /* If the bounds are somehow muddled up, swap them */
   if (fabs(ub) < fabs(lb))  {
@@ -337,19 +340,15 @@ double hess_bracketing(double cost_aim, int index){
   /* SUBDIVIDE INTERVAL INTO 10 AND EVALUATE SECTIONS */
   /* REPEAT UNTIL RANGE IS WITHIN 5% OF COST_AIM VALUE */
   /* The opposite direction is also checked/used if steeper */
-  double lb_neg = -fabs(lb), ub_neg = -fabs(ub);
-  double lb_pos = fabs(lb), ub_pos = fabs(ub);
+  subsection_pert(&lb, &ub, index, cost_aim);
 
-  subsection_pert(&lb_neg, &ub_neg, index, cost_aim);
-  subsection_pert(&lb_pos, &ub_pos, index, cost_aim);
-
-  if (fabs(lb_neg) < lb_pos){
-    lb = lb_neg;
-    ub = ub_neg;
-  }else{
-    lb = lb_pos;
-    ub = ub_pos;
-  }
+  // if (fabs(lb_neg) < lb_pos){
+  //   lb = lb_neg;
+  //   ub = ub_neg;
+  // }else{
+  //   lb = lb_pos;
+  //   ub = ub_pos;
+  // }
 
 
 #if defined(DEBUG)
@@ -551,7 +550,17 @@ double** calc_hessian(double cost, int counter){
 
       printf("Cost aim = %g\n", cost_aim);
       fflush(stdout);
-      pert[i] = hess_bracketing(cost_aim, i);
+      /* Take the minimum perturbation of each direction */
+     double pert_pos = hess_bracketing(cost_aim, i, 0);
+     double pert_neg = hess_bracketing(cost_aim, i, 1);
+     printf("PERT VALUES: pos_pert = %g, neg_pert = %g diff = %g\n",pert_pos,pert_neg, fabs(pert_pos - pert_neg));
+      if (pert_pos <= pert_neg){
+        pert[i] = pert_pos;
+        printf("Using positive perturbtion.\n");
+      }else{
+        pert[i] = pert_neg;
+        printf("Using negative perturbtion.\n");
+      }
 
       // Dont allow perturbations more than tha value of the parameter 
       if (pert[i] > 1.0) {
@@ -562,7 +571,7 @@ double** calc_hessian(double cost, int counter){
       pert[i] *= 0.5;
 
       /**************** HACK ***************/
-      //pert[i] = 0.01;
+      //pert[i] = 0.0001;
       /*************************************/
 	
       printf("FINAL PERT VALUE %.8lf for param %d = %g (percentage of param = %g%%)\n", pert[i], i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]], fabs((pert[i] * 100) / g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]));
