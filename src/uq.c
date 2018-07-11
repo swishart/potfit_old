@@ -567,11 +567,11 @@ double** calc_hessian(double cost, int counter){
         pert[i] = 1.0;
       }
 
-     // SET PERT TO HALF VALUE FOR FINITE DIFFERENCE
+     /* SET PERT TO HALF VALUE FOR FINITE DIFFERENCE */
       pert[i] *= 0.5;
 
       /**************** HACK ***************/
-      //pert[i] = 0.0001;
+      //pert[i] = 0.01;
       /*************************************/
 	
       printf("FINAL PERT VALUE %.8lf for param %d = %g (percentage of param = %g%%)\n", pert[i], i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]], fabs((pert[i] * 100) / g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]));
@@ -946,10 +946,27 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
 #if defined(MIN_STEP)
     if (w[i] > 1.0){ w[i] = 1.0; }
 #else /* Use max(lambda,1) */
-    if (w[i] < 1.0){ w[i] = 1.0; }
+    /* If negative eigenvalue, set to the minimum of: it's absolute value or the smallest positive eigenvalue */
+    if (w[i] < 0){ 
+      /* Find smallest positive eigenvalue */
+      double min_pos_eigenvalue = VERY_LARGE;
+      for (int j=0;j<g_pot.opt_pot.idxlen;j++){
+        if ((w[j]>0)&&(w[j] < min_pos_eigenvalue)){
+          min_pos_eigenvalue = w[j];
+        }
+      }
+      /* Set as the smaller of fabs(w[i]) or min_pos_eigenvalue */
+      if (fabs(w[i]) <= min_pos_eigenvalue){
+        w[i] = fabs(w[i]);
+      }else{
+        w[i] = min_pos_eigenvalue;
+      }
+    } /* end w[i] < 0 */
+    /* If eigenvalue is < 1 (including any previously negative), set to 1 */
+    if (w[i] < 1.0){ w[i] = 1.0;}
 #endif
     double r = R * normdist();
-    w[i] = fabs(w[i]);
+    w[i] = fabs(w[i]); // Ensured above, leave just incase MIN_STEP used...
     lambda[i] = 1/sqrt(w[i]);
     lambda[i] *= r;
   }
