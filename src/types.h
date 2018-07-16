@@ -476,6 +476,9 @@ typedef struct {
 #if defined(UQ)
   double    acceptance_rescaling; /* R - weighting to improve MC move acceptance ratio, system specific */
   int       acc_moves; /* Number of accepted Mc moves */
+  double    uq_temp; /* Scaling of sampling cost temp T = uq_temp * T_0 */
+  int       use_svd; /* Flag to use SVD instead of eienvalue decomposition in hessian calc */
+  double    hess_pert; /* Alternate perturbation for hessian finite difference calc */
 #endif
 } potfit_parameters;
 

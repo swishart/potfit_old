@@ -271,12 +271,24 @@ void read_parameter_file(char const* param_file)
      }
 
      else if (strcasecmp(token, "acceptance_rescaling") == 0) {
-       get_param_double("acceptance_rescaling", &g_param.acceptance_rescaling, line, param_file, 0.0000000000001, DBL_MAX);
+       get_param_double("acceptance_rescaling", &g_param.acceptance_rescaling, line, param_file, DBL_MIN, DBL_MAX);
      }
 
      else if (strcasecmp(token, "acc_moves") == 0){
        get_param_int("acc_moves", &g_param.acc_moves, line, param_file, 1, INT_MAX);
      }
+
+     else if (strcasecmp(token, "uq_temp") == 0){
+       get_param_double("uq_temp", &g_param.uq_temp, line, param_file, DBL_MIN, 1);
+     }
+
+    else if (strcasecmp(token, "use_svd") == 0) {
+      get_param_int("use_svd", &g_param.use_svd, line, param_file, 0, 1);
+    }
+
+    else if (strcasecmp(token, "hess_pert") == 0) {
+      get_param_double("hess_pert", &g_param.hess_pert, line, param_file, DBL_MIN, 1);
+    }
 
 #endif  // UQ
 
@@ -459,11 +471,16 @@ void check_parameters_complete(char const* paramfile)
     error(1,
         "Missing parameter or invalid value in %s : acc_moves is <undefined>\n",
          paramfile, g_param.acc_moves);
+  
 
   if (g_param.acceptance_rescaling == 0)
     error(1,
         "Missing parameter or invalid value in %s : acceptance_rescaling is <undefined>\n",
          paramfile, g_param.acceptance_rescaling);
+  
+  if (g_param.uq_temp == 0) 
+    g_param.uq_temp = 1.0;
+  
 
   #endif // UQ
 
