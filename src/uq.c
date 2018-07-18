@@ -957,13 +957,13 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
   if (cost_diff < 0){
     *cost_before = cost_after;
 
-#if defined(DEBUG)
-    /* Print change in parameters */
-    for(int i=0;i<g_pot.opt_pot.idxlen;i++){
-      printf("%.4f ",delta[i]);
-    }
-    printf("\n");
-#endif
+// #if defined(DEBUG)
+//     /* Print change in parameters */
+//     for(int i=0;i<g_pot.opt_pot.idxlen;i++){
+//       printf("%.4f ",delta[i]);
+//     }
+//     printf("\n");
+// #endif
 
     return 1;
   }
@@ -978,13 +978,13 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
   if (mc_rand_number <= probability){
     *cost_before = cost_after;
 
-#if defined(DEBUG)
-    /* Print change in parameters */
-    for(int i=0;i<g_pot.opt_pot.idxlen;i++){
-      printf("%.4f ",delta[i]);
-    }
-    printf("\n");
-#endif
+// #if defined(DEBUG)
+//     /* Print change in parameters */
+//     for(int i=0;i<g_pot.opt_pot.idxlen;i++){
+//       printf("%.4f ",delta[i]);
+//     }
+//     printf("\n");
+// #endif
     
     return 1;
   }
