@@ -136,7 +136,7 @@ void ensemble_generation(double cost_0) {
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     fprintf(outfile,"%-11.12f ",eigenvalues[i]);
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      fprintf(outfile,"%-10.12f ",v_0[j][i]); // Columns contain eigenvectors
+      fprintf(outfile,"%-10.12f ",v_0[i][j]); // Rows contain eigenvectors
     }
     fprintf(outfile,"\n");
   }
@@ -811,34 +811,36 @@ int calc_svd(double** hessian, double** u, double* s){
   #endif
 
 
- /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
+
+#if defined(DEBUG)
   printf("------------------------------------------------------\n\n");
-  printf("Eigenvalues and eigenvectors of the best fit hessian for U:\n");
+  printf("Singular values and singular vectors of the best fit hessian for U:\n");
   printf("eigenvalue, eigenvector (x, y ,z)\n");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     printf("%-11.12f ",s[i]);
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      printf("%-10.12f ",u[j][i]); // Columns contain eigenvalues
+      printf("%-10.12f ",u[i][j]); // Rows contain singularvectors
     }
     printf("\n");
   }
 
   printf("\n------------------------------------------------------\n\n");
 
-  /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
+
   printf("------------------------------------------------------\n\n");
-  printf("Eigenvalues and eigenvectors of the best fit hessian for U:\n");
+  printf("Singular values and singular vectors of the best fit hessian for V^T:\n");
   printf("eigenvalue, eigenvector (x, y ,z)\n");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     printf("%-11.12f ",s[i]);
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      printf("%-10.12f ",vt[i][j]); // Columns contain eigenvalues
+      printf("%-10.12f ",vt[j][i]); // Columns contain singularvectors
     }
     printf("\n");
   }
 
   printf("\n------------------------------------------------------\n\n");
   fflush(stdout);
+#endif 
 
   if (info == 0){
     return lda;
@@ -940,7 +942,9 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     delta[i] = 0;
     for(int j=0;j<g_pot.opt_pot.idxlen;j++){
-      delta[i] += v_0[i][j]*lambda[j];
+      // Rows contain eigenvectors, however we want the 
+      // ith parameter contribution of each (i.e. columns of v_0) 
+      delta[i] += v_0[j][i]*lambda[j]; 
     }
     g_pot.opt_pot.table[g_pot.opt_pot.idx[i]] += delta[i];
   }
