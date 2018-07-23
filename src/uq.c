@@ -533,7 +533,7 @@ double** calc_hessian(double cost, int counter){
       }
 
      /* SET PERT TO HALF VALUE FOR FINITE DIFFERENCE */
-      pert[i] *= 0.5;
+     // pert[i] *= 0.5;
 	 
     }else{
           pert[i] = g_param.hess_pert;
