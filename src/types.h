@@ -479,6 +479,7 @@ typedef struct {
   double    uq_temp; /* Scaling of sampling cost temp T = uq_temp * T_0 */
   int       use_svd; /* Flag to use SVD instead of eienvalue decomposition in hessian calc */
   double    hess_pert; /* Alternate perturbation for hessian finite difference calc */
+  double    eig_max;  /* Change the value of the step pert 1/max(eig.max, lambda_j) */
 #endif
 } potfit_parameters;
 

@@ -68,6 +68,15 @@ void ensemble_generation(double cost_0) {
   /* Initialise variables to 0 */
   int pot_attempts      = 0;
   double acc_prob       = 0.00;
+
+  /* Default input parameters if not specified */
+  if (g_param.eig_max == NULL){
+    g_param.eig_max = 1;
+  }
+  if (g_param.hess_pert == NULL){
+    g_param.hess_pert = 0;
+  }
+
   
   /* Calculate the best fit hessian */
   double** hessian = calc_hessian(cost_0, 1);
@@ -907,10 +916,10 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
 
   R = sqrt(g_param.acceptance_rescaling);
   
-  /* If eigenvalue is less than 1, replace it with 1. */
+  /* If eigenvalue is less than eig_pert (defaults to 1), replace it with 1. */
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
 #if defined(MIN_STEP)
-    if (w[i] > 1.0){ w[i] = 1.0; }
+    if (w[i] > g_param.eig_pert){ w[i] = g_param.eig_pert; }
 #else /* Use max(lambda,1) */
     /* If negative eigenvalue, set to the minimum of: it's absolute value or the smallest positive eigenvalue */
     if (w[i] < 0){ 
@@ -929,7 +938,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
       }
     } /* end w[i] < 0 */
     /* If eigenvalue is < 1 (including any previously negative), set to 1 */
-    if (w[i] < 1.0){ w[i] = 1.0;}
+    if (w[i] < g_param.eig_pert){ w[i] = g_param.eig_pert;}
 #endif
     double r = R * normdist();
     w[i] = fabs(w[i]); // Ensured above, leave just incase MIN_STEP used...

@@ -290,6 +290,10 @@ void read_parameter_file(char const* param_file)
       get_param_double("hess_pert", &g_param.hess_pert, line, param_file, DBL_MIN, 1);
     }
 
+    else if (strcasecmp(token, "eig_max") == 0) {
+      get_param_double("eig_max", &g_param.eig_max, line, param_file, DBL_MIN, DBL_MAX);
+    }
+
 #endif  // UQ
 
 
