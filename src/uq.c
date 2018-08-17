@@ -195,6 +195,7 @@ void ensemble_generation(double cost_0) {
   /* Initialise variables and take first Monte Carlo step */
   int weight      = 1;
   int* weight_ptr = &weight;
+  double cost = cost_0;
 
   /* run until number of moves specified in param file are accepted */
   for (int i=0; i<=g_param.acc_moves;i++)
