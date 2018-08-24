@@ -4,7 +4,7 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2017 - the potfit development team
+ * Copyright 2002-2018 - the potfit development team
  *
  * https://www.potfit.net/
  *
@@ -74,13 +74,13 @@ void write_pot_table_lammps()
   else
     strcpy(filename, g_files.endpot);
 #if defined(STIWEB)
-  sprintf(filename, "%s.lammps.sw", filename);
+  strcat(filename, ".lammps.sw");
 #endif  // STIWEB
 #if defined(TERSOFF)
 #if !defined(TERSOFFMOD)
-  sprintf(filename, "%s.lammps.tersoff", filename);
+  strcat(filename, ".lammps.tersoff");
 #else
-  sprintf(filename, "%s.lammps.tersoffmod", filename);
+  strcat(filename, ".lammps.tersoffmod");
 #endif  // !TERSOFFMOD
 #endif  // TERSOFF
   outfile = fopen(filename, "w");
@@ -261,6 +261,10 @@ void write_pot_table_lammps()
 #elif defined(PAIR)
   printf(
       "Potential in LAMMPS format is not available for pair interactions.\n");
+  return;
+#elif defined(MEAM)
+  printf(
+      "Potential in LAMMPS format is not available for MEAM interactions.\n");
   return;
 #else /* COULOMB */
 

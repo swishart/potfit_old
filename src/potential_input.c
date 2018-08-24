@@ -4,7 +4,7 @@
  *
  ****************************************************************
  *
- * Copyright 2002-2017 - the potfit development team
+ * Copyright 2002-2018 - the potfit development team
  *
  * https://www.potfit.net/
  *
@@ -250,7 +250,7 @@ void read_pot_line_F(char const* pbuf, potential_state* pstate)
 #else
     error(0, "Wrong number of data columns in %s potential file \"%s\".\n",
           g_pot.interaction_name, pstate->filename);
-    error(1, "For g_param.ntypes=%d there should be %d, but there are %d.\n",
+    error(1, "For ntypes = %d there should be %d, but there are %d.\n",
           g_param.ntypes, npots, pstate->num_pots);
 #endif // KIM
   }
@@ -351,6 +351,7 @@ void read_pot_line_G(char* pbuf, potential_state* pstate)
 void read_pot_line_C(char* pbuf, potential_state* pstate)
 {
   char names[g_param.ntypes][5];
+  char buffer[5];
 
   // check if there are enough items
   if (pstate->have_format) {
@@ -359,9 +360,12 @@ void read_pot_line_C(char* pbuf, potential_state* pstate)
       if (str == NULL)
         error(1, "Not enough items in #C header line in file %s.\n",
               pstate->filename);
-      int len = max(strlen(str), 4);
-      strncpy(names[i], str, len);
-      names[i][len] = '\0';
+      if (strlen(str) > 4) {
+        memset(buffer, 0, sizeof(buffer));
+        strncpy(buffer, str, 4);
+        str = buffer;
+      }
+      sprintf(names[i], "%s", str);
     }
   } else
     error(1, "#C needs to be specified after #F in file %s\n", pstate->filename);
@@ -369,8 +373,7 @@ void read_pot_line_C(char* pbuf, potential_state* pstate)
   g_config.elements = (char const**)Malloc(g_param.ntypes * sizeof(char*));
   for (int i = 0; i < g_param.ntypes; i++) {
     g_config.elements[i] = (char*)Malloc((strlen(names[i]) + 1) * sizeof(char));
-    strncpy((char*)g_config.elements[i], names[i], strlen(names[i]));
-    *((char*)g_config.elements[i] + strlen(names[i])) = '\0';
+    sprintf((char*)g_config.elements[i], "%s", names[i]);
   }
 }
 
@@ -472,8 +475,7 @@ void allocate_memory_for_potentials(potential_state* pstate)
 #endif  // !COULOMB
 
   apt->names = (char**)Malloc(size * sizeof(char*));
-  for (int i = 0; i < size; i++)
-    apt->names[i] = (char*)Malloc(20 * sizeof(char));
+  // actual memory will be allocated dynamically when reading the name
 #endif  // APOT
 }
 

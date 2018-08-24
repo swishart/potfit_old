@@ -2,7 +2,7 @@
 #
 # potfit - open-source force-matching
 #
-# Copyright 2002-2017 - the potfit development team
+# Copyright 2002-2018 - the potfit development team
 #
 # https://www.potfit.net/
 #
@@ -212,10 +212,17 @@ ifeq (x86_64-gcc,${SYSTEM})
   ASAN_FLAGS    += -g -fsanitize=address -fno-omit-frame-pointer
   ASAN_LFLAGS   = -g -fsanitize=address
 
+<<<<<<< HEAD
 #ifeq (${MATH_LIB},__ACCELERATE__)
 #  OPT_FLAGS    += -Wa,-q
 #  LIBS += -framework Accelerate 
 #else ifeq (${MATH_LIB},MKL)
+=======
+ifeq (${MATH_LIB},__ACCELERATE__)
+  OPT_FLAGS    += -Wa,-q
+  LIBS += -framework Accelerate
+else ifeq (${MATH_LIB},MKL)
+>>>>>>> 9954275972b5a639aeab1e6816558889f228773f
   CINCLUDE      += -I${MKLDIR}/include
 #  LIBS          += -Wl,--start-group -lmkl_intel_lp64 -lmkl_sequential -lmkl_core \
 #                   -Wl,--end-group -lpthread -Wl,--as-needed
