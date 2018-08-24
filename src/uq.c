@@ -195,7 +195,8 @@ void ensemble_generation(double cost_0) {
   /* Initialise variables and take first Monte Carlo step */
   int weight      = 1;
   int* weight_ptr = &weight;
-  double cost = cost_0;
+
+  double cost_attempt = cost_0;
 
   /* run until number of moves specified in param file are accepted */
   for (int i=0; i<=g_param.acc_moves;i++)
@@ -211,8 +212,10 @@ void ensemble_generation(double cost_0) {
         continue;
       }
 
-      double cost = generate_mc_sample(hessian, v_0, cost, cost_0, eigenvalues, weight_ptr, outfile);
+      double cost = generate_mc_sample(hessian, v_0, cost_attempt, cost_0, eigenvalues, weight_ptr, outfile);
 
+      cost_attempt = cost;
+      
       pot_attempts += weight;
       acc_prob = (((double)i+1.0))/(double)pot_attempts; /* Add one to include the MC step outside loop */
 
@@ -983,7 +986,11 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
   double mc_rand_number = eqdist();
 
   if (mc_rand_number <= probability){
+
+    printf("%.4f %.4f %.4f %.4f\n", mc_rand_number, probability, *cost_before, cost_after);
+    fflush(stdout);
     *cost_before = cost_after;
+
 
 // #if defined(DEBUG)
 //     /* Print change in parameters */
