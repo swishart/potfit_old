@@ -480,6 +480,7 @@ typedef struct {
   int       use_svd; /* Flag to use SVD instead of eienvalue decomposition in hessian calc */
   double    hess_pert; /* Alternate perturbation for hessian finite difference calc */
   double    eig_max;  /* Change the value of the step pert 1/max(eig.max, lambda_j) */
+  int       write_ensemble; /* Write a potfit potential file every n ensemble memebers */
 #endif
 } potfit_parameters;
 

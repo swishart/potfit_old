@@ -27,7 +27,8 @@ OPTIONS = [
     ['nopunish', 'Disable punishments', ['NOPUNISH']],
     ['resc', 'Enable rescaling (use with care!)', ['RESCALE']],
     ['stress', 'Include stress in fitting process', ['STRESS']],
-    ['dsf', 'R|Use damped shifted force approach \n\t(coulomb-based interactions only)', ['DSF']]
+    ['dsf', 'R|Use damped shifted force approach \n\t(coulomb-based interactions only)', ['DSF']],
+    ['uq', 'Generate potential ensemble for uncertainty quantification', ['UQ']]
 ]
 
 # Add all potential models to this list
@@ -199,6 +200,10 @@ def _check_potfit_options(cnf):
     if cnf.options.enable_evo:
         cnf.env.option_files.extend(['diff_evo.c'])
 
+        # set option specific target files
+    if cnf.options.enable_uq:
+        cnf.env.option_files.extend(['uq.c'])
+
 
 @conf
 def _check_compiler_options(cnf):
@@ -247,7 +252,7 @@ def _check_compiler_options(cnf):
             cnf.env.append_value('CFLAGS_POTFIT', ['-O3', '-march=native', '-std=c99'])
 
     # potfit linker flags
-    cnf.env.append_value('LINKFLAGS_POTFIT', ['-Wl,--no-undefined,--as-needed'])
+   # cnf.env.append_value('LINKFLAGS_POTFIT', ['-Wl,--no-undefined,--as-needed'])
 
 
 @conf

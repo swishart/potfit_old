@@ -446,8 +446,8 @@ ifneq (,$(findstring uq,${MAKETARGET}))
   CFLAGS += -DUQ
 endif
 
-ifneq (,$(findstring uq,${MAKETARGET}))
-  CFLAGS += -DNO_SLOPPY
+ifneq (,$(findstring ensemble,${MAKETARGET}))
+  CFLAGS += -DENSEMBLE
 endif
 
 ifneq (,$(findstring minstep,${MAKETARGET}))

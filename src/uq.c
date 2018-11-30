@@ -156,38 +156,12 @@ void ensemble_generation(double cost_0) {
   fprintf(outfile, "cost       weight     accepted   attempts   acc_prob\n");
   fflush(outfile);
 
-  /********************* HACK **********************************/
-  // Set parameters to last MC hessian step
-
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[0]] = 0.35026039;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[1]] = 3.62529643;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[2]] = 2.00591684;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[3]] = -1.68322903;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[4]] = 2.83467641;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[5]] = 1.24743823;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[6]] = 3.72990292;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[7]] = -4.57440289;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[8]] = 3.45354084;
-  // g_pot.opt_pot.table[g_pot.opt_pot.idx[9]] = -0.05370638;
-  // double cost_temp = 927.47472452;
-
-  /********************* HACK **********************************/
-
-
   /* Write initial cost to file */
   fprintf(outfile,"%-10d", pot_attempts);
   for(int i=0;i<g_pot.opt_pot.idxlen;i++){
     fprintf(outfile,"%-10.8lf ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
   }
   fprintf(outfile,"%.8lf ", cost_0); //cost_temp);
-
-
-  // /* Create directory to store parameter files */ -SW 
-  // int status;
-  // status = mkdir(g_files.output_prefix, S_IRWXU | S_IRWXG | S_IRWXO);
-  // if (status != 0){
-  //   error(1,"Could not create directory '%s' for potential files.\n", dirname);
-  // }
 
   printf("Beginning MCMC ensemble generation.\n");
   fflush(stdout);
@@ -224,28 +198,32 @@ void ensemble_generation(double cost_0) {
 
       /* Write accepted move to file */
       fprintf(outfile,"%-10d", i+1);
-      for(int i=0;i<g_pot.opt_pot.idxlen;i++){
-      fprintf(outfile,"%-10.8lf ",g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]);
+      for(int j=0;j<g_pot.opt_pot.idxlen;j++){
+      fprintf(outfile,"%-10.8lf ",g_pot.opt_pot.table[g_pot.opt_pot.idx[j]]);
       }
       fprintf(outfile,"%.8lf ", cost);
 
-      /* Write potential input files for parameter ensemble */
-#if defined(ENSEMBLE)
-      char file[255];
-      char end[255];
-      strcpy(file, g_files.output_prefix);
-      sprintf(end,".ensemble_pot_%d",i+1);
-      strcat(file, end);
-      write_pot_table_potfit(file); 
+      if (cost < cost_0) {
+        char file[255];
+        char end[255];
+        strcpy(file, g_files.output_prefix);
+        sprintf(end,".ensemble_pot_%d",i+1);
+        strcat(file, end);
+        update_apot_table(g_pot.opt_pot.table);
+        write_pot_table_potfit(file); 
 
-      if (cost < cost_0) {
-        printf("WARNING: New best fit parameter set found in %s. Old cost = %.8lf, new cost = %.8lf\n",file, cost_0,cost);
+        printf("WARNING: New best fit parameter set found for potential %s. Old cost = %.8lf, new cost = %.8lf\n",file, cost_0,cost);
+      } 
+      /* Write potential input files for parameter ensemble */
+      else if ((g_param.write_ensemble != 0) && ((i+1) % g_param.write_ensemble == 0)){
+        char file[255];
+        char end[255];
+        strcpy(file, g_files.output_prefix);
+        sprintf(end,".ensemble_pot_%d",i+1);
+        strcat(file, end);
+        update_apot_table(g_pot.opt_pot.table);
+        write_pot_table_potfit(file); 
       }
-#else 
-      if (cost < cost_0) {
-        printf("WARNING: New best fit parameter set found for potential %d. Old cost = %.8lf, new cost = %.8lf\n",i+1, cost_0,cost);
-      }
-#endif
       
     }
 

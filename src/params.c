@@ -294,6 +294,9 @@ void read_parameter_file(char const* param_file)
       get_param_double("eig_max", &g_param.eig_max, line, param_file, DBL_MIN, DBL_MAX);
     }
 
+    else if (strcasecmp(token, "write_ensemble") == 0){
+      get_param_int("write_ensemble", &g_param.write_ensemble, line, param_file, 0, INT_MAX);
+    }
 #endif  // UQ
 
 
