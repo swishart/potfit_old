@@ -265,13 +265,13 @@ void read_parameter_file(char const* param_file)
 #endif  // STRESS
 
 #if defined (UQ)
-     // file for sloppy model ensemble uncertainty quantification
-     else if (strcasecmp(token, "sloppyfile") == 0) {
-       get_param_string("sloppyfile", &g_files.sloppyfile, line, param_file);
+     // file for potential ensemble method uncertainty quantification
+     else if (strcasecmp(token, "ensemblefile") == 0) {
+       get_param_string("ensemblefile", &g_files.ensemblefile, line, param_file);
      }
 
-     else if (strcasecmp(token, "acceptance_rescaling") == 0) {
-       get_param_double("acceptance_rescaling", &g_param.acceptance_rescaling, line, param_file, DBL_MIN, DBL_MAX);
+     else if (strcasecmp(token, "acc_rescaling") == 0) {
+       get_param_double("acc_rescaling", &g_param.acc_rescaling, line, param_file, DBL_MIN, DBL_MAX);
      }
 
      else if (strcasecmp(token, "acc_moves") == 0){
@@ -287,7 +287,7 @@ void read_parameter_file(char const* param_file)
     }
 
     else if (strcasecmp(token, "hess_pert") == 0) {
-      get_param_double("hess_pert", &g_param.hess_pert, line, param_file, DBL_MIN, 1);
+      get_param_double("hess_pert", &g_param.hess_pert, line, param_file, -1, 1);
     }
 
     else if (strcasecmp(token, "eig_max") == 0) {
@@ -463,12 +463,12 @@ void check_parameters_complete(char const* paramfile)
           paramfile, g_param.global_cell_scale);
 
 #if defined(UQ)
-  if (g_files.sloppyfile == NULL) {
-        warning("sloppyfile is missing in %s, setting it to %s.uq\n", paramfile,
+  if (g_files.ensemblefile == NULL) {
+        warning("ensemblefile is missing in %s, setting it to %s.uq\n", paramfile,
             g_files.output_prefix);
-    g_files.sloppyfile =
+    g_files.ensemblefile =
         (const char*)Malloc((strlen(g_files.output_prefix) + 4) * sizeof(char));
-    sprintf((char*)g_files.sloppyfile, "%s.uq", g_files.output_prefix);
+    sprintf((char*)g_files.ensemblefile, "%s.uq", g_files.output_prefix);
   }
 
   if (g_param.acc_moves == 0)
@@ -477,14 +477,21 @@ void check_parameters_complete(char const* paramfile)
          paramfile, g_param.acc_moves);
   
 
-  if (g_param.acceptance_rescaling == 0)
+  if (g_param.acc_rescaling == 0)
     error(1,
-        "Missing parameter or invalid value in %s : acceptance_rescaling is <undefined>\n",
-         paramfile, g_param.acceptance_rescaling);
+        "Missing parameter or invalid value in %s : acc_rescaling is <undefined>\n",
+         paramfile, g_param.acc_rescaling);
   
   if (g_param.uq_temp == 0) 
     g_param.uq_temp = 1.0;
-  
+
+  if (g_param.hess_pert == 0) {
+    warning("hess_pert not provided in %s, setting it to 0.00001!\n", paramfile);
+    g_param.hess_pert = 0.00001; 
+  }
+  else if (g_param.hess_pert < 0) {
+    warning("hess_pert is negative in %s, using the bracketing algorithm to find values!\n", paramfile);
+  }
 
   #endif // UQ
 

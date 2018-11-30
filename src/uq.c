@@ -1,6 +1,7 @@
 /****************************************************************                                                                     
  *                                                                                                                                     
- * uq.c: Uncertainty quantification using sloppy model method                                                                                                                                                                                                                
+ * uq.c: Potential Ensemble method for Uncertainty Quantification
+ *                                                                                                                                                                                                               
  ****************************************************************                                                                      
  *                                                                                                                                     
  * Copyright 2002-2017 - the potfit development team                                                                                   
@@ -55,15 +56,15 @@
 
 /****************************************************************
  *
- *   main sloppy model routine
+ *   main potential ensemble routine
  *
  ****************************************************************/
 void ensemble_generation(double cost_0) {
   
   /* open file */
-  FILE* outfile = fopen(g_files.sloppyfile, "w");
+  FILE* outfile = fopen(g_files.ensemblefile, "w");
   if (outfile == NULL)
-    error(1, "Could not open file %s for writing\n", g_files.sloppyfile);
+    error(1, "Could not open file %s for writing\n", g_files.ensemblefile);
 
   /* Initialise variables to 0 */
   int pot_attempts      = 0;
@@ -80,17 +81,16 @@ void ensemble_generation(double cost_0) {
   printf("Hessian calulated, finding it's eigenvalues.\n");
   fflush(stdout);
 
-  /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
-  fprintf(outfile,"------------------------------------------------------\n\n");
-  fprintf(outfile,"Hessian:\n");
+  /* Print eigenvalues and eigenvectors of hessian to ensemblefile */
+  fprintf(outfile,"# hessian:\n# ");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      fprintf(outfile,"%-10.16f ",hessian[i][j]);
+      fprintf(outfile,"%-10.8f ",hessian[i][j]);
     }
-    fprintf(outfile,"\n");
+    fprintf(outfile,"\n# ");
   }
 
-  fprintf(outfile,"\n------------------------------------------------------\n\n");
+  //fprintf(outfile,"\n------------------------------------------------------\n\n");
 
   int m     = 0;
   double vl = -1; // Initial lower bound for eigenvalues - this range is adjusted until all are found
@@ -135,25 +135,26 @@ void ensemble_generation(double cost_0) {
     }
   }
 
-  /* Print eigenvalues and eigenvectors of hessian to sloppyfile */
-  fprintf(outfile,"------------------------------------------------------\n\n");
-  fprintf(outfile,"Eigenvalues and eigenvectors of the best fit hessian:\n");
-  fprintf(outfile,"eigenvalue, eigenvector (x, y ,z)\n");
+  /* Print eigenvalues and eigenvectors of hessian to ensemblefile */
+  fprintf(outfile,"\n# eigenvalues: (l1, l2, ..., lN)\n# ");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
-    fprintf(outfile,"%-11.12f ",eigenvalues[i]);
+    fprintf(outfile,"%-11.8f ",eigenvalues[i]);
+  }
+  fprintf(outfile,"\n#\n");
+  fprintf(outfile,"# eigenvectors: (v1, v2, ..., vN)\n# ");
+  for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     for (int j=0;j<g_pot.opt_pot.idxlen;j++){
-      fprintf(outfile,"%-10.12f ",v_0[i][j]); // Rows contain eigenvectors
+      fprintf(outfile,"%-10.8f ",v_0[j][i]); // Rows contain eigenvectors
     }
-    fprintf(outfile,"\n");
+    fprintf(outfile,"\n# ");
   }
 
-  fprintf(outfile,"\n------------------------------------------------------\n\n");
   /* Print initial best fit */
-  fprintf(outfile, "Identifier ");
+  fprintf(outfile, "\n# id      ");
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
-  fprintf(outfile, "Param %-4d ",i+1);
+  fprintf(outfile, "param_%-4d ",i+1);
   }
-  fprintf(outfile, "Cost       Weight     Accepted   Attempts   Acceptance Probability\n");
+  fprintf(outfile, "cost       weight     accepted   attempts   acc_prob\n");
   fflush(outfile);
 
   /********************* HACK **********************************/
@@ -229,12 +230,12 @@ void ensemble_generation(double cost_0) {
       }
       fprintf(outfile,"%.8lf ", cost);
 
-      /* Write potential input file for parameter ensemble */
-#if !defined(NO_SLOPPY)
+      /* Write potential input files for parameter ensemble */
+#if defined(ENSEMBLE)
       char file[255];
       char end[255];
       strcpy(file, g_files.output_prefix);
-      sprintf(end,".sloppy_pot_%d",i+1);
+      sprintf(end,".ensemble_pot_%d",i+1);
       strcat(file, end);
       write_pot_table_potfit(file); 
 
@@ -250,7 +251,7 @@ void ensemble_generation(double cost_0) {
     }
 
 fclose(outfile);
-printf("UQ ensemble parameters written to %s\n", g_files.sloppyfile);
+printf("UQ ensemble parameters written to %s\n", g_files.ensemblefile);
 }
 
 
@@ -521,7 +522,7 @@ double** calc_hessian(double cost, int counter){
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
 
     /* If user specified perturbation, use this instead. */
-    if (g_param.hess_pert == 0){
+    if (g_param.hess_pert < 0){
 
       printf("Cost aim = %g\n", cost_aim);
       fflush(stdout);
@@ -542,13 +543,11 @@ double** calc_hessian(double cost, int counter){
         pert[i] = 1.0;
       }
 
-     /* SET PERT TO HALF VALUE FOR FINITE DIFFERENCE */
-     // pert[i] *= 0.5;
-	 
+	    printf("FINAL PERT VALUE %.8lf for param %d = %g (percentage of param = %g%%)\n", pert[i], i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]], fabs((pert[i] * 100) / g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]));
+
     }else{
           pert[i] = g_param.hess_pert;
     }
-    printf("FINAL PERT VALUE %.8lf for param %d = %g (percentage of param = %g%%)\n", pert[i], i, g_pot.opt_pot.table[g_pot.opt_pot.idx[i]], fabs((pert[i] * 100) / g_pot.opt_pot.table[g_pot.opt_pot.idx[i]]));
   } /* parameter loop */
 
   /* Pre-calculate each parameter perturbation for diagonal entries */
@@ -561,10 +560,14 @@ double** calc_hessian(double cost, int counter){
       printf("parameter %d is 0. Using set perturbation of %f.\n", j, pert[j]);
     }
   }
-  
+
+#if defined(DEBUG)  
   printf("i i cost_plus cost_minus diff\n");
+# endif
+
   /* For diagonal entries, use (c_(i+1) - 2*cost + c_(i-1))/(param_perturb_dist[i]^2) */
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
+
     
     double cost_plus;
     double cost_minus;
@@ -606,20 +609,25 @@ double** calc_hessian(double cost, int counter){
     hessian[i][i] = cost_plus - two_cost + cost_minus;
     hessian[i][i] /= (param_perturb_dist[i]*param_perturb_dist[i]);
 
+#if defined(DEBUG)
     if ((cost_plus > cost_aim) || (cost_minus > cost_aim)){
       printf("%d %d %.3f %.3f * %.3f\n",i, i, cost_plus, cost_minus, fabs(cost_plus - cost_minus));
     }else{
       printf("%d %d %.3f %.3f   %.3f\n",i, i, cost_plus, cost_minus, fabs(cost_plus - cost_minus));
     }
     fflush(stdout);
+# endif
   }
 
   /* For off-diagonal entries:
      Use [c_(i+1)(j+1)-c_(i+1)(j-1)-c_(i-1)(j+1)+c_(i-1)(j-1)]/(param_perturb_dist[i]*param_perturb_dist[j]*4) */
-
+#if defined(DEBUG)
   printf("i j cost_2plus cost_2minus cost_pm cost_mp cost_2diff cost_pm_mp_diff\n");
+# endif
+
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
     for (int j=(i+1);j<g_pot.opt_pot.idxlen;j++){
+
 
       double cost_2plus;
       double cost_2minus;
@@ -679,14 +687,16 @@ double** calc_hessian(double cost, int counter){
 
       hessian[j][i] = hessian[i][j];  
 
+#if defined(DEBUG)
       if ((cost_2plus > cost_aim) || (cost_2minus > cost_aim) || (cost_pm > cost_aim) || (cost_mp > cost_aim)){
         printf("%d %d %.3f %.3f %.3f %.3f * %.3f %.3f\n",i, j, cost_2plus, cost_2minus, cost_pm, cost_mp, fabs(cost_2plus - cost_2minus), fabs(cost_pm - cost_mp));
       }else{
         printf("%d %d %.3f %.3f %.3f %.3f   %.3f %.3f\n",i, j, cost_2plus, cost_2minus, cost_pm, cost_mp, fabs(cost_2plus - cost_2minus), fabs(cost_pm - cost_mp));
       }
       fflush(stdout);
-
+# endif
     }
+
   }
 
   /* If new cost value is found, return parameters */
@@ -915,7 +925,7 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
   double cost_after;
   double delta[g_pot.opt_pot.idxlen];
 
-  R = sqrt(g_param.acceptance_rescaling);
+  R = sqrt(g_param.acc_rescaling);
   
   /* If eigenvalue is less than eig_pert (defaults to 1), replace it with 1. */
   for (int i=0;i<g_pot.opt_pot.idxlen;i++){
@@ -987,8 +997,6 @@ int mc_moves(double** v_0,double* w, double* cost_before, double cost_0, FILE* o
 
   if (mc_rand_number <= probability){
 
-    printf("%.4f %.4f %.4f %.4f\n", mc_rand_number, probability, *cost_before, cost_after);
-    fflush(stdout);
     *cost_before = cost_after;
 
 

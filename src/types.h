@@ -409,7 +409,7 @@ typedef struct {
   const char* plotpointfile; /* write points for plotting */
   const char* startpot;      /* file with start potential */
   const char* tempfile;      /* backup potential file */
-  const char* sloppyfile;     /* sloppy model ensemble */
+  const char* ensemblefile;  /* potential ensemble file */
 } potfit_filenames;
 
 // potfit_mpi_config: holds information needed for MPI calculation
@@ -474,7 +474,7 @@ typedef struct {
 #endif                      // APOT
   double global_cell_scale; /* global scaling parameter */
 #if defined(UQ)
-  double    acceptance_rescaling; /* R - weighting to improve MC move acceptance ratio, system specific */
+  double    acc_rescaling; /* R - weighting to improve MC move acceptance ratio, system specific */
   int       acc_moves; /* Number of accepted Mc moves */
   double    uq_temp; /* Scaling of sampling cost temp T = uq_temp * T_0 */
   int       use_svd; /* Flag to use SVD instead of eienvalue decomposition in hessian calc */
