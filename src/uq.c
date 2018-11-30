@@ -74,7 +74,6 @@ void ensemble_generation(double cost_0) {
   if (g_param.eig_max == 0){
     g_param.eig_max = 1;
   }
-
   
   /* Calculate the best fit hessian */
   double** hessian = calc_hessian(cost_0, 1);
